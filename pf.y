@@ -17,9 +17,12 @@
 	struct variable_structure{
 		char var_name[20];
 		int var_type;
-		int ival;
-		float fval;
-		char *cval;
+		union {
+			int ival;
+			float fval;
+			char cval;
+			char* sval;  // Add string value
+		} value;
 	}variable[100];
 	
 	// Function for searching if the present variable name has already been used.
@@ -67,14 +70,14 @@
 	// Defining all the used tokens and precendences of the required ones.
 
 %error-verbose
-%token MAIN INT CHAR FLOAT POWER FACTO PRIME READ PRINT IF ELIF ELSE SWITCH CASE DEFAULT FROM TO INC DEC MAX MIN ID NUM PLUS MINUS MUL DIV EQUAL NOTEQUAL GT GOE LT LOE
+%token MAIN INT CHAR FLOAT POWER FACTO PRIME READ PRINT IF ELIF ELSE SWITCH CASE DEFAULT FROM TO INC DEC MAX MIN ID NUM PLUS MINUS MUL DIV EQUAL NOTEQUAL GT GOE LT LOE STRING STRING_LITERAL
 %left PLUS MINUS
 %left MUL DIV
 
 	// Defining token type
 
-%type<val>prime_code factorial_code casenum_code default_code case_code switch_code e f t expression else_if elsee bool_expression power_code min_code max_code declaration assignment condition for_code print_code read_code program code TYPE MAIN INT CHAR FLOAT POWER FACTO PRIME READ PRINT SWITCH CASE DEFAULT IF ELIF ELSE FROM TO INC DEC MAX MIN NUM PLUS MINUS MUL DIV EQUAL NOTEQUAL GT GOE LT LOE
-%type<stringValue> ID1 ID
+%type<val>prime_code factorial_code casenum_code default_code case_code switch_code e f t expression else_if elsee bool_expression power_code min_code max_code declaration assignment condition for_code print_code read_code program code TYPE MAIN INT CHAR FLOAT POWER FACTO PRIME READ PRINT SWITCH CASE DEFAULT IF ELIF ELSE FROM TO INC DEC MAX MIN NUM PLUS MINUS MUL DIV EQUAL NOTEQUAL GT GOE LT LOE STRING
+%type<stringValue> ID1 ID STRING_LITERAL
 
 %%
 
@@ -150,8 +153,8 @@ max_code: MAX '(' ID ',' ID')'';'{
 	int j = get_var_index($5);
 	int k,l;
 	if((variable[i].var_type == 1) &&(variable[j].var_type == 1) ){
-		k = variable[i].ival;
-		l = variable[j].ival;
+		k = variable[i].value.ival;
+		l = variable[j].value.ival;
 		if(l>k){
 			printf("\nMax value is--> %d", l);
 		}
@@ -160,8 +163,8 @@ max_code: MAX '(' ID ',' ID')'';'{
 		}
 	}
 	else if((variable[i].var_type == 2) &&(variable[j].var_type == 2) ){
-		k = variable[i].fval;
-		l = variable[j].fval;
+		k = variable[i].value.fval;
+		l = variable[j].value.fval;
 		if(l>k){
 			printf("\nMax value is--> %f", l);
 		}
@@ -182,8 +185,8 @@ min_code: MIN '(' ID ',' ID')'';'{
 	int j = get_var_index($5);
 	int k,l;
 	if((variable[i].var_type == 1) &&(variable[j].var_type == 1) ){
-		k = variable[i].ival;
-		l = variable[j].ival;
+		k = variable[i].value.ival;
+		l = variable[j].value.ival;
 		if(l<k){
 			printf("\nMin value is--> %d", l);
 		}
@@ -192,8 +195,8 @@ min_code: MIN '(' ID ',' ID')'';'{
 		}
 	}
 	else if((variable[i].var_type == 2) &&(variable[j].var_type == 2) ){
-		k = variable[i].fval;
-		l = variable[j].fval;
+		k = variable[i].value.fval;
+		l = variable[j].value.fval;
 		if(l<k){
 			printf("\nMin value is--> %f", l);
 		}
@@ -211,14 +214,17 @@ min_code: MIN '(' ID ',' ID')'';'{
 	
 print_code: PRINT '(' ID ')'';'{
 	int i = get_var_index($3);
-	if(variable[i].var_type == 1){
-		printf("\nVariable name--> %s, Value--> %d", variable[i].var_name, variable[i].ival);
+	if(variable[i].var_type == 0){  // For char type
+		printf("\nVariable name--> %s, Value--> %c", variable[i].var_name, variable[i].value.cval);
+	}
+	else if(variable[i].var_type == 1){
+		printf("\nVariable name--> %s, Value--> %d", variable[i].var_name, variable[i].value.ival);
 	}
 	else if(variable[i].var_type == 2){
-		printf("\nVariable name--> %s, Value--> %f", variable[i].var_name, variable[i].fval);
+		printf("\nVariable name--> %s, Value--> %f", variable[i].var_name, variable[i].value.fval);
 	}
-	else{
-		printf("\nVariable name--> %s, Value--> %c", variable[i].var_name, variable[i].cval);
+	else if(variable[i].var_type == 3){
+		printf("\nVariable name--> %s, Value--> %s", variable[i].var_name, variable[i].value.sval);
 	}
 }
 	;
@@ -252,7 +258,7 @@ default_code: DEFAULT '{' code '}'
 for_code: FROM ID TO NUM INC NUM '{' code '}' {
 	printf("\nFor loop detected");
 	int ii = get_var_index($2);
-	int i = variable[ii].ival;
+	int i = variable[ii].value.ival;  // Changed from variable[ii].ival
 	int j = $4;
 	int inc = $6;
 	int k;
@@ -264,7 +270,7 @@ for_code: FROM ID TO NUM INC NUM '{' code '}' {
 		| FROM ID TO NUM DEC NUM '{' code '}'{
 	printf("\nFor loop detected");
 	int ii = get_var_index($2);
-	int i = variable[ii].ival;
+	int i = variable[ii].value.ival;  // Changed from variable[ii].ival
 	int j = $4;
 	int dec = $6;
 	int k;
@@ -377,6 +383,7 @@ declaration: TYPE ID1 ';' {
 TYPE: INT	{$$ = 1; printf("\nVariable type--> Integer");}
 	| FLOAT	{$$ = 2; printf("\nVariable type--> Float");}
 	| CHAR	{$$ = 0; printf("\nVariable type--> Character");}
+	| STRING {$$ = 3; printf("\nVariable type--> String");}
 	;
 ID1: ID1 ',' ID {
 	if(search_var($3)==0){
@@ -410,24 +417,44 @@ assignment: ID '=' expression ';' {
 	$$ = $3;
 	if(search_var($1)==1){
 		int i = get_var_index($1);
-		if(variable[i].var_type==0){
-			//variable[i].cval = (char)$3;
-			variable[i].cval = (char*)&$3;
-			printf("\nVariable value--> %s", variable[i].cval);
+		if(variable[i].var_type==0){  // For char type
+			variable[i].value.cval = (char)$3;
+			printf("\nAssigning character value: %c", variable[i].value.cval);
 		}
 		else if(variable[i].var_type==1){
-			variable[i].ival = $3;
-			printf("\nVariable value--> %d", variable[i].ival);
+			variable[i].value.ival = (int)$3;
+			printf("\nVariable value--> %d", variable[i].value.ival);
 		}
 		else if(variable[i].var_type==2){
-			variable[i].fval = (float)$3;
-			printf("\nVariable value--> %f", variable[i].fval);
+			variable[i].value.fval = (float)$3;
+			printf("\nVariable value--> %f", variable[i].value.fval);
+		}
+		else if(variable[i].var_type==3){
+			variable[i].value.sval = strdup($<stringValue>3);
+			printf("\nVariable value--> %s", variable[i].value.sval);
 		}
 	}
 	else{
 		printf("\nVariable is not declared\n");
 	}
 }
+	| ID '=' STRING_LITERAL ';' {
+		if(search_var($1)==1){
+			int i = get_var_index($1);
+			if(variable[i].var_type==3){
+				if($3) {
+					variable[i].value.sval = strdup($3);
+					printf("\nAssigning string value: %s", variable[i].value.sval);
+				}
+			}
+			else{
+				printf("\nType mismatch error\n");
+			}
+		}
+		else{
+			printf("\nVariable is not declared\n");
+		}
+	}
 	;
 
 expression: e {$$ = $1;}
@@ -457,17 +484,17 @@ t: '(' e ')' {$$ = $2;}
 	}
 	else
 	{
-		/*if(variable[id_index].var_type == 0)
+		if(variable[id_index].var_type == 0)
 		{
-			$$ = variable[id_index].cval;
-		}*/
-		if(variable[id_index].var_type == 1)
+			$$ = (double)variable[id_index].value.cval;
+		}
+		else if(variable[id_index].var_type == 1)
 		{
-			$$ = variable[id_index].ival;
+			$$ = variable[id_index].value.ival;
 		}
 		else if(variable[id_index].var_type == 2)
 		{
-			$$ = variable[id_index].fval;
+			$$ = variable[id_index].value.fval;
 		}
 	}
 }

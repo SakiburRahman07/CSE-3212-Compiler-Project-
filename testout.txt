@@ -2,6 +2,16 @@ Header file detected.
 
 Single line comment detected. 
 
+Variable type--> Character
+Valid declaration
+Variable name--> c
+Assigning character value: a
+Variable name--> c, Value--> a
+Variable type--> String
+Valid declaration
+Variable name--> str
+Assigning string value: Hello World
+Variable name--> str, Value--> Hello World
 Variable type--> Integer
 Valid declaration
 Variable name--> var
@@ -90,4 +100,4 @@ Variable name--> b1, Value--> 30
 Switch-case structure detected.
 Valid code
 
-No of variables--> 11
+No of variables--> 13

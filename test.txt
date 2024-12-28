@@ -3,6 +3,12 @@ using std.h
 start()
 {
     #This is the input part
+    char c;
+    c = @a@;
+    print(c);
+    string str;
+    str = "Hello World";
+    print(str);
     int var;
     var = 4;
     var = 4*var+2;

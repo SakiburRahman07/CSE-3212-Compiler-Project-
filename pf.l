@@ -1,28 +1,24 @@
 %{
-	// Adding all the neccessary header file and function definations
-	
 	#include<stdio.h>
 	#include<string.h>
 	#include<stdlib.h>
 	#include "pf.tab.h"
 	extern char* strdup(const char*);
 	void yyerror(char *s);
-	extern FILE *yyin; // Add this line
+	extern FILE *yyin;
 %}
-
-	// Defining some variable at intitial stage for furthure use of simplicity 
 
 ID	[_a-zA-Z][_a-zA-Z0-9]*
 HEADER	[u][s][i][n][g][ ][a-z]+.[h]
 NU	[-]?[0-9][0-9]*[.]?[0-9]*
-CH [@][a-zA-Z][@]
-
-	// Syntax for detecting a keyword in the code. 
+CH	@[a-zA-Z]@
+STR \"[^\"]*\"
 
 %%
 
 [ \t]+
 "start()" return(MAIN);
+"string" return(STRING);
 "int"	return(INT);
 "char"	return(CHAR);
 "float"	return(FLOAT);
@@ -57,7 +53,10 @@ CH [@][a-zA-Z][@]
 			yylval.val = atoi(yytext); 
 			return(NUM);
 		}
-{CH} 	{yylval.stringValue = strdup(yytext); return(CHAR); }
+{CH}    {yylval.val = (double)yytext[1]; return NUM;}
+{STR}   {yylval.stringValue = strdup(yytext + 1);
+         yylval.stringValue[strlen(yylval.stringValue) - 1] = '\0';
+         return STRING_LITERAL;}
 "+"		return(PLUS);
 "-"		return(MINUS);
 "*"		return(MUL);
