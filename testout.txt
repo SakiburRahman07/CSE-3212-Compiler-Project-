@@ -1,5 +1,11 @@
 Header file detected.
 
+Variable type--> Integer
+Valid declaration
+Variable name--> a
+Variable value--> 8
+Function defined: add
+Function called: add
 Single line comment detected. 
 
 Variable type--> Character
@@ -98,6 +104,6 @@ Variable name--> a1, Value--> 20
 Case no--> 0
 Variable name--> b1, Value--> 30
 Switch-case structure detected.
-Valid code
+Valid program
 
-No of variables--> 13
+No of variables--> 14

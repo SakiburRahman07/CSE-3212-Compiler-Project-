@@ -73,7 +73,9 @@
      LT = 289,
      LOE = 290,
      STRING = 291,
-     STRING_LITERAL = 292
+     STRING_LITERAL = 292,
+     FUNCTION = 293,
+     RETURN = 294
    };
 #endif
 
@@ -84,7 +86,7 @@ typedef union YYSTYPE
 {
 
 /* Line 1676 of yacc.c  */
-#line 65 "pf.y"
+#line 85 "pf.y"
 
 	double val;
 	char* stringValue;
@@ -92,7 +94,7 @@ typedef union YYSTYPE
 
 
 /* Line 1676 of yacc.c  */
-#line 96 "pf.tab.h"
+#line 98 "pf.tab.h"
 } YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */

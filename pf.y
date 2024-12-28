@@ -25,6 +25,26 @@
 		} value;
 	}variable[100];
 	
+	// Structure to store function information
+	struct function_structure {
+	    char func_name[20];
+	    int return_type;
+	    char* code_block;
+	    double return_value;
+	} functions[100];
+
+	int func_count = 0;
+
+	// Function to find a function by name
+	int get_function_index(char* name) {
+	    for(int i = 0; i < func_count; i++) {
+	        if(!strcmp(functions[i].func_name, name)) {
+	            return i;
+	        }
+	    }
+	    return -1;
+	}
+
 	// Function for searching if the present variable name has already been used.
 	
 	int search_var(char name[20]){
@@ -70,22 +90,59 @@
 	// Defining all the used tokens and precendences of the required ones.
 
 %error-verbose
-%token MAIN INT CHAR FLOAT POWER FACTO PRIME READ PRINT IF ELIF ELSE SWITCH CASE DEFAULT FROM TO INC DEC MAX MIN ID NUM PLUS MINUS MUL DIV EQUAL NOTEQUAL GT GOE LT LOE STRING STRING_LITERAL
+%token MAIN INT CHAR FLOAT POWER FACTO PRIME READ PRINT IF ELIF ELSE SWITCH CASE DEFAULT FROM TO INC DEC MAX MIN ID NUM PLUS MINUS MUL DIV EQUAL NOTEQUAL GT GOE LT LOE STRING STRING_LITERAL FUNCTION RETURN
 %left PLUS MINUS
 %left MUL DIV
 
 	// Defining token type
 
-%type<val>prime_code factorial_code casenum_code default_code case_code switch_code e f t expression else_if elsee bool_expression power_code min_code max_code declaration assignment condition for_code print_code read_code program code TYPE MAIN INT CHAR FLOAT POWER FACTO PRIME READ PRINT SWITCH CASE DEFAULT IF ELIF ELSE FROM TO INC DEC MAX MIN NUM PLUS MINUS MUL DIV EQUAL NOTEQUAL GT GOE LT LOE STRING
+%type<val>prime_code factorial_code casenum_code default_code case_code switch_code e f t expression else_if elsee bool_expression power_code min_code max_code declaration assignment condition for_code print_code read_code program code TYPE MAIN INT CHAR FLOAT POWER FACTO PRIME READ PRINT SWITCH CASE DEFAULT IF ELIF ELSE FROM TO INC DEC MAX MIN NUM PLUS MINUS MUL DIV EQUAL NOTEQUAL GT GOE LT LOE STRING return_statement function_call function_list function main
+
 %type<stringValue> ID1 ID STRING_LITERAL
 
 %%
 
 	// Rules for the code using tokens
 
-program: MAIN '{' code '}'	{printf("\nValid code\n");
-							printf("\nNo of variables--> %d", no_var);}
-		;
+program: function_list main {
+            printf("\nValid program\n");
+            printf("\nNo of variables--> %d", no_var);
+            $$ = $1;
+        }
+        | main {
+            printf("\nValid program\n");
+            printf("\nNo of variables--> %d", no_var);
+            $$ = $1;
+        }
+        ;
+
+// Update the main rule to handle both syntaxes
+main: MAIN '{' code '}' {
+    $$ = $3;  // Pass up the value from code
+}
+    | MAIN '(' ')' '{' code '}' {  // Add this rule to handle ()
+    $$ = $5;
+}
+    ;
+
+function_list: function_list function
+        | function
+        ;
+
+function: FUNCTION ID '(' ')' '{' code return_statement '}' {
+            if (func_count < 100) {
+                strcpy(functions[func_count].func_name, $2);
+                functions[func_count].return_value = $7;
+                func_count++;
+                printf("\nFunction defined: %s", $2);
+            }
+        }
+        ;
+
+return_statement: RETURN expression ';' {
+            $$ = $2;
+        }
+        ;
 
 code: declaration code
 	| assignment code
@@ -99,8 +156,21 @@ code: declaration code
 	| prime_code code
 	| min_code code
 	| max_code code
+	| function_call code
 	| 
 	;
+
+function_call: ID '(' ')' ';' {
+    int idx = get_function_index($1);
+    if(idx != -1) {
+        printf("\nFunction called: %s", functions[idx].func_name);
+        $$ = functions[idx].return_value;  // Set the return value
+    } else {
+        yyerror("Function not defined");
+        $$ = 0;  // Default value on error
+    }
+}
+;
 
 	// CFG for power() funtion
 	

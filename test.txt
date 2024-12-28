@@ -1,7 +1,13 @@
 using std.h
 
-start()
-{
+func add() {
+    int a;
+    a = 5 + 3;
+    return a;
+}
+
+start() {
+    add();
     #This is the input part
     char c;
     c = @a@;

@@ -17,28 +17,31 @@ STR \"[^\"]*\"
 %%
 
 [ \t]+
-"start()" return(MAIN);
-"string" return(STRING);
-"int"	return(INT);
-"char"	return(CHAR);
-"float"	return(FLOAT);
-"power"	return(POWER);
-"facto"	return(FACTO);
-"checkprime"	return(PRIME);
-"read"	return(READ);
-"print"	return(PRINT);
-"switch"	return(SWITCH);
-"state"	return(CASE);
-"complementary"	return(DEFAULT);
-"if"	return(IF);
-"elif"	return(ELIF);
-"otherwise"	return(ELSE);
-"from"	return(FROM);
-"to"	return(TO);
-"inc"	return(INC);
-"dec"	return(DEC);
-"max"	return(MAX);
-"min"	return(MIN);
+"start()" {return(MAIN);}
+"main()"  {return(MAIN);}  // Add alternative main syntax
+"func"   {return(FUNCTION);}
+"return" {return(RETURN);}
+"string" {return(STRING);}
+"int"	{return(INT);}
+"char"	{return(CHAR);}
+"float"	{return(FLOAT);}
+"power"	{return(POWER);}
+"facto"	{return(FACTO);}
+"checkprime"	{return(PRIME);}
+"read"	{return(READ);}
+"print"	{return(PRINT);}
+"switch"	{return(SWITCH);}
+"state"	{return(CASE);}
+"complementary"	{return(DEFAULT);}
+"if"	{return(IF);}
+"elif"	{return(ELIF);}
+"otherwise"	{return(ELSE);}
+"from"	{return(FROM);}
+"to"	{return(TO);}
+"inc"	{return(INC);}
+"dec"	{return(DEC);}
+"max"	{return(MAX);}
+"min"	{return(MIN);}
 {HEADER}	printf("Header file detected.\n");
 {ID}	{yylval.stringValue = strdup(yytext); return(ID);}
 {NU}	{	int length = strlen(yytext);
@@ -68,7 +71,8 @@ STR \"[^\"]*\"
 "<"		return(LT);
 "<="	return(LOE);
 [#].*	printf("\nSingle line comment detected. \n");
-[,;{}=()]	{yylval.stringValue = strdup(yytext); return *yytext;}
+[()]    {return yytext[0];}
+[,;{}=] {return yytext[0];}
 .		yyerror("Invalid Character for this edition.");
 [\n]	{}
 
