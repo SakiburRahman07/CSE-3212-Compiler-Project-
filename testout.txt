@@ -1,0 +1,93 @@
+Header file detected.
+
+Single line comment detected. 
+
+Variable type--> Integer
+Valid declaration
+Variable name--> var
+Variable value--> 4
+Variable value--> 18
+Variable name--> var, Value--> 18
+Variable value--> 10
+Variable type--> Float
+Valid declaration
+Variable name--> ab
+Valid declaration
+Variable name--> da
+Variable value--> 4.500000
+Variable name--> da, Value--> 4.500000
+Variable value--> 6.000000
+Variable value--> 24.000000
+Variable name--> ab, Value--> 24.000000
+Variable value--> 240.000000
+Variable name--> ab, Value--> 240.000000
+ELSE condition is detected
+IF condition detected
+IF condition is true
+Variable type--> Integer
+Valid declaration
+Variable name--> aa
+Read command found for variabale--> aa, but no further implementaion
+
+Variable value--> 100
+Variable name--> aa, Value--> 100
+Variable value--> 200
+Variable name--> aa, Value--> 200
+ELIF condition detected
+ELIF condition false
+Variable value--> 600
+Variable name--> aa, Value--> 600
+ELSE condition is detected
+IF condition detected
+IF condition false
+Power function value--> 256 
+Variable type--> Integer
+Valid declaration
+Variable name--> ax
+Valid declaration
+Variable name--> bx
+Variable value--> 7920
+Variable value--> 20
+Min value is--> 20
+Max value is--> 7920
+0
+Factorial of 5 is 120
+Variable type--> Integer
+Valid declaration
+Variable name--> a1
+Valid declaration
+Variable name--> b1
+Valid declaration
+Variable name--> y
+Valid declaration
+Variable name--> z
+Variable value--> 1
+Variable name--> ax, Value--> 7920
+For loop detected
+From-To Loop running-->
+From-To Loop running-->
+From-To Loop running-->
+From-To Loop running-->
+Variable type--> Character
+Valid declaration
+Variable name--> ff
+Single line comment detected. 
+
+Single line comment detected. 
+
+Variable value--> 30
+Variable value--> 20
+Variable name--> a1, Value--> 20
+Variable name--> b1, Value--> 30
+ELSE condition is detected
+IF condition detected
+IF condition false
+IF condition detected
+IF condition is true
+Variable name--> a1, Value--> 20
+Case no--> 0
+Variable name--> b1, Value--> 30
+Switch-case structure detected.
+Valid code
+
+No of variables--> 11
