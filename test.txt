@@ -217,12 +217,14 @@ start() {
     facto(5);
 
     print("---------------------For Loop Test------------------");
-    int a1,b1,y,z;
-    y=1;
-    from y to 5 inc 1
-    {
-        print(ax);
+    int i;          # Declare loop variable
+    print(i);       # Should print 0 (initialized value)
+    i = 1;          # Set initial value
+    print(i);       # Should print 1
+    from i to 5 inc 1 {
+        print(i);   # Should print current value in each iteration (1,2,3,4)
     } 
+    print(i);       # Should print final value (5)
 
     print("---------------------Switch Case Test------------------");
     char ff;

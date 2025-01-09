@@ -103,7 +103,7 @@ typedef union YYSTYPE
 {
 
 /* Line 1676 of yacc.c  */
-#line 96 "pf.y"
+#line 98 "pf.y"
 
 	double val;
 	char* stringValue;

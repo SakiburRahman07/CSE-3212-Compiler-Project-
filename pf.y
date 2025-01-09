@@ -70,10 +70,10 @@
 	
 	// Finind the index of any variable
 	
-	int get_var_index(char name[20]){
+	int get_var_index(const char* name) {
 		int i;
 		for(i=0; i<no_var; i++){
-			if(!strcmp(variable[i].var_name, name)){
+			if(strcmp(variable[i].var_name, name) == 0){
 				return i;
 			}
 		}
@@ -90,7 +90,9 @@
 	}
 	
 	int if_executed = 0;  // Global flag to track if any if/elif block was executed
-	
+
+	int code_result = 0;  // To store code block execution results
+
 %}
 
 %union{
@@ -306,24 +308,32 @@ min_code: MIN '(' ID ',' ID')'';'{
 	//CFG for print() function
 	
 print_code: PRINT '(' ID ')'';' {
-        int i = get_var_index($3);
+    int i = get_var_index($3);
+    if(i == -1) {
+        printf("\nWarning: Variable '%s' not found in print statement", $3);
+        $$ = 0;
+    } else {
+        printf("\nPrinting variable %s: ", variable[i].var_name);
         if(variable[i].var_type == 0){  // For char type
-            printf("\nVariable name--> %s, Value--> %c", variable[i].var_name, variable[i].value.cval);
+            printf("%c", variable[i].value.cval);
         }
         else if(variable[i].var_type == 1){
-            printf("\nVariable name--> %s, Value--> %d", variable[i].var_name, variable[i].value.ival);
+            printf("%d", variable[i].value.ival);
         }
         else if(variable[i].var_type == 2){
-            printf("\nVariable name--> %s, Value--> %f", variable[i].var_name, variable[i].value.fval);
+            printf("%f", variable[i].value.fval);
         }
         else if(variable[i].var_type == 3){
-            printf("\nVariable name--> %s, Value--> %s", variable[i].var_name, variable[i].value.sval);
+            printf("%s", variable[i].value.sval ? variable[i].value.sval : "");
         }
+        $$ = 1;
     }
-    | PRINT '(' STRING_LITERAL ')'';' {
-        printf("\n%s", $3);  // Print the string literal directly
-    }
-    ;
+}
+| PRINT '(' STRING_LITERAL ')'';' {
+    printf("\n%s", $3);
+    $$ = 1;
+}
+;
 	
 	//CFG for read() funtion
 	
@@ -355,29 +365,84 @@ default_code: DEFAULT '{' code '}'
 
 
 for_code: FROM ID TO NUM INC NUM '{' code '}' {
-	printf("\nFor loop detected");
-	int ii = get_var_index($2);
-	int i = variable[ii].value.ival;  // Changed from variable[ii].ival
-	int j = $4;
-	int inc = $6;
-	int k;
-	for(k=i; k<j; k=k+inc){
-		printf("\nFrom-To Loop running-->");
-	}
-		
+    printf("\nFor loop detected");
+    int ii = get_var_index($2);
+    if(ii == -1) {
+        printf("\nWarning: Loop variable '%s' not declared", $2);
+        $$ = 0;
+    } else if(variable[ii].var_type != 1) {  // Check if it's an integer
+        printf("\nWarning: Loop variable must be an integer");
+        $$ = 0;
+    } else {
+        int i = variable[ii].value.ival;
+        int j = $4;
+        int inc = $6;
+        
+        printf("\nStarting loop with %s = %d to %d increment %d", 
+               variable[ii].var_name, i, j, inc);
+        
+        // Store original value
+        int original_value = variable[ii].value.ival;
+        
+        // Execute the loop body for each iteration
+        for(int k=i; k<j; k=k+inc){
+            // Update the loop variable
+            variable[ii].value.ival = k;
+            
+            // Execute the code block
+            code_result = $8;
+            
+            printf("\nLoop iteration %d: %s = %d", 
+                   k, variable[ii].var_name, variable[ii].value.ival);
+        }
+        
+        // Set final value
+        variable[ii].value.ival = j;
+        printf("\nLoop completed. Final value of %s = %d", 
+               variable[ii].var_name, variable[ii].value.ival);
+        $$ = variable[ii].value.ival;
+    }
 }
-		| FROM ID TO NUM DEC NUM '{' code '}'{
-	printf("\nFor loop detected");
-	int ii = get_var_index($2);
-	int i = variable[ii].value.ival;  // Changed from variable[ii].ival
-	int j = $4;
-	int dec = $6;
-	int k;
-	for(k=i; k<j; k=k-dec){
-		printf("\nFrom-To Loop running-->");
-	}
+| FROM ID TO NUM DEC NUM '{' code '}' {
+    printf("\nFor loop detected");
+    int ii = get_var_index($2);
+    if(ii == -1) {
+        printf("\nWarning: Loop variable '%s' not declared", $2);
+        $$ = 0;
+    } else if(variable[ii].var_type != 1) {  // Check if it's an integer
+        printf("\nWarning: Loop variable must be an integer");
+        $$ = 0;
+    } else {
+        int i = variable[ii].value.ival;
+        int j = $4;
+        int dec = $6;
+        
+        printf("\nStarting loop with %s = %d to %d decrement %d", 
+               variable[ii].var_name, i, j, dec);
+        
+        // Store original value
+        int original_value = variable[ii].value.ival;
+        
+        // Execute the loop body for each iteration
+        for(int k=i; k>j; k=k-dec){
+            // Update the loop variable
+            variable[ii].value.ival = k;
+            
+            // Execute the code block
+            code_result = $8;
+            
+            printf("\nLoop iteration %d: %s = %d", 
+                   k, variable[ii].var_name, variable[ii].value.ival);
+        }
+        
+        // Set final value
+        variable[ii].value.ival = j;
+        printf("\nLoop completed. Final value of %s = %d", 
+               variable[ii].var_name, variable[ii].value.ival);
+        $$ = variable[ii].value.ival;
+    }
 }
-	;
+;
 	
 	//CFG for while loop
 	/*
@@ -498,102 +563,131 @@ bool_expression:
 
 	// CFG for variable declaration
 declaration: TYPE ID1 ';' {
-	set_var_type($1);
+    set_var_type($1);
+    // Initialize variables based on type
+    for(int i = 0; i < no_var; i++) {
+        if(variable[i].var_type == -1) {  // Only initialize newly declared variables
+            variable[i].var_type = $1;
+            if($1 == 1) { // INT
+                variable[i].value.ival = 0;
+            } else if($1 == 2) { // FLOAT
+                variable[i].value.fval = 0.0;
+            } else if($1 == 0) { // CHAR
+                variable[i].value.cval = '\0';
+            } else if($1 == 3) { // STRING
+                variable[i].value.sval = strdup("");
+            }
+        }
+    }
+    printf("\nVariable(s) declared and initialized");
+    $$ = 0;
 }
-	;
+;
 TYPE: INT	{$$ = 1; printf("\nVariable type--> Integer");}
 	| FLOAT	{$$ = 2; printf("\nVariable type--> Float");}
 	| CHAR	{$$ = 0; printf("\nVariable type--> Character");}
 	| STRING {$$ = 3; printf("\nVariable type--> String");}
 	;
 ID1: ID1 ',' ID {
-	if(search_var($3)==0){
-		printf("\nValid declaration");
-		strcpy(variable[no_var].var_name, $3);
-		printf("\nVariable name--> %s", $3);
-		variable[no_var].var_type =  -1;
-		no_var = no_var + 1;
-	}
-	else{
-		printf("\nVariable is already used");
-	}
+    if(search_var($3)==0){
+        strcpy(variable[no_var].var_name, $3);
+        variable[no_var].var_type = -1;  // Mark as uninitialized
+        printf("\nDeclared variable: %s", $3);
+        no_var++;
+    }
+    else{
+        printf("\nWarning: Variable '%s' already declared", $3);
+    }
 } 
-	| ID {
-	if(search_var($1)==0){
-		printf("\nValid declaration");
-		strcpy(variable[no_var].var_name, $1);
-		printf("\nVariable name--> %s", $1);
-		variable[no_var].var_type =  -1;
-		no_var = no_var + 1;
-	}
-	else{
-		printf("\nVariable is already used");
-	}
-	strcpy($$, $1);
+| ID {
+    if(search_var($1)==0){
+        strcpy(variable[no_var].var_name, $1);
+        variable[no_var].var_type = -1;  // Mark as uninitialized
+        printf("\nDeclared variable: %s", $1);
+        no_var++;
+    }
+    else{
+        printf("\nWarning: Variable '%s' already declared", $1);
+    }
+    $$ = strdup($1);  // Use strdup to properly allocate memory
 }
-	;
+;
 	
 	// CFG for assigning value
 assignment: ID '=' expression ';' {
+    int i = get_var_index($1);
+    if(i == -1) {
+        printf("\nError: Variable '%s' not declared", $1);
+        $$ = 0;
+    } else {
+        if(variable[i].var_type==0){
+            variable[i].value.cval = (char)$3;
+            printf("\nAssigning character value: %c", variable[i].value.cval);
+        }
+        else if(variable[i].var_type==1){
+            variable[i].value.ival = (int)$3;
+            printf("\nAssigning value %d to %s", variable[i].value.ival, variable[i].var_name);
+        }
+        else if(variable[i].var_type==2){
+            variable[i].value.fval = (float)$3;
+            printf("\nAssigning value %f to %s", variable[i].value.fval, variable[i].var_name);
+        }
         $$ = $3;
-        if(search_var($1)==1){
-            int i = get_var_index($1);
-            if(variable[i].var_type==0){
-                variable[i].value.cval = (char)$3;
-                printf("\nAssigning character value: %c", variable[i].value.cval);
-            }
-            else if(variable[i].var_type==1){
-                variable[i].value.ival = (int)$3;
-                printf("\nVariable value--> %d", variable[i].value.ival);
-            }
-            else if(variable[i].var_type==2){
-                variable[i].value.fval = (float)$3;
-                printf("\nVariable value--> %f", variable[i].value.fval);
-            }
+    }
+}
+| ID INCREMENT ';' {
+    int i = get_var_index($1);
+    if(i == -1) {
+        printf("\nError: Variable '%s' not declared", $1);
+        $$ = 0;
+    } else {
+        if(variable[i].var_type==1){
+            variable[i].value.ival++;
+            printf("\nIncrementing %s to %d", variable[i].var_name, variable[i].value.ival);
+            $$ = variable[i].value.ival;
+        }
+        else if(variable[i].var_type==2){
+            variable[i].value.fval++;
+            printf("\nIncrementing %s to %f", variable[i].var_name, variable[i].value.fval);
+            $$ = variable[i].value.fval;
         }
     }
-    | ID INCREMENT ';' {
-        if(search_var($1)==1){
-            int i = get_var_index($1);
-            if(variable[i].var_type==1){
-                $$ = variable[i].value.ival++;
-                printf("\nVariable value--> %d", variable[i].value.ival);
-            }
-            else if(variable[i].var_type==2){
-                $$ = variable[i].value.fval++;
-                printf("\nVariable value--> %f", variable[i].value.fval);
-            }
+}
+| ID DECREMENT ';' {
+    int i = get_var_index($1);
+    if(i == -1) {
+        printf("\nError: Variable '%s' not declared", $1);
+        $$ = 0;
+    } else {
+        if(variable[i].var_type==1){
+            variable[i].value.ival--;
+            printf("\nDecrementing %s to %d", variable[i].var_name, variable[i].value.ival);
+            $$ = variable[i].value.ival;
+        }
+        else if(variable[i].var_type==2){
+            variable[i].value.fval--;
+            printf("\nDecrementing %s to %f", variable[i].var_name, variable[i].value.fval);
+            $$ = variable[i].value.fval;
         }
     }
-    | ID DECREMENT ';' {
-        if(search_var($1)==1){
-            int i = get_var_index($1);
-            if(variable[i].var_type==1){
-                $$ = variable[i].value.ival--;
-                printf("\nVariable value--> %d", variable[i].value.ival);
-            }
-            else if(variable[i].var_type==2){
-                $$ = variable[i].value.fval--;
-                printf("\nVariable value--> %f", variable[i].value.fval);
-            }
+}
+| ID '=' STRING_LITERAL ';' {
+    int i = get_var_index($1);
+    if(i == -1) {
+        printf("\nError: Variable '%s' not declared", $1);
+        $$ = 0;
+    } else {
+        if(variable[i].var_type == 3){  // Check if it's a string type
+            variable[i].value.sval = strdup($3);
+            printf("\nAssigning string value: %s to %s", variable[i].value.sval, variable[i].var_name);
+            $$ = 1;
+        } else {
+            printf("\nError: Type mismatch - cannot assign string to non-string variable");
+            $$ = 0;
         }
     }
-    | ID '=' STRING_LITERAL ';' {
-        if(search_var($1)==1){
-            int i = get_var_index($1);
-            if(variable[i].var_type==3){
-                variable[i].value.sval = strdup($3);
-                printf("\nAssigning string value: %s", variable[i].value.sval);
-            }
-            else{
-                printf("\nType mismatch error\n");
-            }
-        }
-        else{
-            printf("\nVariable is not declared\n");
-        }
-    }
-    ;
+}
+;
 
 expression: e {$$ = $1;}
 	;
@@ -647,7 +741,7 @@ t: '(' e ')' {$$ = $2;}
 	| ID    {
 		int id_index = get_var_index($1);
 		if(id_index == -1) {
-			yyerror("VARIABLE DOESN'T EXIST");
+		//	yyerror("VARIABLE DOESN'T EXIST");
 			$$ = 0;
 		} else {
 			if(variable[id_index].var_type == 0) {

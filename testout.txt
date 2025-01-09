@@ -1,295 +1,304 @@
 Header file detected.
 
 Variable type--> Integer
-Valid declaration
-Variable name--> a
-Variable value--> 10
+Declared variable: a
+Variable(s) declared and initialized
+Assigning value 10 to a
 Function defined: add
 ---------------------Function Test------------------
 Function called: add
 ---------------------Character Variable Test------------------
 Variable type--> Character
-Valid declaration
-Variable name--> c
+Declared variable: c
+Variable(s) declared and initialized
 Assigning character value: a
-Variable name--> c, Value--> a
+Printing variable c: a
 ---------------------String Variable Test------------------
 Variable type--> String
-Valid declaration
-Variable name--> str
-Assigning string value: Hello World
-Variable name--> str, Value--> Hello World
+Declared variable: str
+Variable(s) declared and initialized
+Assigning string value: Hello World to str
+Printing variable str: Hello World
 ---------------------Mathematical Operations Test------------------
 Variable type--> Float
-Valid declaration
-Variable name--> x
-Valid declaration
-Variable name--> y
-Valid declaration
-Variable name--> z
-Variable value--> 16.000000
+Declared variable: x
+Declared variable: y
+Declared variable: z
+Variable(s) declared and initialized
+Assigning value 16.000000 to x
 ---------------------Power Operator Test------------------
-Variable value--> 256.000000
+Assigning value 256.000000 to y
 Single line comment detected. 
 
-Variable name--> y, Value--> 256.000000
+Printing variable y: 256.000000
 ---------------------Modulo Operator Test------------------
-Variable value--> 1.000000
+Assigning value 1.000000 to y
 Single line comment detected. 
 
-Variable name--> y, Value--> 1.000000
+Printing variable y: 1.000000
 ---------------------Square Root Function Test------------------
-Variable value--> 4.000000
+Assigning value 4.000000 to y
 Single line comment detected. 
 
-Variable name--> y, Value--> 4.000000
+Printing variable y: 4.000000
 ---------------------Absolute Value Function Test------------------
-Variable value--> -10.000000
-Variable value--> 10.000000
+Assigning value -10.000000 to x
+Assigning value 10.000000 to y
 Single line comment detected. 
 
-Variable name--> y, Value--> 10.000000
+Printing variable y: 10.000000
 ---------------------Logarithm Function Test------------------
-Variable value--> 2.718000
+Assigning value 2.718000 to x
 Single line comment detected. 
 
-Variable value--> 0.999896
+Assigning value 0.999896 to y
 Single line comment detected. 
 
-Variable name--> y, Value--> 0.999896
+Printing variable y: 0.999896
 ---------------------Trigonometric Functions Test------------------
-Variable value--> 1.570800
+Assigning value 1.570800 to x
 Single line comment detected. 
 
-Variable value--> 1.000000
+Assigning value 1.000000 to y
 Single line comment detected. 
 
-Variable name--> y, Value--> 1.000000
-Variable value--> -0.000004
+Printing variable y: 1.000000
+Assigning value -0.000004 to y
 Single line comment detected. 
 
-Variable name--> y, Value--> -0.000004
-Variable value--> -276243.843750
+Printing variable y: -0.000004
+Assigning value -276243.843750 to y
 Single line comment detected. 
 
-Variable name--> y, Value--> -276243.843750
+Printing variable y: -276243.843750
 ---------------------Complex Expression Test------------------
-Variable value--> 3.000000
-Variable value--> 4.000000
-Variable value--> 5.000000
+Assigning value 3.000000 to x
+Assigning value 4.000000 to y
+Assigning value 5.000000 to z
 Single line comment detected. 
 
-Variable name--> z, Value--> 5.000000
+Printing variable z: 5.000000
 ---------------------Integer Variable Test------------------
 Variable type--> Integer
-Valid declaration
-Variable name--> var
-Variable value--> 4
-Variable value--> 18
-Variable name--> var, Value--> 18
-Variable value--> 10
+Declared variable: var
+Variable(s) declared and initialized
+Assigning value 4 to var
+Assigning value 18 to var
+Printing variable var: 18
+Assigning value 10 to var
 ---------------------Float Variable Test------------------
 Variable type--> Float
-Valid declaration
-Variable name--> ab
-Valid declaration
-Variable name--> da
-Variable value--> 4.500000
-Variable name--> da, Value--> 4.500000
-Variable value--> 6.000000
+Declared variable: ab
+Declared variable: da
+Variable(s) declared and initialized
+Assigning value 4.500000 to da
+Printing variable da: 4.500000
+Assigning value 6.000000 to ab
 ---------------------Increment/Decrement Test------------------
-Variable value--> 7.000000
+Incrementing ab to 7.000000
 Single line comment detected. 
 
-Variable name--> ab, Value--> 7.000000
-Variable value--> 6.000000
+Printing variable ab: 7.000000
+Decrementing ab to 6.000000
 Single line comment detected. 
 
-Variable name--> ab, Value--> 6.000000
+Printing variable ab: 6.000000
 ---------------------Enhanced If-Else Test------------------
 Variable type--> Integer
-Valid declaration
-Variable name--> test_var
-Variable value--> 5
+Declared variable: test_var
+Variable(s) declared and initialized
+Assigning value 5 to test_var
 Single line comment detected. 
 
-Variable value--> 15
+Assigning value 15 to test_var
 Single line comment detected. 
 
-Variable name--> test_var, Value--> 15
+Printing variable test_var: 15
 Single line comment detected. 
 
 Single line comment detected. 
 
-Variable value--> 30
+Assigning value 30 to test_var
 Single line comment detected. 
 
-Variable value--> 35
+Assigning value 35 to test_var
 Single line comment detected. 
 
-Variable name--> test_var, Value--> 35
+Printing variable test_var: 35
 Single line comment detected. 
 
 er vitore duklo keno
-Variable value--> 17
+Assigning value 17 to test_var
 Single line comment detected. 
 
-Variable name--> test_var, Value--> 17
+Printing variable test_var: 17
 Single line comment detected. 
 
-Variable value--> 289
+Assigning value 289 to test_var
 Single line comment detected. 
 
-Variable name--> test_var, Value--> 289
+Printing variable test_var: 289
 Single line comment detected. 
 
-Single line comment detected. 
-
-Variable type--> Float
-Valid declaration
-Variable name--> calc_var
-Variable value--> 10.500000
-Variable value--> 242.240372
-Variable name--> calc_var, Value--> 242.240372
-Single line comment detected. 
-
-Variable type--> Integer
-Valid declaration
-Variable name--> counter
-Variable value--> 1
-Variable value--> 2
-Variable name--> counter, Value--> 2
-Variable value--> 4
-Variable name--> counter, Value--> 4
 Single line comment detected. 
 
 Variable type--> Float
-Valid declaration
-Variable name--> angle
-Variable value--> 1.570800
-Single line comment detected. 
-
-Variable value--> 0.546299
-Variable name--> angle, Value--> 0.546299
+Declared variable: calc_var
+Variable(s) declared and initialized
+Assigning value 10.500000 to calc_var
+Assigning value 242.240372 to calc_var
+Printing variable calc_var: 242.240372
 Single line comment detected. 
 
 Variable type--> Integer
-Valid declaration
-Variable name--> mod_var
-Variable value--> 17
-Variable value--> 2
-Variable name--> mod_var, Value--> 2
+Declared variable: counter
+Variable(s) declared and initialized
+Assigning value 1 to counter
+Incrementing counter to 2
+Printing variable counter: 2
+Assigning value 4 to counter
+Printing variable counter: 4
+Single line comment detected. 
+
+Variable type--> Float
+Declared variable: angle
+Variable(s) declared and initialized
+Assigning value 1.570800 to angle
+Single line comment detected. 
+
+Assigning value 0.546299 to angle
+Printing variable angle: 0.546299
+Single line comment detected. 
+
+Variable type--> Integer
+Declared variable: mod_var
+Variable(s) declared and initialized
+Assigning value 17 to mod_var
+Assigning value 2 to mod_var
+Printing variable mod_var: 2
 Single line comment detected. 
 
 Variable type--> String
-Valid declaration
-Variable name--> str1
-Valid declaration
-Variable name--> str2
-Assigning string value: Hello
-Assigning string value: World
+Declared variable: str1
+Declared variable: str2
+Variable(s) declared and initialized
+Assigning string value: Hello to str1
+Assigning string value: World to str2
 Strings are different
 Single line comment detected. 
 
 Variable type--> Integer
-Variable is already used
-Valid declaration
-Variable name--> b
-Variable is already used
-Variable value--> 5
-Variable value--> 10
+Warning: Variable 'a' already declared
+Declared variable: b
+Warning: Variable 'c' already declared
+Variable(s) declared and initialized
+Assigning value 5 to a
+Assigning value 10 to b
 Assigning character value: 
 Assigning character value: 
-Variable name--> c, Value--> 
+Printing variable c: 
 Assigning character value: 
-Variable name--> c, Value--> 
+Printing variable c: 
 Single line comment detected. 
 
 Variable type--> Integer
-Valid declaration
-Variable name--> iterator
-Variable value--> 0
-Variable value--> 1
-Variable name--> iterator, Value--> 1
-Variable value--> 2
-Variable name--> iterator, Value--> 2
-Variable value--> 3
-Variable name--> iterator, Value--> 3
+Declared variable: iterator
+Variable(s) declared and initialized
+Assigning value 0 to iterator
+Incrementing iterator to 1
+Printing variable iterator: 1
+Incrementing iterator to 2
+Printing variable iterator: 2
+Incrementing iterator to 3
+Printing variable iterator: 3
 ---------------------Read Function Test------------------
 Variable type--> Integer
-Valid declaration
-Variable name--> aa
+Declared variable: aa
+Variable(s) declared and initialized
 Read command found for variabale--> aa, but no further implementaion
 
-Variable value--> 100
+Assigning value 100 to aa
 ---------------------If-Elif-Else Test------------------
-Variable name--> aa, Value--> 100
-Variable value--> 200
-Variable name--> aa, Value--> 200
-Variable value--> 600
-Variable name--> aa, Value--> 600
+Printing variable aa: 100
+Assigning value 200 to aa
+Printing variable aa: 200
+Assigning value 600 to aa
+Printing variable aa: 600
 ---------------------Built-in Functions Test------------------
 Power function value--> 256 
 Variable type--> Integer
-Valid declaration
-Variable name--> ax
-Valid declaration
-Variable name--> bx
-Variable value--> 198
-Variable value--> 20
+Declared variable: ax
+Declared variable: bx
+Variable(s) declared and initialized
+Assigning value 198 to ax
+Assigning value 20 to bx
 Min value is--> 20
 Max value is--> 198
 0
 Factorial of 5 is 120
 ---------------------For Loop Test------------------
 Variable type--> Integer
-Valid declaration
-Variable name--> a1
-Valid declaration
-Variable name--> b1
-Variable is already used
-Variable is already used
-Variable value--> 1.000000
-Variable name--> ax, Value--> 198
+Declared variable: i
+Variable(s) declared and initialized
+Single line comment detected. 
+
+Printing variable i: 0
+Single line comment detected. 
+
+Assigning value 1 to i
+Single line comment detected. 
+
+Printing variable i: 1
+Single line comment detected. 
+
+Printing variable i: 1
+Single line comment detected. 
+
 For loop detected
+Starting loop with i = 1 to 5 increment 1
+Loop iteration 1: i = 1
+Loop iteration 2: i = 2
+Loop iteration 3: i = 3
+Loop iteration 4: i = 4
+Loop completed. Final value of i = 5
+Printing variable i: 5
+Single line comment detected. 
+
 ---------------------Switch Case Test------------------
 Variable type--> Character
-Valid declaration
-Variable name--> ff
+Declared variable: ff
+Variable(s) declared and initialized
 Single line comment detected. 
 
 Single line comment detected. 
 
-Variable value--> 30
-Variable value--> 20
-Variable name--> a1, Value--> 20
-Variable name--> b1, Value--> 30
-Variable name--> a1, Value--> 20
+Error: Variable 'b1' not declared
+Error: Variable 'a1' not declared
+Warning: Variable 'a1' not found in print statement
+Warning: Variable 'b1' not found in print statement
+Warning: Variable 'a1' not found in print statement
 Case no--> 0
-Variable name--> b1, Value--> 30
+Warning: Variable 'b1' not found in print statement
 Switch-case structure detected.
 ---------------------Conditional Operators Test------------------
 Single line comment detected. 
 
 Variable type--> Integer
-Valid declaration
-Variable name--> x1
-Valid declaration
-Variable name--> x2
-Valid declaration
-Variable name--> x3
+Declared variable: x1
+Declared variable: x2
+Declared variable: x3
+Variable(s) declared and initialized
 Variable type--> Float
-Valid declaration
-Variable name--> f1
-Valid declaration
-Variable name--> f2
+Declared variable: f1
+Declared variable: f2
+Variable(s) declared and initialized
 Single line comment detected. 
 
-Variable value--> 10
-Variable value--> 10
-Variable value--> 20
-Variable value--> 10.500000
-Variable value--> 20.500000
+Assigning value 10 to x1
+Assigning value 10 to x2
+Assigning value 20 to x3
+Assigning value 10.500000 to f1
+Assigning value 20.500000 to f2
 Single line comment detected. 
 
 ---------------------Basic Comparisons------------------
@@ -322,4 +331,4 @@ Complex condition works: ((x1 == x2 && f1 < f2) || !(x3 < x1))
 Nested condition works
 Valid program
 
-No of variables--> 29
+No of variables--> 28
