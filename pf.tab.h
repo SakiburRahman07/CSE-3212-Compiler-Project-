@@ -86,7 +86,13 @@
      TAN = 302,
      INCREMENT = 303,
      DECREMENT = 304,
-     UMINUS = 305
+     AND = 305,
+     OR = 306,
+     NOT = 307,
+     NEQ = 308,
+     STRICT_EQUAL = 309,
+     STRICT_NEQ = 310,
+     UMINUS = 311
    };
 #endif
 
@@ -97,7 +103,7 @@ typedef union YYSTYPE
 {
 
 /* Line 1676 of yacc.c  */
-#line 85 "pf.y"
+#line 94 "pf.y"
 
 	double val;
 	char* stringValue;
@@ -105,7 +111,7 @@ typedef union YYSTYPE
 
 
 /* Line 1676 of yacc.c  */
-#line 109 "pf.tab.h"
+#line 115 "pf.tab.h"
 } YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */

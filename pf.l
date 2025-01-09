@@ -50,21 +50,27 @@ STR \"[^\"]*\"
 "cos"   {return(COS);}
 "tan"   {return(TAN);}
 
+"==="   {return(STRICT_EQUAL);}
+"!=="   {return(STRICT_NEQ);}
+"&&"    {return(AND);}
+"||"    {return(OR);}
+"<>"    {return(NEQ);}
 "++"    {return(INCREMENT);}
 "--"    {return(DECREMENT);}
+">="    {return(GOE);}
+"<="    {return(LOE);}
+"=="    {return(EQUAL);}
+"!="    {return(NOTEQUAL);}
+"!"     {return(NOT);}
+">"     {return(GT);}
+"<"     {return(LT);}
 "+"     {return(PLUS);}
 "-"     {return(MINUS);}
 "*"     {return(MUL);}
 "/"     {return(DIV);}
 "%"     {return(MOD);}
 "^"     {return(POW);}
-
-"=="    {return(EQUAL);}
-"!="    {return(NOTEQUAL);}
-">="    {return(GOE);}
-"<="    {return(LOE);}
-">"     {return(GT);}
-"<"     {return(LT);}
+"="     {return('=');}
 
 "("     {return('(');}
 ")"     {return(')');}
@@ -72,7 +78,6 @@ STR \"[^\"]*\"
 "}"     {return('}');}
 ","     {return(',');}
 ";"     {return(';');}
-"="     {return('=');}
 
 {HEADER}	printf("Header file detected.\n");
 

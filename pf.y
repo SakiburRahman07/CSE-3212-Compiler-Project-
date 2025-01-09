@@ -80,6 +80,15 @@
 		return -1;
 	}
 	
+	// Helper function to determine expression type
+	int get_expression_type(double value) {
+		// Check if value is an integer
+		if(value == (int)value) {
+			return 1;  // Integer type
+		}
+		return 2;  // Float type
+	}
+	
 %}
 
 %union{
@@ -90,11 +99,16 @@
 	// Defining all the used tokens and precendences of the required ones.
 
 %error-verbose
-%token MAIN INT CHAR FLOAT POWER FACTO PRIME READ PRINT IF ELIF ELSE SWITCH CASE DEFAULT FROM TO INC DEC MAX MIN ID NUM PLUS MINUS MUL DIV EQUAL NOTEQUAL GT GOE LT LOE STRING STRING_LITERAL FUNCTION RETURN MOD POW SQRT ABS LOG SIN COS TAN INCREMENT DECREMENT
+%token MAIN INT CHAR FLOAT POWER FACTO PRIME READ PRINT IF ELIF ELSE SWITCH CASE DEFAULT FROM TO INC DEC MAX MIN ID NUM PLUS MINUS MUL DIV EQUAL NOTEQUAL GT GOE LT LOE STRING STRING_LITERAL FUNCTION RETURN MOD POW SQRT ABS LOG SIN COS TAN INCREMENT DECREMENT AND OR NOT NEQ STRICT_EQUAL STRICT_NEQ
+%left OR
+%left AND
+%right NOT
+%left EQUAL NOTEQUAL NEQ STRICT_EQUAL STRICT_NEQ
+%left GT GOE LT LOE
 %left PLUS MINUS
 %left MUL DIV MOD
 %right POW
-%right UMINUS    // For unary minus
+%right UMINUS
 %right INCREMENT DECREMENT
 
 	// Defining token type
@@ -412,55 +426,83 @@ elsee: ELSE '{' code '}' {
 	
 	//CFG for evaluating boolian expression
 
-bool_expression: expression EQUAL expression {
-	if($1==$3){
-		$$ = 1;
-	}
-	else{
-		$$ = 0;
-	}
-}
-				| expression NOTEQUAL expression {
-	if($1!=$3){
-		$$ = 1;
-	}
-	else{
-		$$ = 0;
-	}
-}
-				| expression GT expression {
-	if($1>$3){
-		$$ = 1;
-	}
-	else{
-		$$ = 0;
-	}
-}
-				| expression GOE expression {
-	if($1>=$3){
-		$$ = 1;
-	}
-	else{
-		$$ = 0;
-	}
-}
-				| expression LT expression {
-	if($1<$3){
-		$$ = 1;
-	}
-	else{
-		$$ = 0;
-	}
-}
-				| expression LOE expression {
-	if($1<=$3){
-		$$ = 1;
-	}
-	else{
-		$$ = 0;
-	}
-}
-	;
+bool_expression: 
+    bool_expression AND bool_expression {
+        $$ = ($1 && $3) ? 1 : 0;
+    }
+    | bool_expression OR bool_expression {
+        $$ = ($1 || $3) ? 1 : 0;
+    }
+    | NOT bool_expression {
+        $$ = !$2 ? 1 : 0;
+    }
+    | '(' bool_expression ')' {
+        $$ = $2;
+    }
+    | expression GT expression {
+        if($1 > $3) {
+            $$ = 1;
+        } else {
+            $$ = 0;
+        }
+    }
+    | expression LT expression {
+        if($1 < $3) {
+            $$ = 1;
+        } else {
+            $$ = 0;
+        }
+    }
+    | expression GOE expression {
+        if($1 >= $3) {
+            $$ = 1;
+        } else {
+            $$ = 0;
+        }
+    }
+    | expression LOE expression {
+        if($1 <= $3) {
+            $$ = 1;
+        } else {
+            $$ = 0;
+        }
+    }
+    | expression EQUAL expression {
+        if($1==$3) {
+            $$ = 1;
+        } else {
+            $$ = 0;
+        }
+    }
+    | expression STRICT_EQUAL expression {
+        if($1==$3 && get_expression_type($1) == get_expression_type($3)) {
+            $$ = 1;
+        } else {
+            $$ = 0;
+        }
+    }
+    | expression STRICT_NEQ expression {
+        if($1!=$3 || get_expression_type($1) != get_expression_type($3)) {
+            $$ = 1;
+        } else {
+            $$ = 0;
+        }
+    }
+    | expression NOTEQUAL expression {
+        if($1!=$3) {
+            $$ = 1;
+        } else {
+            $$ = 0;
+        }
+    }
+    | expression NEQ expression {
+        if($1!=$3) {
+            $$ = 1;
+        } else {
+            $$ = 0;
+        }
+    }
+    ;
 
 	// CFG for variable declaration
 declaration: TYPE ID1 ';' {

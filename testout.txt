@@ -176,6 +176,88 @@ Variable name--> a1, Value--> 20
 Case no--> 0
 Variable name--> b1, Value--> 30
 Switch-case structure detected.
+---------------------Conditional Operators Test------------------
+Single line comment detected. 
+
+Variable type--> Integer
+Valid declaration
+Variable name--> x1
+Valid declaration
+Variable name--> x2
+Valid declaration
+Variable name--> x3
+Variable type--> Float
+Valid declaration
+Variable name--> f1
+Valid declaration
+Variable name--> f2
+Single line comment detected. 
+
+Variable value--> 10
+Variable value--> 10
+Variable value--> 20
+Variable value--> 10.500000
+Variable value--> 20.500000
+Single line comment detected. 
+
+---------------------Basic Comparisons------------------
+Equal operator works: x1 == x2
+IF condition detected
+IF condition is true
+Not equal operator works: x1 != x3
+IF condition detected
+IF condition is true
+Less than operator works: x1 < x3
+IF condition detected
+IF condition is true
+Greater than operator works: x3 > x1
+IF condition detected
+IF condition is true
+Less than or equal works: x1 <= x2
+IF condition detected
+IF condition is true
+Greater than or equal works: x3 >= x1
+Single line comment detected. 
+
+IF condition detected
+IF condition is true
+---------------------Logical Operators------------------
+Logical AND works: (x1 == x2 && x2 < x3)
+IF condition detected
+IF condition is true
+Logical OR works: (x1 > x3 || x1 == x2)
+IF condition detected
+IF condition is true
+Logical NOT works: !(x1 > x3)
+Single line comment detected. 
+
+IF condition detected
+IF condition is true
+---------------------Type Comparisons------------------
+Strict equality works for same type (int === int)
+IF condition detected
+IF condition is true
+This shouldn't print: different types (int === float)
+IF condition detected
+IF condition false
+Strict inequality works for different types (int !== float)
+Single line comment detected. 
+
+IF condition detected
+IF condition is true
+---------------------Alternative Operators------------------
+Alternative not equal works: x1 <> x3
+Single line comment detected. 
+
+IF condition detected
+IF condition is true
+---------------------Complex Conditions------------------
+Complex condition works: ((x1 == x2 && f1 < f2) || !(x3 < x1))
+IF condition detected
+IF condition is true
+Nested condition works
+IF condition detected
+IF condition is true
 Valid program
 
-No of variables--> 15
+No of variables--> 20
