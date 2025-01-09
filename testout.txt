@@ -3,21 +3,84 @@ Header file detected.
 Variable type--> Integer
 Valid declaration
 Variable name--> a
-Variable value--> 8
+Variable value--> 10
 Function defined: add
+---------------------Function Test------------------
 Function called: add
-Single line comment detected. 
-
+---------------------Character Variable Test------------------
 Variable type--> Character
 Valid declaration
 Variable name--> c
 Assigning character value: a
 Variable name--> c, Value--> a
+---------------------String Variable Test------------------
 Variable type--> String
 Valid declaration
 Variable name--> str
 Assigning string value: Hello World
 Variable name--> str, Value--> Hello World
+---------------------Mathematical Operations Test------------------
+Variable type--> Float
+Valid declaration
+Variable name--> x
+Valid declaration
+Variable name--> y
+Valid declaration
+Variable name--> z
+Variable value--> 16.000000
+---------------------Power Operator Test------------------
+Variable value--> 256.000000
+Single line comment detected. 
+
+Variable name--> y, Value--> 256.000000
+---------------------Modulo Operator Test------------------
+Variable value--> 1.000000
+Single line comment detected. 
+
+Variable name--> y, Value--> 1.000000
+---------------------Square Root Function Test------------------
+Variable value--> 4.000000
+Single line comment detected. 
+
+Variable name--> y, Value--> 4.000000
+---------------------Absolute Value Function Test------------------
+Variable value--> -10.000000
+Variable value--> 10.000000
+Single line comment detected. 
+
+Variable name--> y, Value--> 10.000000
+---------------------Logarithm Function Test------------------
+Variable value--> 2.718000
+Single line comment detected. 
+
+Variable value--> 0.999896
+Single line comment detected. 
+
+Variable name--> y, Value--> 0.999896
+---------------------Trigonometric Functions Test------------------
+Variable value--> 1.570800
+Single line comment detected. 
+
+Variable value--> 1.000000
+Single line comment detected. 
+
+Variable name--> y, Value--> 1.000000
+Variable value--> -0.000004
+Single line comment detected. 
+
+Variable name--> y, Value--> -0.000004
+Variable value--> -276243.843750
+Single line comment detected. 
+
+Variable name--> y, Value--> -276243.843750
+---------------------Complex Expression Test------------------
+Variable value--> 3.000000
+Variable value--> 4.000000
+Variable value--> 5.000000
+Single line comment detected. 
+
+Variable name--> z, Value--> 5.000000
+---------------------Integer Variable Test------------------
 Variable type--> Integer
 Valid declaration
 Variable name--> var
@@ -25,6 +88,7 @@ Variable value--> 4
 Variable value--> 18
 Variable name--> var, Value--> 18
 Variable value--> 10
+---------------------Float Variable Test------------------
 Variable type--> Float
 Valid declaration
 Variable name--> ab
@@ -33,6 +97,16 @@ Variable name--> da
 Variable value--> 4.500000
 Variable name--> da, Value--> 4.500000
 Variable value--> 6.000000
+---------------------Increment/Decrement Test------------------
+Variable value--> 7.000000
+Single line comment detected. 
+
+Variable name--> ab, Value--> 7.000000
+Variable value--> 6.000000
+Single line comment detected. 
+
+Variable name--> ab, Value--> 6.000000
+---------------------If-Else Test------------------
 Variable value--> 24.000000
 Variable name--> ab, Value--> 24.000000
 Variable value--> 240.000000
@@ -40,22 +114,24 @@ Variable name--> ab, Value--> 240.000000
 ELSE condition is detected
 IF condition detected
 IF condition is true
+---------------------Read Function Test------------------
 Variable type--> Integer
 Valid declaration
 Variable name--> aa
 Read command found for variabale--> aa, but no further implementaion
 
 Variable value--> 100
+---------------------If-Elif-Else Test------------------
 Variable name--> aa, Value--> 100
 Variable value--> 200
 Variable name--> aa, Value--> 200
-ELIF condition detected
 ELIF condition false
 Variable value--> 600
 Variable name--> aa, Value--> 600
 ELSE condition is detected
 IF condition detected
 IF condition false
+---------------------Built-in Functions Test------------------
 Power function value--> 256 
 Variable type--> Integer
 Valid declaration
@@ -68,22 +144,18 @@ Min value is--> 20
 Max value is--> 7920
 0
 Factorial of 5 is 120
+---------------------For Loop Test------------------
 Variable type--> Integer
 Valid declaration
 Variable name--> a1
 Valid declaration
 Variable name--> b1
-Valid declaration
-Variable name--> y
-Valid declaration
-Variable name--> z
-Variable value--> 1
+Variable is already used
+Variable is already used
+Variable value--> 1.000000
 Variable name--> ax, Value--> 7920
 For loop detected
-From-To Loop running-->
-From-To Loop running-->
-From-To Loop running-->
-From-To Loop running-->
+---------------------Switch Case Test------------------
 Variable type--> Character
 Valid declaration
 Variable name--> ff
@@ -106,4 +178,4 @@ Variable name--> b1, Value--> 30
 Switch-case structure detected.
 Valid program
 
-No of variables--> 14
+No of variables--> 15

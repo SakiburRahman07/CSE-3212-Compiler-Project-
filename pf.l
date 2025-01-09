@@ -18,7 +18,7 @@ STR \"[^\"]*\"
 
 [ \t]+
 "start()" {return(MAIN);}
-"main()"  {return(MAIN);}  // Add alternative main syntax
+"main()"  {return(MAIN);}
 "func"   {return(FUNCTION);}
 "return" {return(RETURN);}
 "string" {return(STRING);}
@@ -42,39 +42,64 @@ STR \"[^\"]*\"
 "dec"	{return(DEC);}
 "max"	{return(MAX);}
 "min"	{return(MIN);}
+
+"sqrt"  {return(SQRT);}
+"abs"   {return(ABS);}
+"log"   {return(LOG);}
+"sin"   {return(SIN);}
+"cos"   {return(COS);}
+"tan"   {return(TAN);}
+
+"++"    {return(INCREMENT);}
+"--"    {return(DECREMENT);}
+"+"     {return(PLUS);}
+"-"     {return(MINUS);}
+"*"     {return(MUL);}
+"/"     {return(DIV);}
+"%"     {return(MOD);}
+"^"     {return(POW);}
+
+"=="    {return(EQUAL);}
+"!="    {return(NOTEQUAL);}
+">="    {return(GOE);}
+"<="    {return(LOE);}
+">"     {return(GT);}
+"<"     {return(LT);}
+
+"("     {return('(');}
+")"     {return(')');}
+"{"     {return('{');}
+"}"     {return('}');}
+","     {return(',');}
+";"     {return(';');}
+"="     {return('=');}
+
 {HEADER}	printf("Header file detected.\n");
+
 {ID}	{yylval.stringValue = strdup(yytext); return(ID);}
-{NU}	{	int length = strlen(yytext);
-			int i = 0;
-			while(i<length){
-				if(yytext[i]=='.'){
-					yylval.val = atof(yytext); 
-					return(NUM);
-				}
-				i++;
-			}
-			yylval.val = atoi(yytext); 
-			return(NUM);
-		}
+{NU}	{	
+    int length = strlen(yytext);
+    int i = 0;
+    while(i<length){
+        if(yytext[i]=='.'){
+            yylval.val = atof(yytext); 
+            return(NUM);
+        }
+        i++;
+    }
+    yylval.val = atoi(yytext); 
+    return(NUM);
+}
 {CH}    {yylval.val = (double)yytext[1]; return NUM;}
-{STR}   {yylval.stringValue = strdup(yytext + 1);
-         yylval.stringValue[strlen(yylval.stringValue) - 1] = '\0';
-         return STRING_LITERAL;}
-"+"		return(PLUS);
-"-"		return(MINUS);
-"*"		return(MUL);
-"/"		return(DIV);
-"=="	return(EQUAL);
-"!="	return(NOTEQUAL);
-">"		return(GT);
-">="	return(GOE);
-"<"		return(LT);
-"<="	return(LOE);
-[#].*	printf("\nSingle line comment detected. \n");
-[()]    {return yytext[0];}
-[,;{}=] {return yytext[0];}
-.		yyerror("Invalid Character for this edition.");
-[\n]	{}
+{STR}   {
+    yylval.stringValue = strdup(yytext + 1);
+    yylval.stringValue[strlen(yylval.stringValue) - 1] = '\0';
+    return STRING_LITERAL;
+}
+
+[#].*	{printf("\nSingle line comment detected. \n");}
+[\n]	{ /* ignore newlines */ }
+.		{yyerror("Invalid Character for this edition.");}
 
 %% 
 

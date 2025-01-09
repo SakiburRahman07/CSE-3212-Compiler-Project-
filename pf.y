@@ -90,9 +90,12 @@
 	// Defining all the used tokens and precendences of the required ones.
 
 %error-verbose
-%token MAIN INT CHAR FLOAT POWER FACTO PRIME READ PRINT IF ELIF ELSE SWITCH CASE DEFAULT FROM TO INC DEC MAX MIN ID NUM PLUS MINUS MUL DIV EQUAL NOTEQUAL GT GOE LT LOE STRING STRING_LITERAL FUNCTION RETURN
+%token MAIN INT CHAR FLOAT POWER FACTO PRIME READ PRINT IF ELIF ELSE SWITCH CASE DEFAULT FROM TO INC DEC MAX MIN ID NUM PLUS MINUS MUL DIV EQUAL NOTEQUAL GT GOE LT LOE STRING STRING_LITERAL FUNCTION RETURN MOD POW SQRT ABS LOG SIN COS TAN INCREMENT DECREMENT
 %left PLUS MINUS
-%left MUL DIV
+%left MUL DIV MOD
+%right POW
+%right UMINUS    // For unary minus
+%right INCREMENT DECREMENT
 
 	// Defining token type
 
@@ -125,9 +128,13 @@ main: MAIN '{' code '}' {
 }
     ;
 
-function_list: function_list function
-        | function
-        ;
+function_list: function_list function {
+        $$ = $2;
+    }
+    | function {
+        $$ = $1;
+    }
+    ;
 
 function: FUNCTION ID '(' ')' '{' code return_statement '}' {
             if (func_count < 100) {
@@ -144,21 +151,21 @@ return_statement: RETURN expression ';' {
         }
         ;
 
-code: declaration code
-	| assignment code
-	| condition code
-	| for_code code
-	| switch_code code
-	| print_code code
-	| read_code code
-	| power_code code
-	| factorial_code code
-	| prime_code code
-	| min_code code
-	| max_code code
-	| function_call code
-	| 
-	;
+code: declaration code    { $$ = $1; }
+    | assignment code     { $$ = $1; }
+    | condition code      { $$ = $1; }
+    | for_code code       { $$ = $1; }
+    | switch_code code    { $$ = $1; }
+    | print_code code     { $$ = $1; }
+    | read_code code      { $$ = $1; }
+    | power_code code     { $$ = $1; }
+    | factorial_code code { $$ = $1; }
+    | prime_code code     { $$ = $1; }
+    | min_code code       { $$ = $1; }
+    | max_code code       { $$ = $1; }
+    | function_call code  { $$ = $1; }
+    | /* empty */         { $$ = 0; }  // Add action for empty rule
+    ;
 
 function_call: ID '(' ')' ';' {
     int idx = get_function_index($1);
@@ -282,22 +289,25 @@ min_code: MIN '(' ID ',' ID')'';'{
 	
 	//CFG for print() function
 	
-print_code: PRINT '(' ID ')'';'{
-	int i = get_var_index($3);
-	if(variable[i].var_type == 0){  // For char type
-		printf("\nVariable name--> %s, Value--> %c", variable[i].var_name, variable[i].value.cval);
-	}
-	else if(variable[i].var_type == 1){
-		printf("\nVariable name--> %s, Value--> %d", variable[i].var_name, variable[i].value.ival);
-	}
-	else if(variable[i].var_type == 2){
-		printf("\nVariable name--> %s, Value--> %f", variable[i].var_name, variable[i].value.fval);
-	}
-	else if(variable[i].var_type == 3){
-		printf("\nVariable name--> %s, Value--> %s", variable[i].var_name, variable[i].value.sval);
-	}
-}
-	;
+print_code: PRINT '(' ID ')'';' {
+        int i = get_var_index($3);
+        if(variable[i].var_type == 0){  // For char type
+            printf("\nVariable name--> %s, Value--> %c", variable[i].var_name, variable[i].value.cval);
+        }
+        else if(variable[i].var_type == 1){
+            printf("\nVariable name--> %s, Value--> %d", variable[i].var_name, variable[i].value.ival);
+        }
+        else if(variable[i].var_type == 2){
+            printf("\nVariable name--> %s, Value--> %f", variable[i].var_name, variable[i].value.fval);
+        }
+        else if(variable[i].var_type == 3){
+            printf("\nVariable name--> %s, Value--> %s", variable[i].var_name, variable[i].value.sval);
+        }
+    }
+    | PRINT '(' STRING_LITERAL ')'';' {
+        printf("\n%s", $3);  // Print the string literal directly
+    }
+    ;
 	
 	//CFG for read() funtion
 	
@@ -317,10 +327,13 @@ case_code: casenum_code default_code
 	;
 
 casenum_code: CASE NUM '{' code '}' casenum_code {
-	printf("\nCase no--> %d", $2);
-}
-	| 
-	;
+        printf("\nCase no--> %d", $2);
+        $$ = $4;
+    }
+    | /* empty */ {
+        $$ = 0;  // Add action for empty rule
+    }
+    ;
 default_code: DEFAULT '{' code '}'
 	;
 
@@ -375,23 +388,27 @@ condition: IF'(' bool_expression ')''{'code'}' else_if elsee {
 	}
 }
 	;
-else_if: ELIF '(' bool_expression ')''{' code '}' else_if {
-	printf("\nELIF condition detected");
-	int i = $3;
-	if(i==1){
-		printf("\nELIF condition true");
-	}
-	else{
-		printf("\nELIF condition false");
-	}
-}
-		| 
-	;
+else_if: ELIF '(' bool_expression ')' '{' code '}' else_if {
+        if($3 == 1) {
+            $$ = $6;  // Use value from if block
+            printf("\nELIF condition true");
+        } else {
+            $$ = $8;  // Use value from next else_if
+            printf("\nELIF condition false");
+        }
+    }
+    | /* empty */ { 
+        $$ = 0;  // Return 0 for no elif
+    }
+    ;
 elsee: ELSE '{' code '}' {
-	printf("\nELSE condition is detected");
-}
-	| 
-	;
+        $$ = $3;  // Return value from else block
+        printf("\nELSE condition is detected");
+    }
+    | /* empty */ { 
+        $$ = 0;  // Return 0 for no else
+    }
+    ;
 	
 	//CFG for evaluating boolian expression
 
@@ -484,48 +501,65 @@ ID1: ID1 ',' ID {
 	
 	// CFG for assigning value
 assignment: ID '=' expression ';' {
-	$$ = $3;
-	if(search_var($1)==1){
-		int i = get_var_index($1);
-		if(variable[i].var_type==0){  // For char type
-			variable[i].value.cval = (char)$3;
-			printf("\nAssigning character value: %c", variable[i].value.cval);
-		}
-		else if(variable[i].var_type==1){
-			variable[i].value.ival = (int)$3;
-			printf("\nVariable value--> %d", variable[i].value.ival);
-		}
-		else if(variable[i].var_type==2){
-			variable[i].value.fval = (float)$3;
-			printf("\nVariable value--> %f", variable[i].value.fval);
-		}
-		else if(variable[i].var_type==3){
-			variable[i].value.sval = strdup($<stringValue>3);
-			printf("\nVariable value--> %s", variable[i].value.sval);
-		}
-	}
-	else{
-		printf("\nVariable is not declared\n");
-	}
-}
-	| ID '=' STRING_LITERAL ';' {
-		if(search_var($1)==1){
-			int i = get_var_index($1);
-			if(variable[i].var_type==3){
-				if($3) {
-					variable[i].value.sval = strdup($3);
-					printf("\nAssigning string value: %s", variable[i].value.sval);
-				}
-			}
-			else{
-				printf("\nType mismatch error\n");
-			}
-		}
-		else{
-			printf("\nVariable is not declared\n");
-		}
-	}
-	;
+        $$ = $3;
+        if(search_var($1)==1){
+            int i = get_var_index($1);
+            if(variable[i].var_type==0){
+                variable[i].value.cval = (char)$3;
+                printf("\nAssigning character value: %c", variable[i].value.cval);
+            }
+            else if(variable[i].var_type==1){
+                variable[i].value.ival = (int)$3;
+                printf("\nVariable value--> %d", variable[i].value.ival);
+            }
+            else if(variable[i].var_type==2){
+                variable[i].value.fval = (float)$3;
+                printf("\nVariable value--> %f", variable[i].value.fval);
+            }
+        }
+    }
+    | ID INCREMENT ';' {
+        if(search_var($1)==1){
+            int i = get_var_index($1);
+            if(variable[i].var_type==1){
+                $$ = variable[i].value.ival++;
+                printf("\nVariable value--> %d", variable[i].value.ival);
+            }
+            else if(variable[i].var_type==2){
+                $$ = variable[i].value.fval++;
+                printf("\nVariable value--> %f", variable[i].value.fval);
+            }
+        }
+    }
+    | ID DECREMENT ';' {
+        if(search_var($1)==1){
+            int i = get_var_index($1);
+            if(variable[i].var_type==1){
+                $$ = variable[i].value.ival--;
+                printf("\nVariable value--> %d", variable[i].value.ival);
+            }
+            else if(variable[i].var_type==2){
+                $$ = variable[i].value.fval--;
+                printf("\nVariable value--> %f", variable[i].value.fval);
+            }
+        }
+    }
+    | ID '=' STRING_LITERAL ';' {
+        if(search_var($1)==1){
+            int i = get_var_index($1);
+            if(variable[i].var_type==3){
+                variable[i].value.sval = strdup($3);
+                printf("\nAssigning string value: %s", variable[i].value.sval);
+            }
+            else{
+                printf("\nType mismatch error\n");
+            }
+        }
+        else{
+            printf("\nVariable is not declared\n");
+        }
+    }
+    ;
 
 expression: e {$$ = $1;}
 	;
@@ -534,40 +568,63 @@ e: e PLUS f {$$ = $1 + $3; }
 	| f      {$$ = $1;}
 	;
 f: f MUL t {$$ = $1 * $3;}
-	| f DIV t 
-	{if($3 != 0)
-	{
-		$$ = $1 / $3;
+	| f DIV t {
+		if($3 != 0) {
+			$$ = $1 / $3;
+		} else {
+			yyerror("Division by zero");
+			$$ = 0;
+		}
 	}
-	else{
-		printf("\nMathematically invalid expression");
+	| f MOD t {
+		if($3 != 0) {
+			$$ = fmod($1, $3);
+		} else {
+			yyerror("Modulo by zero");
+			$$ = 0;
+		}
 	}
-}
-	| t   {$$ = $1;}
+	| t POW f {
+		$$ = pow($1, $3);
+	}
+	| t      {$$ = $1;}
 	;
 t: '(' e ')' {$$ = $2;}
-	| ID {
-	int id_index = get_var_index($1);
-	if(id_index == -1)
-	{
-		yyerror("VARIABLE DOESN'T EXIST");
-	}
-	else
-	{
-		if(variable[id_index].var_type == 0)
-		{
-			$$ = (double)variable[id_index].value.cval;
-		}
-		else if(variable[id_index].var_type == 1)
-		{
-			$$ = variable[id_index].value.ival;
-		}
-		else if(variable[id_index].var_type == 2)
-		{
-			$$ = variable[id_index].value.fval;
+	| SQRT '(' e ')' {
+		if($3 >= 0) {
+			$$ = sqrt($3);
+		} else {
+			yyerror("Square root of negative number");
+			$$ = 0;
 		}
 	}
-}
+	| ABS '(' e ')'  { $$ = fabs($3); }
+	| LOG '(' e ')'  {
+		if($3 > 0) {
+			$$ = log($3);
+		} else {
+			yyerror("Logarithm of non-positive number");
+			$$ = 0;
+		}
+	}
+	| SIN '(' e ')'  { $$ = sin($3); }
+	| COS '(' e ')'  { $$ = cos($3); }
+	| TAN '(' e ')'  { $$ = tan($3); }
+	| ID    {
+		int id_index = get_var_index($1);
+		if(id_index == -1) {
+			yyerror("VARIABLE DOESN'T EXIST");
+			$$ = 0;
+		} else {
+			if(variable[id_index].var_type == 0) {
+				$$ = (double)variable[id_index].value.cval;
+			} else if(variable[id_index].var_type == 1) {
+				$$ = variable[id_index].value.ival;
+			} else if(variable[id_index].var_type == 2) {
+				$$ = variable[id_index].value.fval;
+			}
+		}
+	}
 	| NUM  {$$ = $1;}
 	;
 

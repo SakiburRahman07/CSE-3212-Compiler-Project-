@@ -2,28 +2,85 @@ using std.h
 
 func add() {
     int a;
-    a = 5 + 3;
+    a = 7 + 3;
     return a;
 }
 
 start() {
+    print("---------------------Function Test------------------");
     add();
-    #This is the input part
+
+    print("---------------------Character Variable Test------------------");
     char c;
     c = @a@;
     print(c);
+
+    print("---------------------String Variable Test------------------");
     string str;
     str = "Hello World";
     print(str);
+    
+    print("---------------------Mathematical Operations Test------------------");
+    float x, y, z;
+    x = 16;
+    
+    print("---------------------Power Operator Test------------------");
+    y = x ^ 2;    # Should be 256
+    print(y);
+    
+    print("---------------------Modulo Operator Test------------------");
+    y = x % 3;    # Should be 1
+    print(y);
+    
+    print("---------------------Square Root Function Test------------------");
+    y = sqrt(x);  # Should be 4
+    print(y);
+    
+    print("---------------------Absolute Value Function Test------------------");
+    x = -10;
+    y = abs(x);   # Should be 10
+    print(y);
+    
+    print("---------------------Logarithm Function Test------------------");
+    x = 2.718;    # e (Euler's number)
+    y = log(x);   # Should be close to 1
+    print(y);
+    
+    print("---------------------Trigonometric Functions Test------------------");
+    x = 1.5708;   # Close to π/2
+    y = sin(x);   # Should be close to 1
+    print(y);
+    y = cos(x);   # Should be close to 0
+    print(y);
+    y = tan(x);   # Should be a large number
+    print(y);
+    
+    print("---------------------Complex Expression Test------------------");
+    x = 3;
+    y = 4;
+    z = sqrt(x^2 + y^2);  # Pythagorean theorem, should be 5
+    print(z);
+
+    print("---------------------Integer Variable Test------------------");
     int var;
     var = 4;
     var = 4*var+2;
     print(var);
     var = 10;
+
+    print("---------------------Float Variable Test------------------");
     float ab, da;
-	da = 4.5;
-	print(da);
+    da = 4.5;
+    print(da);
     ab = 6;
+    
+    print("---------------------Increment/Decrement Test------------------");
+    ab++;         # Should be 7
+    print(ab);
+    ab--;         # Should be 6
+    print(ab);
+    
+    print("---------------------If-Else Test------------------");
     if(ab<var){
         ab = ab*4;
         print(ab);
@@ -32,9 +89,13 @@ start() {
         ab = ab*10;
         print(ab);
     }
+
+    print("---------------------Read Function Test------------------");
     int aa;
     read(aa);
     aa = 100;
+
+    print("---------------------If-Elif-Else Test------------------");
     if(aa<=10){
         print(aa);
     }
@@ -47,14 +108,17 @@ start() {
         print(aa);
     }
     
+    print("---------------------Built-in Functions Test------------------");
     power(16,2);
     int ax, bx; 
     ax= 33*ab;
     bx= 40/2;
     min(ax, bx);
     max(ax, bx);
-	checkprime(29);
-	facto(5);
+    checkprime(29);
+    facto(5);
+
+    print("---------------------For Loop Test------------------");
     int a1,b1,y,z;
     y=1;
     from y to 5 inc 1
@@ -62,6 +126,7 @@ start() {
         print(ax);
     } 
 
+    print("---------------------Switch Case Test------------------");
     char ff;
     #ff = |abcd|;
     #print(ff);
@@ -78,13 +143,13 @@ start() {
             print(b1);
         }
     }
-	
-	switch(z){
-		state 1 {
-			print(a1);
-		}
-		complementary{
-			print(b1);
-		}
-	}
+    
+    switch(z){
+        state 1 {
+            print(a1);
+        }
+        complementary{
+            print(b1);
+        }
+    }
 }

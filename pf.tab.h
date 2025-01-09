@@ -75,7 +75,18 @@
      STRING = 291,
      STRING_LITERAL = 292,
      FUNCTION = 293,
-     RETURN = 294
+     RETURN = 294,
+     MOD = 295,
+     POW = 296,
+     SQRT = 297,
+     ABS = 298,
+     LOG = 299,
+     SIN = 300,
+     COS = 301,
+     TAN = 302,
+     INCREMENT = 303,
+     DECREMENT = 304,
+     UMINUS = 305
    };
 #endif
 
@@ -94,7 +105,7 @@ typedef union YYSTYPE
 
 
 /* Line 1676 of yacc.c  */
-#line 98 "pf.tab.h"
+#line 109 "pf.tab.h"
 } YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
