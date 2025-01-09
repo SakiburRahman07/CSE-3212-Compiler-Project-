@@ -89,6 +89,8 @@
 		return 2;  // Float type
 	}
 	
+	int if_executed = 0;  // Global flag to track if any if/elif block was executed
+	
 %}
 
 %union{
@@ -113,7 +115,7 @@
 
 	// Defining token type
 
-%type<val>prime_code factorial_code casenum_code default_code case_code switch_code e f t expression else_if elsee bool_expression power_code min_code max_code declaration assignment condition for_code print_code read_code program code TYPE MAIN INT CHAR FLOAT POWER FACTO PRIME READ PRINT SWITCH CASE DEFAULT IF ELIF ELSE FROM TO INC DEC MAX MIN NUM PLUS MINUS MUL DIV EQUAL NOTEQUAL GT GOE LT LOE STRING return_statement function_call function_list function main
+%type<val>prime_code factorial_code casenum_code default_code case_code switch_code e f t expression elsee bool_expression power_code min_code max_code declaration assignment condition for_code print_code read_code program code TYPE MAIN INT CHAR FLOAT POWER FACTO PRIME READ PRINT SWITCH CASE DEFAULT IF ELIF ELSE FROM TO INC DEC MAX MIN NUM PLUS MINUS MUL DIV EQUAL NOTEQUAL GT GOE LT LOE STRING return_statement function_call function_list function main
 
 %type<stringValue> ID1 ID STRING_LITERAL
 
@@ -391,36 +393,26 @@ while_code: WHILE'(' bool_expression ')''{' code '}'{
 	*/
 	//CFG for if-elif-else structure
 	
-condition: IF'(' bool_expression ')''{'code'}' else_if elsee {
-	printf("\nIF condition detected");
-	int i = $3;
-	if(i==1){
-		printf("\nIF condition is true");
-	}
-	else{
-		printf("\nIF condition false");
-	}
-}
-	;
-else_if: ELIF '(' bool_expression ')' '{' code '}' else_if {
+condition: IF '(' bool_expression ')' '{' code '}' elsee {
         if($3 == 1) {
-            $$ = $6;  // Use value from if block
-            printf("\nELIF condition true");
+            $$ = $6;  // Execute if block
         } else {
-            $$ = $8;  // Use value from next else_if
-            printf("\nELIF condition false");
+            $$ = $8;  // Execute else block
         }
-    }
-    | /* empty */ { 
-        $$ = 0;  // Return 0 for no elif
     }
     ;
 elsee: ELSE '{' code '}' {
-        $$ = $3;  // Return value from else block
-        printf("\nELSE condition is detected");
+        $$ = $3;  // Simply return the else block's value
     }
-    | /* empty */ { 
-        $$ = 0;  // Return 0 for no else
+    | ELIF '(' bool_expression ')' '{' code '}' elsee {
+        if($3 == 1) {
+            $$ = $6;  // Execute elif block
+        } else {
+            $$ = $8;  // Try next elif/else
+        }
+    }
+    | /* empty */ {
+        $$ = 0;
     }
     ;
 	

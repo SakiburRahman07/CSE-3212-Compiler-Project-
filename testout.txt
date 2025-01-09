@@ -106,14 +106,115 @@ Variable value--> 6.000000
 Single line comment detected. 
 
 Variable name--> ab, Value--> 6.000000
----------------------If-Else Test------------------
-Variable value--> 24.000000
-Variable name--> ab, Value--> 24.000000
-Variable value--> 240.000000
-Variable name--> ab, Value--> 240.000000
-ELSE condition is detected
-IF condition detected
-IF condition is true
+---------------------Enhanced If-Else Test------------------
+Variable type--> Integer
+Valid declaration
+Variable name--> test_var
+Variable value--> 5
+Single line comment detected. 
+
+Variable value--> 15
+Single line comment detected. 
+
+Variable name--> test_var, Value--> 15
+Single line comment detected. 
+
+Single line comment detected. 
+
+Variable value--> 30
+Single line comment detected. 
+
+Variable value--> 35
+Single line comment detected. 
+
+Variable name--> test_var, Value--> 35
+Single line comment detected. 
+
+er vitore duklo keno
+Variable value--> 17
+Single line comment detected. 
+
+Variable name--> test_var, Value--> 17
+Single line comment detected. 
+
+Variable value--> 289
+Single line comment detected. 
+
+Variable name--> test_var, Value--> 289
+Single line comment detected. 
+
+Single line comment detected. 
+
+Variable type--> Float
+Valid declaration
+Variable name--> calc_var
+Variable value--> 10.500000
+Variable value--> 242.240372
+Variable name--> calc_var, Value--> 242.240372
+Single line comment detected. 
+
+Variable type--> Integer
+Valid declaration
+Variable name--> counter
+Variable value--> 1
+Variable value--> 2
+Variable name--> counter, Value--> 2
+Variable value--> 4
+Variable name--> counter, Value--> 4
+Single line comment detected. 
+
+Variable type--> Float
+Valid declaration
+Variable name--> angle
+Variable value--> 1.570800
+Single line comment detected. 
+
+Variable value--> 0.546299
+Variable name--> angle, Value--> 0.546299
+Single line comment detected. 
+
+Variable type--> Integer
+Valid declaration
+Variable name--> mod_var
+Variable value--> 17
+Variable value--> 2
+Variable name--> mod_var, Value--> 2
+Single line comment detected. 
+
+Variable type--> String
+Valid declaration
+Variable name--> str1
+Valid declaration
+Variable name--> str2
+Assigning string value: Hello
+Assigning string value: World
+Strings are different
+Single line comment detected. 
+
+Variable type--> Integer
+Variable is already used
+Valid declaration
+Variable name--> b
+Variable is already used
+Variable value--> 5
+Variable value--> 10
+Assigning character value: 
+Assigning character value: 
+Variable name--> c, Value--> 
+Assigning character value: 
+Variable name--> c, Value--> 
+Single line comment detected. 
+
+Variable type--> Integer
+Valid declaration
+Variable name--> iterator
+Variable value--> 0
+Variable value--> 1
+Variable name--> iterator, Value--> 1
+Variable value--> 2
+Variable name--> iterator, Value--> 2
+Variable value--> 3
+Variable name--> iterator, Value--> 3
 ---------------------Read Function Test------------------
 Variable type--> Integer
 Valid declaration
@@ -125,12 +226,8 @@ Variable value--> 100
 Variable name--> aa, Value--> 100
 Variable value--> 200
 Variable name--> aa, Value--> 200
-ELIF condition false
 Variable value--> 600
 Variable name--> aa, Value--> 600
-ELSE condition is detected
-IF condition detected
-IF condition false
 ---------------------Built-in Functions Test------------------
 Power function value--> 256 
 Variable type--> Integer
@@ -138,10 +235,10 @@ Valid declaration
 Variable name--> ax
 Valid declaration
 Variable name--> bx
-Variable value--> 7920
+Variable value--> 198
 Variable value--> 20
 Min value is--> 20
-Max value is--> 7920
+Max value is--> 198
 0
 Factorial of 5 is 120
 ---------------------For Loop Test------------------
@@ -153,7 +250,7 @@ Variable name--> b1
 Variable is already used
 Variable is already used
 Variable value--> 1.000000
-Variable name--> ax, Value--> 7920
+Variable name--> ax, Value--> 198
 For loop detected
 ---------------------Switch Case Test------------------
 Variable type--> Character
@@ -167,11 +264,6 @@ Variable value--> 30
 Variable value--> 20
 Variable name--> a1, Value--> 20
 Variable name--> b1, Value--> 30
-ELSE condition is detected
-IF condition detected
-IF condition false
-IF condition detected
-IF condition is true
 Variable name--> a1, Value--> 20
 Case no--> 0
 Variable name--> b1, Value--> 30
@@ -202,62 +294,32 @@ Single line comment detected.
 
 ---------------------Basic Comparisons------------------
 Equal operator works: x1 == x2
-IF condition detected
-IF condition is true
 Not equal operator works: x1 != x3
-IF condition detected
-IF condition is true
 Less than operator works: x1 < x3
-IF condition detected
-IF condition is true
 Greater than operator works: x3 > x1
-IF condition detected
-IF condition is true
 Less than or equal works: x1 <= x2
-IF condition detected
-IF condition is true
 Greater than or equal works: x3 >= x1
 Single line comment detected. 
 
-IF condition detected
-IF condition is true
 ---------------------Logical Operators------------------
 Logical AND works: (x1 == x2 && x2 < x3)
-IF condition detected
-IF condition is true
 Logical OR works: (x1 > x3 || x1 == x2)
-IF condition detected
-IF condition is true
 Logical NOT works: !(x1 > x3)
 Single line comment detected. 
 
-IF condition detected
-IF condition is true
 ---------------------Type Comparisons------------------
 Strict equality works for same type (int === int)
-IF condition detected
-IF condition is true
 This shouldn't print: different types (int === float)
-IF condition detected
-IF condition false
 Strict inequality works for different types (int !== float)
 Single line comment detected. 
 
-IF condition detected
-IF condition is true
 ---------------------Alternative Operators------------------
 Alternative not equal works: x1 <> x3
 Single line comment detected. 
 
-IF condition detected
-IF condition is true
 ---------------------Complex Conditions------------------
 Complex condition works: ((x1 == x2 && f1 < f2) || !(x3 < x1))
-IF condition detected
-IF condition is true
 Nested condition works
-IF condition detected
-IF condition is true
 Valid program
 
-No of variables--> 20
+No of variables--> 29

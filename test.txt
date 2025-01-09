@@ -80,14 +80,112 @@ start() {
     ab--;         # Should be 6
     print(ab);
     
-    print("---------------------If-Else Test------------------");
-    if(ab<var){
-        ab = ab*4;
-        print(ab);
+    print("---------------------Enhanced If-Else Test------------------");
+    int test_var;
+    test_var = 5;
+    
+    # Test arithmetic operations in if block
+    if(test_var > 4) {
+        test_var = test_var + 10;  # Basic addition
+        print(test_var);           # Should print 15
     }
-    otherwise{
-        ab = ab*10;
-        print(ab);
+    
+    # Test multiple operations in if-else
+    if(test_var >= 15) {
+        test_var = test_var * 2;   # Multiplication
+        test_var = test_var + 5;   # Addition
+        print(test_var);           # Should print 35
+    } otherwise {
+        print("er vitore duklo keno");
+        test_var = test_var / 2;   # Division
+        print(test_var);
+    }
+    
+    # Test nested arithmetic and conditions
+    if(test_var > 30 && test_var < 40) {
+        test_var = test_var ^ 2;   # Power operation
+        print(test_var);           # Should print 1225
+    }
+    
+    # Test complex arithmetic expressions
+    float calc_var;
+    calc_var = 10.5;
+    
+    if(calc_var < 20.0) {
+        calc_var = sqrt(calc_var) + abs(test_var - 50);
+        print(calc_var);
+    }
+    
+    # Test increment/decrement in conditions
+    int counter;
+    counter = 1;
+    
+    if(counter < 5) {
+        counter++;
+        print(counter);
+        if(counter < 3) {
+            counter = counter * 2;
+            print(counter);
+        }
+    }
+    
+    # Test mathematical functions in conditions
+    float angle;
+    angle = 1.5708;  # π/2
+    
+    if(sin(angle) > 0.9) {
+        angle = cos(angle) + tan(0.5);
+        print(angle);
+    }
+    
+    # Test modulo and complex expressions
+    int mod_var;
+    mod_var = 17;
+    
+    if(mod_var % 2 == 1) {
+        mod_var = (mod_var * 3 + 1) % 10;
+        print(mod_var);
+    }
+    
+    # Test string comparisons and operations
+    string str1, str2;
+    str1 = "Hello";
+    str2 = "World";
+    
+    if(str1 != str2) {
+        print("Strings are different");
+    }
+    
+    # Test combined arithmetic and logical operations
+    int a, b, c;
+    a = 5;
+    b = 10;
+    c = 15;
+    
+    if((a + b) > c || (b * 2) == c) {
+        c = (a + b) * 2;
+        print(c);
+        if(c % a == 0) {
+            c = c / a;
+            print(c);
+        }
+    }
+    
+    # Test loop-like behavior using if
+    int iterator;
+    iterator = 0;
+    
+    if(iterator < 3) {
+        iterator++;
+        print(iterator);
+        if(iterator < 3) {
+            iterator++;
+            print(iterator);
+            if(iterator < 3) {
+                iterator++;
+                print(iterator);
+            }
+        }
     }
 
     print("---------------------Read Function Test------------------");
