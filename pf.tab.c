@@ -164,10 +164,18 @@
 
 	int code_result = 0;  // To store code block execution results
 
+	// Add this to the global declarations at the top
+	struct function_result {
+	    char name[50];
+	    double value;
+	} function_results[100];
+
+	int result_count = 0;
+
 
 
 /* Line 189 of yacc.c  */
-#line 171 "pf.tab.c"
+#line 179 "pf.tab.c"
 
 /* Enabling traces.  */
 #ifndef YYDEBUG
@@ -259,7 +267,7 @@ typedef union YYSTYPE
 {
 
 /* Line 214 of yacc.c  */
-#line 98 "pf.y"
+#line 106 "pf.y"
 
 	double val;
 	char* stringValue;
@@ -267,7 +275,7 @@ typedef union YYSTYPE
 
 
 /* Line 214 of yacc.c  */
-#line 271 "pf.tab.c"
+#line 279 "pf.tab.c"
 } YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
@@ -279,7 +287,7 @@ typedef union YYSTYPE
 
 
 /* Line 264 of yacc.c  */
-#line 283 "pf.tab.c"
+#line 291 "pf.tab.c"
 
 #ifdef short
 # undef short
@@ -611,15 +619,15 @@ static const yytype_int8 yyrhs[] =
 /* YYRLINE[YYN] -- source line where rule number YYN was defined.  */
 static const yytype_uint16 yyrline[] =
 {
-       0,   129,   129,   134,   142,   145,   150,   153,   158,   168,
-     173,   174,   175,   176,   177,   178,   179,   180,   181,   182,
-     183,   184,   185,   186,   187,   190,   204,   213,   232,   248,
-     280,   312,   334,   342,   350,   354,   357,   361,   365,   369,
-     408,   463,   471,   474,   481,   488,   490,   491,   492,   494,
-     495,   503,   511,   514,   516,   517,   525,   526,   534,   535,
-     536,   537,   552,   556,   559,   562,   565,   568,   575,   582,
-     589,   596,   603,   610,   617,   624,   634,   655,   656,   657,
-     658,   660,   671,   686,   707,   725,   743,   762
+       0,   137,   137,   142,   150,   153,   158,   161,   166,   189,
+     195,   196,   197,   198,   199,   200,   201,   202,   203,   204,
+     205,   206,   207,   208,   209,   212,   227,   236,   255,   271,
+     303,   335,   357,   365,   373,   377,   380,   384,   388,   392,
+     431,   486,   494,   497,   504,   511,   513,   514,   515,   517,
+     518,   526,   534,   537,   539,   540,   548,   549,   557,   558,
+     559,   560,   575,   579,   582,   585,   588,   591,   598,   605,
+     612,   619,   626,   633,   640,   647,   657,   678,   679,   680,
+     681,   683,   694,   709,   730,   748,   766,   785
 };
 #endif
 
@@ -1682,7 +1690,7 @@ yyreduce:
         case 2:
 
 /* Line 1455 of yacc.c  */
-#line 129 "pf.y"
+#line 137 "pf.y"
     {
             printf("\nValid program\n");
             printf("\nNo of variables--> %d", no_var);
@@ -1693,7 +1701,7 @@ yyreduce:
   case 3:
 
 /* Line 1455 of yacc.c  */
-#line 134 "pf.y"
+#line 142 "pf.y"
     {
             printf("\nValid program\n");
             printf("\nNo of variables--> %d", no_var);
@@ -1704,7 +1712,7 @@ yyreduce:
   case 4:
 
 /* Line 1455 of yacc.c  */
-#line 142 "pf.y"
+#line 150 "pf.y"
     {
     (yyval.val) = (yyvsp[(3) - (4)].val);  // Pass up the value from code
 ;}
@@ -1713,7 +1721,7 @@ yyreduce:
   case 5:
 
 /* Line 1455 of yacc.c  */
-#line 145 "pf.y"
+#line 153 "pf.y"
     {  // Add this rule to handle ()
     (yyval.val) = (yyvsp[(5) - (6)].val);
 ;}
@@ -1722,7 +1730,7 @@ yyreduce:
   case 6:
 
 /* Line 1455 of yacc.c  */
-#line 150 "pf.y"
+#line 158 "pf.y"
     {
         (yyval.val) = (yyvsp[(2) - (2)].val);
     ;}
@@ -1731,7 +1739,7 @@ yyreduce:
   case 7:
 
 /* Line 1455 of yacc.c  */
-#line 153 "pf.y"
+#line 161 "pf.y"
     {
         (yyval.val) = (yyvsp[(1) - (1)].val);
     ;}
@@ -1740,143 +1748,158 @@ yyreduce:
   case 8:
 
 /* Line 1455 of yacc.c  */
-#line 158 "pf.y"
+#line 166 "pf.y"
     {
-            if (func_count < 100) {
-                strcpy(functions[func_count].func_name, (yyvsp[(2) - (8)].stringValue));
-                functions[func_count].return_value = (yyvsp[(7) - (8)].val);
-                func_count++;
-                printf("\nFunction defined: %s", (yyvsp[(2) - (8)].stringValue));
-            }
-        ;}
+    if (func_count < 100) {
+        // Check if function already exists
+        if (get_function_index((yyvsp[(2) - (8)].stringValue)) != -1) {
+            printf("\nError: Function %s already defined", (yyvsp[(2) - (8)].stringValue));
+        } else {
+            strcpy(functions[func_count].func_name, (yyvsp[(2) - (8)].stringValue));
+            functions[func_count].return_value = (yyvsp[(7) - (8)].val);
+            
+            // Store the function result
+            strcpy(function_results[result_count].name, (yyvsp[(2) - (8)].stringValue));
+            function_results[result_count].value = (yyvsp[(7) - (8)].val);
+            
+            // Increment both counters
+            func_count++;
+            result_count++;
+            
+            printf("\nFunction defined: %s with return value: %f", (yyvsp[(2) - (8)].stringValue), (yyvsp[(7) - (8)].val));
+        }
+    }
+;}
     break;
 
   case 9:
 
 /* Line 1455 of yacc.c  */
-#line 168 "pf.y"
+#line 189 "pf.y"
     {
-            (yyval.val) = (yyvsp[(2) - (3)].val);
-        ;}
+    (yyval.val) = (yyvsp[(2) - (3)].val);
+    printf("\nFunction returning value: %f", (yyvsp[(2) - (3)].val));
+;}
     break;
 
   case 10:
 
 /* Line 1455 of yacc.c  */
-#line 173 "pf.y"
+#line 195 "pf.y"
     { (yyval.val) = (yyvsp[(1) - (2)].val); ;}
     break;
 
   case 11:
 
 /* Line 1455 of yacc.c  */
-#line 174 "pf.y"
+#line 196 "pf.y"
     { (yyval.val) = (yyvsp[(1) - (2)].val); ;}
     break;
 
   case 12:
 
 /* Line 1455 of yacc.c  */
-#line 175 "pf.y"
+#line 197 "pf.y"
     { (yyval.val) = (yyvsp[(1) - (2)].val); ;}
     break;
 
   case 13:
 
 /* Line 1455 of yacc.c  */
-#line 176 "pf.y"
+#line 198 "pf.y"
     { (yyval.val) = (yyvsp[(1) - (2)].val); ;}
     break;
 
   case 14:
 
 /* Line 1455 of yacc.c  */
-#line 177 "pf.y"
+#line 199 "pf.y"
     { (yyval.val) = (yyvsp[(1) - (2)].val); ;}
     break;
 
   case 15:
 
 /* Line 1455 of yacc.c  */
-#line 178 "pf.y"
+#line 200 "pf.y"
     { (yyval.val) = (yyvsp[(1) - (2)].val); ;}
     break;
 
   case 16:
 
 /* Line 1455 of yacc.c  */
-#line 179 "pf.y"
+#line 201 "pf.y"
     { (yyval.val) = (yyvsp[(1) - (2)].val); ;}
     break;
 
   case 17:
 
 /* Line 1455 of yacc.c  */
-#line 180 "pf.y"
+#line 202 "pf.y"
     { (yyval.val) = (yyvsp[(1) - (2)].val); ;}
     break;
 
   case 18:
 
 /* Line 1455 of yacc.c  */
-#line 181 "pf.y"
+#line 203 "pf.y"
     { (yyval.val) = (yyvsp[(1) - (2)].val); ;}
     break;
 
   case 19:
 
 /* Line 1455 of yacc.c  */
-#line 182 "pf.y"
+#line 204 "pf.y"
     { (yyval.val) = (yyvsp[(1) - (2)].val); ;}
     break;
 
   case 20:
 
 /* Line 1455 of yacc.c  */
-#line 183 "pf.y"
+#line 205 "pf.y"
     { (yyval.val) = (yyvsp[(1) - (2)].val); ;}
     break;
 
   case 21:
 
 /* Line 1455 of yacc.c  */
-#line 184 "pf.y"
+#line 206 "pf.y"
     { (yyval.val) = (yyvsp[(1) - (2)].val); ;}
     break;
 
   case 22:
 
 /* Line 1455 of yacc.c  */
-#line 185 "pf.y"
+#line 207 "pf.y"
     { (yyval.val) = (yyvsp[(1) - (2)].val); ;}
     break;
 
   case 23:
 
 /* Line 1455 of yacc.c  */
-#line 186 "pf.y"
+#line 208 "pf.y"
     { (yyval.val) = (yyvsp[(1) - (2)].val); ;}
     break;
 
   case 24:
 
 /* Line 1455 of yacc.c  */
-#line 187 "pf.y"
+#line 209 "pf.y"
     { (yyval.val) = 0; ;}
     break;
 
   case 25:
 
 /* Line 1455 of yacc.c  */
-#line 190 "pf.y"
+#line 212 "pf.y"
     {
     int idx = get_function_index((yyvsp[(1) - (4)].stringValue));
     if(idx != -1) {
-        printf("\nFunction called: %s", functions[idx].func_name);
-        (yyval.val) = functions[idx].return_value;  // Set the return value
+        printf("\nFunction %s called and returned: %f", 
+               functions[idx].func_name, functions[idx].return_value);
+        (yyval.val) = functions[idx].return_value;
     } else {
-        yyerror("Function not defined");
-        (yyval.val) = 0;  // Default value on error
+        printf("\nError: Function %s not defined", (yyvsp[(1) - (4)].stringValue));
+        (yyval.val) = 0;
     }
 ;}
     break;
@@ -1884,7 +1907,7 @@ yyreduce:
   case 26:
 
 /* Line 1455 of yacc.c  */
-#line 204 "pf.y"
+#line 227 "pf.y"
     {		
 	int i;
 	i = pow((yyvsp[(3) - (7)].val), (yyvsp[(5) - (7)].val));
@@ -1895,7 +1918,7 @@ yyreduce:
   case 27:
 
 /* Line 1455 of yacc.c  */
-#line 213 "pf.y"
+#line 236 "pf.y"
     {
 	int j = (yyvsp[(3) - (5)].val);
 	int i, result;
@@ -1916,7 +1939,7 @@ yyreduce:
   case 28:
 
 /* Line 1455 of yacc.c  */
-#line 232 "pf.y"
+#line 255 "pf.y"
     {
 	int n, i, flag = 0;
 	n = (yyvsp[(3) - (5)].val);
@@ -1934,7 +1957,7 @@ yyreduce:
   case 29:
 
 /* Line 1455 of yacc.c  */
-#line 248 "pf.y"
+#line 271 "pf.y"
     {
 	int i = get_var_index((yyvsp[(3) - (7)].stringValue));
 	int j = get_var_index((yyvsp[(5) - (7)].stringValue));
@@ -1968,7 +1991,7 @@ yyreduce:
   case 30:
 
 /* Line 1455 of yacc.c  */
-#line 280 "pf.y"
+#line 303 "pf.y"
     {
 	int i = get_var_index((yyvsp[(3) - (7)].stringValue));
 	int j = get_var_index((yyvsp[(5) - (7)].stringValue));
@@ -2002,7 +2025,7 @@ yyreduce:
   case 31:
 
 /* Line 1455 of yacc.c  */
-#line 312 "pf.y"
+#line 335 "pf.y"
     {
     int i = get_var_index((yyvsp[(3) - (5)].stringValue));
     if(i == -1) {
@@ -2030,7 +2053,7 @@ yyreduce:
   case 32:
 
 /* Line 1455 of yacc.c  */
-#line 334 "pf.y"
+#line 357 "pf.y"
     {
     printf("\n%s", (yyvsp[(3) - (5)].stringValue));
     (yyval.val) = 1;
@@ -2040,7 +2063,7 @@ yyreduce:
   case 33:
 
 /* Line 1455 of yacc.c  */
-#line 342 "pf.y"
+#line 365 "pf.y"
     {
 	int i = get_var_index((yyvsp[(3) - (5)].stringValue));
 	printf("\nRead command found for variabale--> %s, but no further implementaion\n",variable[i].var_name);
@@ -2050,7 +2073,7 @@ yyreduce:
   case 34:
 
 /* Line 1455 of yacc.c  */
-#line 350 "pf.y"
+#line 373 "pf.y"
     {
 	printf("\nSwitch-case structure detected.");
 ;}
@@ -2059,7 +2082,7 @@ yyreduce:
   case 36:
 
 /* Line 1455 of yacc.c  */
-#line 357 "pf.y"
+#line 380 "pf.y"
     {
         printf("\nCase no--> %d", (yyvsp[(2) - (6)].val));
         (yyval.val) = (yyvsp[(4) - (6)].val);
@@ -2069,7 +2092,7 @@ yyreduce:
   case 37:
 
 /* Line 1455 of yacc.c  */
-#line 361 "pf.y"
+#line 384 "pf.y"
     {
         (yyval.val) = 0;  // Add action for empty rule
     ;}
@@ -2078,7 +2101,7 @@ yyreduce:
   case 39:
 
 /* Line 1455 of yacc.c  */
-#line 369 "pf.y"
+#line 392 "pf.y"
     {
     printf("\nFor loop detected");
     int ii = get_var_index((yyvsp[(2) - (9)].stringValue));
@@ -2123,7 +2146,7 @@ yyreduce:
   case 40:
 
 /* Line 1455 of yacc.c  */
-#line 408 "pf.y"
+#line 431 "pf.y"
     {
     printf("\nFor loop detected");
     int ii = get_var_index((yyvsp[(2) - (9)].stringValue));
@@ -2168,7 +2191,7 @@ yyreduce:
   case 41:
 
 /* Line 1455 of yacc.c  */
-#line 463 "pf.y"
+#line 486 "pf.y"
     {
         if((yyvsp[(3) - (8)].val) == 1) {
             (yyval.val) = (yyvsp[(6) - (8)].val);  // Execute if block
@@ -2181,7 +2204,7 @@ yyreduce:
   case 42:
 
 /* Line 1455 of yacc.c  */
-#line 471 "pf.y"
+#line 494 "pf.y"
     {
         (yyval.val) = (yyvsp[(3) - (4)].val);  // Simply return the else block's value
     ;}
@@ -2190,7 +2213,7 @@ yyreduce:
   case 43:
 
 /* Line 1455 of yacc.c  */
-#line 474 "pf.y"
+#line 497 "pf.y"
     {
         if((yyvsp[(3) - (8)].val) == 1) {
             (yyval.val) = (yyvsp[(6) - (8)].val);  // Execute elif block
@@ -2203,7 +2226,7 @@ yyreduce:
   case 44:
 
 /* Line 1455 of yacc.c  */
-#line 481 "pf.y"
+#line 504 "pf.y"
     {
         (yyval.val) = 0;
     ;}
@@ -2212,42 +2235,42 @@ yyreduce:
   case 45:
 
 /* Line 1455 of yacc.c  */
-#line 488 "pf.y"
+#line 511 "pf.y"
     {(yyval.val) = (yyvsp[(1) - (1)].val);;}
     break;
 
   case 46:
 
 /* Line 1455 of yacc.c  */
-#line 490 "pf.y"
+#line 513 "pf.y"
     {(yyval.val) = (yyvsp[(1) - (3)].val) + (yyvsp[(3) - (3)].val); ;}
     break;
 
   case 47:
 
 /* Line 1455 of yacc.c  */
-#line 491 "pf.y"
+#line 514 "pf.y"
     {(yyval.val) = (yyvsp[(1) - (3)].val) - (yyvsp[(3) - (3)].val);;}
     break;
 
   case 48:
 
 /* Line 1455 of yacc.c  */
-#line 492 "pf.y"
+#line 515 "pf.y"
     {(yyval.val) = (yyvsp[(1) - (1)].val);;}
     break;
 
   case 49:
 
 /* Line 1455 of yacc.c  */
-#line 494 "pf.y"
+#line 517 "pf.y"
     {(yyval.val) = (yyvsp[(1) - (3)].val) * (yyvsp[(3) - (3)].val);;}
     break;
 
   case 50:
 
 /* Line 1455 of yacc.c  */
-#line 495 "pf.y"
+#line 518 "pf.y"
     {
         if((yyvsp[(3) - (3)].val) != 0) {
             (yyval.val) = (yyvsp[(1) - (3)].val) / (yyvsp[(3) - (3)].val);
@@ -2261,7 +2284,7 @@ yyreduce:
   case 51:
 
 /* Line 1455 of yacc.c  */
-#line 503 "pf.y"
+#line 526 "pf.y"
     {
         if((yyvsp[(3) - (3)].val) != 0) {
             (yyval.val) = fmod((yyvsp[(1) - (3)].val), (yyvsp[(3) - (3)].val));
@@ -2275,7 +2298,7 @@ yyreduce:
   case 52:
 
 /* Line 1455 of yacc.c  */
-#line 511 "pf.y"
+#line 534 "pf.y"
     {
         (yyval.val) = pow((yyvsp[(1) - (3)].val), (yyvsp[(3) - (3)].val));
     ;}
@@ -2284,21 +2307,21 @@ yyreduce:
   case 53:
 
 /* Line 1455 of yacc.c  */
-#line 514 "pf.y"
+#line 537 "pf.y"
     {(yyval.val) = (yyvsp[(1) - (1)].val);;}
     break;
 
   case 54:
 
 /* Line 1455 of yacc.c  */
-#line 516 "pf.y"
+#line 539 "pf.y"
     {(yyval.val) = (yyvsp[(2) - (3)].val);;}
     break;
 
   case 55:
 
 /* Line 1455 of yacc.c  */
-#line 517 "pf.y"
+#line 540 "pf.y"
     {
         if((yyvsp[(3) - (4)].val) >= 0) {
             (yyval.val) = sqrt((yyvsp[(3) - (4)].val));
@@ -2312,14 +2335,14 @@ yyreduce:
   case 56:
 
 /* Line 1455 of yacc.c  */
-#line 525 "pf.y"
+#line 548 "pf.y"
     { (yyval.val) = fabs((yyvsp[(3) - (4)].val)); ;}
     break;
 
   case 57:
 
 /* Line 1455 of yacc.c  */
-#line 526 "pf.y"
+#line 549 "pf.y"
     {
         if((yyvsp[(3) - (4)].val) > 0) {
             (yyval.val) = log((yyvsp[(3) - (4)].val));
@@ -2333,28 +2356,28 @@ yyreduce:
   case 58:
 
 /* Line 1455 of yacc.c  */
-#line 534 "pf.y"
+#line 557 "pf.y"
     { (yyval.val) = sin((yyvsp[(3) - (4)].val)); ;}
     break;
 
   case 59:
 
 /* Line 1455 of yacc.c  */
-#line 535 "pf.y"
+#line 558 "pf.y"
     { (yyval.val) = cos((yyvsp[(3) - (4)].val)); ;}
     break;
 
   case 60:
 
 /* Line 1455 of yacc.c  */
-#line 536 "pf.y"
+#line 559 "pf.y"
     { (yyval.val) = tan((yyvsp[(3) - (4)].val)); ;}
     break;
 
   case 61:
 
 /* Line 1455 of yacc.c  */
-#line 537 "pf.y"
+#line 560 "pf.y"
     {
         int id_index = get_var_index((yyvsp[(1) - (1)].stringValue));
         if(id_index == -1) {
@@ -2375,14 +2398,14 @@ yyreduce:
   case 62:
 
 /* Line 1455 of yacc.c  */
-#line 552 "pf.y"
+#line 575 "pf.y"
     {(yyval.val) = (yyvsp[(1) - (1)].val);;}
     break;
 
   case 63:
 
 /* Line 1455 of yacc.c  */
-#line 556 "pf.y"
+#line 579 "pf.y"
     {
         (yyval.val) = ((yyvsp[(1) - (3)].val) && (yyvsp[(3) - (3)].val)) ? 1 : 0;
     ;}
@@ -2391,7 +2414,7 @@ yyreduce:
   case 64:
 
 /* Line 1455 of yacc.c  */
-#line 559 "pf.y"
+#line 582 "pf.y"
     {
         (yyval.val) = ((yyvsp[(1) - (3)].val) || (yyvsp[(3) - (3)].val)) ? 1 : 0;
     ;}
@@ -2400,7 +2423,7 @@ yyreduce:
   case 65:
 
 /* Line 1455 of yacc.c  */
-#line 562 "pf.y"
+#line 585 "pf.y"
     {
         (yyval.val) = !(yyvsp[(2) - (2)].val) ? 1 : 0;
     ;}
@@ -2409,7 +2432,7 @@ yyreduce:
   case 66:
 
 /* Line 1455 of yacc.c  */
-#line 565 "pf.y"
+#line 588 "pf.y"
     {
         (yyval.val) = (yyvsp[(2) - (3)].val);
     ;}
@@ -2418,7 +2441,7 @@ yyreduce:
   case 67:
 
 /* Line 1455 of yacc.c  */
-#line 568 "pf.y"
+#line 591 "pf.y"
     {
         if((yyvsp[(1) - (3)].val) > (yyvsp[(3) - (3)].val)) {
             (yyval.val) = 1;
@@ -2431,7 +2454,7 @@ yyreduce:
   case 68:
 
 /* Line 1455 of yacc.c  */
-#line 575 "pf.y"
+#line 598 "pf.y"
     {
         if((yyvsp[(1) - (3)].val) < (yyvsp[(3) - (3)].val)) {
             (yyval.val) = 1;
@@ -2444,7 +2467,7 @@ yyreduce:
   case 69:
 
 /* Line 1455 of yacc.c  */
-#line 582 "pf.y"
+#line 605 "pf.y"
     {
         if((yyvsp[(1) - (3)].val) >= (yyvsp[(3) - (3)].val)) {
             (yyval.val) = 1;
@@ -2457,7 +2480,7 @@ yyreduce:
   case 70:
 
 /* Line 1455 of yacc.c  */
-#line 589 "pf.y"
+#line 612 "pf.y"
     {
         if((yyvsp[(1) - (3)].val) <= (yyvsp[(3) - (3)].val)) {
             (yyval.val) = 1;
@@ -2470,7 +2493,7 @@ yyreduce:
   case 71:
 
 /* Line 1455 of yacc.c  */
-#line 596 "pf.y"
+#line 619 "pf.y"
     {
         if((yyvsp[(1) - (3)].val)==(yyvsp[(3) - (3)].val)) {
             (yyval.val) = 1;
@@ -2483,7 +2506,7 @@ yyreduce:
   case 72:
 
 /* Line 1455 of yacc.c  */
-#line 603 "pf.y"
+#line 626 "pf.y"
     {
         if((yyvsp[(1) - (3)].val)==(yyvsp[(3) - (3)].val) && get_expression_type((yyvsp[(1) - (3)].val)) == get_expression_type((yyvsp[(3) - (3)].val))) {
             (yyval.val) = 1;
@@ -2496,7 +2519,7 @@ yyreduce:
   case 73:
 
 /* Line 1455 of yacc.c  */
-#line 610 "pf.y"
+#line 633 "pf.y"
     {
         if((yyvsp[(1) - (3)].val)!=(yyvsp[(3) - (3)].val) || get_expression_type((yyvsp[(1) - (3)].val)) != get_expression_type((yyvsp[(3) - (3)].val))) {
             (yyval.val) = 1;
@@ -2509,7 +2532,7 @@ yyreduce:
   case 74:
 
 /* Line 1455 of yacc.c  */
-#line 617 "pf.y"
+#line 640 "pf.y"
     {
         if((yyvsp[(1) - (3)].val)!=(yyvsp[(3) - (3)].val)) {
             (yyval.val) = 1;
@@ -2522,7 +2545,7 @@ yyreduce:
   case 75:
 
 /* Line 1455 of yacc.c  */
-#line 624 "pf.y"
+#line 647 "pf.y"
     {
         if((yyvsp[(1) - (3)].val)!=(yyvsp[(3) - (3)].val)) {
             (yyval.val) = 1;
@@ -2535,7 +2558,7 @@ yyreduce:
   case 76:
 
 /* Line 1455 of yacc.c  */
-#line 634 "pf.y"
+#line 657 "pf.y"
     {
     set_var_type((yyvsp[(1) - (3)].val));
     // Initialize variables based on type
@@ -2561,35 +2584,35 @@ yyreduce:
   case 77:
 
 /* Line 1455 of yacc.c  */
-#line 655 "pf.y"
+#line 678 "pf.y"
     {(yyval.val) = 1; printf("\nVariable type--> Integer");;}
     break;
 
   case 78:
 
 /* Line 1455 of yacc.c  */
-#line 656 "pf.y"
+#line 679 "pf.y"
     {(yyval.val) = 2; printf("\nVariable type--> Float");;}
     break;
 
   case 79:
 
 /* Line 1455 of yacc.c  */
-#line 657 "pf.y"
+#line 680 "pf.y"
     {(yyval.val) = 0; printf("\nVariable type--> Character");;}
     break;
 
   case 80:
 
 /* Line 1455 of yacc.c  */
-#line 658 "pf.y"
+#line 681 "pf.y"
     {(yyval.val) = 3; printf("\nVariable type--> String");;}
     break;
 
   case 81:
 
 /* Line 1455 of yacc.c  */
-#line 660 "pf.y"
+#line 683 "pf.y"
     {
     if(search_var((yyvsp[(3) - (3)].stringValue))==0){
         strcpy(variable[no_var].var_name, (yyvsp[(3) - (3)].stringValue));
@@ -2606,7 +2629,7 @@ yyreduce:
   case 82:
 
 /* Line 1455 of yacc.c  */
-#line 671 "pf.y"
+#line 694 "pf.y"
     {
     if(search_var((yyvsp[(1) - (1)].stringValue))==0){
         strcpy(variable[no_var].var_name, (yyvsp[(1) - (1)].stringValue));
@@ -2624,7 +2647,7 @@ yyreduce:
   case 83:
 
 /* Line 1455 of yacc.c  */
-#line 686 "pf.y"
+#line 709 "pf.y"
     {
     int i = get_var_index((yyvsp[(1) - (4)].stringValue));
     if(i == -1) {
@@ -2651,7 +2674,7 @@ yyreduce:
   case 84:
 
 /* Line 1455 of yacc.c  */
-#line 707 "pf.y"
+#line 730 "pf.y"
     {
     int i = get_var_index((yyvsp[(1) - (3)].stringValue));
     if(i == -1) {
@@ -2675,7 +2698,7 @@ yyreduce:
   case 85:
 
 /* Line 1455 of yacc.c  */
-#line 725 "pf.y"
+#line 748 "pf.y"
     {
     int i = get_var_index((yyvsp[(1) - (3)].stringValue));
     if(i == -1) {
@@ -2699,7 +2722,7 @@ yyreduce:
   case 86:
 
 /* Line 1455 of yacc.c  */
-#line 743 "pf.y"
+#line 766 "pf.y"
     {
     int i = get_var_index((yyvsp[(1) - (4)].stringValue));
     if(i == -1) {
@@ -2721,7 +2744,7 @@ yyreduce:
   case 87:
 
 /* Line 1455 of yacc.c  */
-#line 762 "pf.y"
+#line 785 "pf.y"
     {
     printf("\nWhile loop detected");
     int i = get_var_index((yyvsp[(3) - (9)].stringValue));  // Get variable index
@@ -2745,7 +2768,7 @@ yyreduce:
 
 
 /* Line 1455 of yacc.c  */
-#line 2749 "pf.tab.c"
+#line 2772 "pf.tab.c"
       default: break;
     }
   YY_SYMBOL_PRINT ("-> $$ =", yyr1[yyn], &yyval, &yyloc);
@@ -2957,7 +2980,7 @@ yyreturn:
 
 
 /* Line 1675 of yacc.c  */
-#line 782 "pf.y"
+#line 805 "pf.y"
 
 
 void yyerror(char *s)

@@ -93,6 +93,14 @@
 
 	int code_result = 0;  // To store code block execution results
 
+	// Add this to the global declarations at the top
+	struct function_result {
+	    char name[50];
+	    double value;
+	} function_results[100];
+
+	int result_count = 0;
+
 %}
 
 %union{
@@ -156,19 +164,33 @@ function_list: function_list function {
     ;
 
 function: FUNCTION ID '(' ')' '{' code return_statement '}' {
-            if (func_count < 100) {
-                strcpy(functions[func_count].func_name, $2);
-                functions[func_count].return_value = $7;
-                func_count++;
-                printf("\nFunction defined: %s", $2);
-            }
+    if (func_count < 100) {
+        // Check if function already exists
+        if (get_function_index($2) != -1) {
+            printf("\nError: Function %s already defined", $2);
+        } else {
+            strcpy(functions[func_count].func_name, $2);
+            functions[func_count].return_value = $7;
+            
+            // Store the function result
+            strcpy(function_results[result_count].name, $2);
+            function_results[result_count].value = $7;
+            
+            // Increment both counters
+            func_count++;
+            result_count++;
+            
+            printf("\nFunction defined: %s with return value: %f", $2, $7);
         }
-        ;
+    }
+}
+;
 
 return_statement: RETURN expression ';' {
-            $$ = $2;
-        }
-        ;
+    $$ = $2;
+    printf("\nFunction returning value: %f", $2);
+}
+;
 
 code: declaration code    { $$ = $1; }
     | assignment code     { $$ = $1; }
@@ -190,11 +212,12 @@ code: declaration code    { $$ = $1; }
 function_call: ID '(' ')' ';' {
     int idx = get_function_index($1);
     if(idx != -1) {
-        printf("\nFunction called: %s", functions[idx].func_name);
-        $$ = functions[idx].return_value;  // Set the return value
+        printf("\nFunction %s called and returned: %f", 
+               functions[idx].func_name, functions[idx].return_value);
+        $$ = functions[idx].return_value;
     } else {
-        yyerror("Function not defined");
-        $$ = 0;  // Default value on error
+        printf("\nError: Function %s not defined", $1);
+        $$ = 0;
     }
 }
 ;

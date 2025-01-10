@@ -1,9 +1,22 @@
 using std.h
 
 func add() {
-    int a;
-    a = 7 + 3;
-    return a;
+    int a, b;
+    a = 10;
+    b = 20;
+    return a + b;    # Should return 30
+}
+
+func multiply() {
+    int x;
+    x = 5 * 4;    # Should return 20
+    return x;
+}
+
+func square() {
+    float y;
+    y = 5.5 * 5.5;    # Should return 30.25
+    return y;
 }
 
 start() {
@@ -339,4 +352,9 @@ start() {
         print(w);
         w++;
     }
+
+    print("---------------------Enhanced Function Test------------------");
+    multiply();    # Should print: Function multiply called and returned: 20.000000
+    square();      # Should print: Function square called and returned: 30.250000
+    add();         # Should print: Function add called and returned: 30.000000
 }

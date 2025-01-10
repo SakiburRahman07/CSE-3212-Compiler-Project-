@@ -2,11 +2,32 @@ Header file detected.
 
 Variable type--> Integer
 Declared variable: a
+Declared variable: b
 Variable(s) declared and initialized
 Assigning value 10 to a
-Function defined: add
+Assigning value 20 to b
+Function returning value: 30.000000
+Single line comment detected. 
+
+Function defined: add with return value: 30.000000
+Variable type--> Integer
+Declared variable: x
+Variable(s) declared and initialized
+Assigning value 20 to x
+Single line comment detected. 
+
+Function returning value: 20.000000
+Function defined: multiply with return value: 20.000000
+Variable type--> Float
+Declared variable: y
+Variable(s) declared and initialized
+Assigning value 30.250000 to y
+Single line comment detected. 
+
+Function returning value: 30.250000
+Function defined: square with return value: 30.250000
 ---------------------Function Test------------------
-Function called: add
+Function add called and returned: 30.000000
 ---------------------Character Variable Test------------------
 Variable type--> Character
 Declared variable: c
@@ -21,11 +42,11 @@ Assigning string value: Hello World to str
 Printing variable str: Hello World
 ---------------------Mathematical Operations Test------------------
 Variable type--> Float
-Declared variable: x
-Declared variable: y
+Warning: Variable 'x' already declared
+Warning: Variable 'y' already declared
 Declared variable: z
 Variable(s) declared and initialized
-Assigning value 16.000000 to x
+Assigning value 16 to x
 ---------------------Power Operator Test------------------
 Assigning value 256.000000 to y
 Single line comment detected. 
@@ -42,37 +63,37 @@ Single line comment detected.
 
 Printing variable y: 4.000000
 ---------------------Absolute Value Function Test------------------
-Assigning value -10.000000 to x
+Assigning value -10 to x
 Assigning value 10.000000 to y
 Single line comment detected. 
 
 Printing variable y: 10.000000
 ---------------------Logarithm Function Test------------------
-Assigning value 2.718000 to x
+Assigning value 2 to x
 Single line comment detected. 
 
-Assigning value 0.999896 to y
+Assigning value 0.693147 to y
 Single line comment detected. 
 
-Printing variable y: 0.999896
+Printing variable y: 0.693147
 ---------------------Trigonometric Functions Test------------------
-Assigning value 1.570800 to x
+Assigning value 1 to x
 Single line comment detected. 
 
-Assigning value 1.000000 to y
+Assigning value 0.841471 to y
 Single line comment detected. 
 
-Printing variable y: 1.000000
-Assigning value -0.000004 to y
+Printing variable y: 0.841471
+Assigning value 0.540302 to y
 Single line comment detected. 
 
-Printing variable y: -0.000004
-Assigning value -276243.843750 to y
+Printing variable y: 0.540302
+Assigning value 1.557408 to y
 Single line comment detected. 
 
-Printing variable y: -276243.843750
+Printing variable y: 1.557408
 ---------------------Complex Expression Test------------------
-Assigning value 3.000000 to x
+Assigning value 3 to x
 Assigning value 4.000000 to y
 Assigning value 5.000000 to z
 Single line comment detected. 
@@ -189,7 +210,7 @@ Single line comment detected.
 
 Variable type--> Integer
 Warning: Variable 'a' already declared
-Declared variable: b
+Warning: Variable 'b' already declared
 Warning: Variable 'c' already declared
 Variable(s) declared and initialized
 Assigning value 5 to a
@@ -357,6 +378,16 @@ while Looping with w = 3
 while Looping with w = 4
 while Looping with w = 5
 While loop finished
+
+---------------------Enhanced Function Test------------------
+Function multiply called and returned: 20.000000
+Single line comment detected. 
+
+Function square called and returned: 30.250000
+Single line comment detected. 
+
+Function add called and returned: 30.000000
+Single line comment detected. 
 
 Valid program
 
