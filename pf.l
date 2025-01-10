@@ -42,6 +42,7 @@ STR \"[^\"]*\"
 "dec"	{return(DEC);}
 "max"	{return(MAX);}
 "min"	{return(MIN);}
+"while"  {return(WHILE);}
 
 "sqrt"  {return(SQRT);}
 "abs"   {return(ABS);}

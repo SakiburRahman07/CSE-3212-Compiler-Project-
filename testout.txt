@@ -264,6 +264,21 @@ Loop completed. Final value of i = 5
 Printing variable i: 5
 Single line comment detected. 
 
+---------------------Enhanced For Loop Test------------------
+Variable type--> Integer
+Warning: Variable 'counter' already declared
+Variable(s) declared and initialized
+Assigning value 1 to counter
+Printing variable counter: 1
+Single line comment detected. 
+
+For loop detected
+Starting loop with counter = 1 to 5 increment 1
+Loop iteration 1: counter = 1
+Loop iteration 2: counter = 2
+Loop iteration 3: counter = 3
+Loop iteration 4: counter = 4
+Loop completed. Final value of counter = 5
 ---------------------Switch Case Test------------------
 Variable type--> Character
 Declared variable: ff
@@ -329,6 +344,20 @@ Single line comment detected.
 ---------------------Complex Conditions------------------
 Complex condition works: ((x1 == x2 && f1 < f2) || !(x3 < x1))
 Nested condition works
+---------------------While Loop Test------------------
+Variable type--> Integer
+Declared variable: w
+Variable(s) declared and initialized
+Assigning value 1 to w
+Printing variable w: 1
+Incrementing w to 2
+While loop detected
+while Looping with w = 2
+while Looping with w = 3
+while Looping with w = 4
+while Looping with w = 5
+While loop finished
+
 Valid program
 
-No of variables--> 28
+No of variables--> 29

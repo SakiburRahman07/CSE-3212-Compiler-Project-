@@ -103,7 +103,7 @@
 	// Defining all the used tokens and precendences of the required ones.
 
 %error-verbose
-%token MAIN INT CHAR FLOAT POWER FACTO PRIME READ PRINT IF ELIF ELSE SWITCH CASE DEFAULT FROM TO INC DEC MAX MIN ID NUM PLUS MINUS MUL DIV EQUAL NOTEQUAL GT GOE LT LOE STRING STRING_LITERAL FUNCTION RETURN MOD POW SQRT ABS LOG SIN COS TAN INCREMENT DECREMENT AND OR NOT NEQ STRICT_EQUAL STRICT_NEQ
+%token MAIN INT CHAR FLOAT POWER FACTO PRIME READ PRINT IF ELIF ELSE SWITCH CASE DEFAULT FROM TO INC DEC MAX MIN ID NUM PLUS MINUS MUL DIV EQUAL NOTEQUAL GT GOE LT LOE STRING STRING_LITERAL FUNCTION RETURN MOD POW SQRT ABS LOG SIN COS TAN INCREMENT DECREMENT AND OR NOT NEQ STRICT_EQUAL STRICT_NEQ WHILE
 %left OR
 %left AND
 %right NOT
@@ -118,6 +118,7 @@
 	// Defining token type
 
 %type<val>prime_code factorial_code casenum_code default_code case_code switch_code e f t expression elsee bool_expression power_code min_code max_code declaration assignment condition for_code print_code read_code program code TYPE MAIN INT CHAR FLOAT POWER FACTO PRIME READ PRINT SWITCH CASE DEFAULT IF ELIF ELSE FROM TO INC DEC MAX MIN NUM PLUS MINUS MUL DIV EQUAL NOTEQUAL GT GOE LT LOE STRING return_statement function_call function_list function main
+%type<val>while_code
 
 %type<stringValue> ID1 ID STRING_LITERAL
 
@@ -173,6 +174,7 @@ code: declaration code    { $$ = $1; }
     | assignment code     { $$ = $1; }
     | condition code      { $$ = $1; }
     | for_code code       { $$ = $1; }
+    | while_code code     { $$ = $1; }
     | switch_code code    { $$ = $1; }
     | print_code code     { $$ = $1; }
     | read_code code      { $$ = $1; }
@@ -182,7 +184,7 @@ code: declaration code    { $$ = $1; }
     | min_code code       { $$ = $1; }
     | max_code code       { $$ = $1; }
     | function_call code  { $$ = $1; }
-    | /* empty */         { $$ = 0; }  // Add action for empty rule
+    | /* empty */         { $$ = 0; }
     ;
 
 function_call: ID '(' ')' ';' {
@@ -483,6 +485,73 @@ elsee: ELSE '{' code '}' {
 	
 	//CFG for evaluating boolian expression
 
+expression: e {$$ = $1;}
+    ;
+e: e PLUS f {$$ = $1 + $3; }
+    | e MINUS f {$$ = $1 - $3;}
+    | f      {$$ = $1;}
+    ;
+f: f MUL t {$$ = $1 * $3;}
+    | f DIV t {
+        if($3 != 0) {
+            $$ = $1 / $3;
+        } else {
+            yyerror("Division by zero");
+            $$ = 0;
+        }
+    }
+    | f MOD t {
+        if($3 != 0) {
+            $$ = fmod($1, $3);
+        } else {
+            yyerror("Modulo by zero");
+            $$ = 0;
+        }
+    }
+    | t POW f {
+        $$ = pow($1, $3);
+    }
+    | t      {$$ = $1;}
+    ;
+t: '(' e ')' {$$ = $2;}
+    | SQRT '(' e ')' {
+        if($3 >= 0) {
+            $$ = sqrt($3);
+        } else {
+            yyerror("Square root of negative number");
+            $$ = 0;
+        }
+    }
+    | ABS '(' e ')'  { $$ = fabs($3); }
+    | LOG '(' e ')'  {
+        if($3 > 0) {
+            $$ = log($3);
+        } else {
+            yyerror("Logarithm of non-positive number");
+            $$ = 0;
+        }
+    }
+    | SIN '(' e ')'  { $$ = sin($3); }
+    | COS '(' e ')'  { $$ = cos($3); }
+    | TAN '(' e ')'  { $$ = tan($3); }
+    | ID    {
+        int id_index = get_var_index($1);
+        if(id_index == -1) {
+        //	yyerror("VARIABLE DOESN'T EXIST");
+            $$ = 0;
+        } else {
+            if(variable[id_index].var_type == 0) {
+                $$ = (double)variable[id_index].value.cval;
+            } else if(variable[id_index].var_type == 1) {
+                $$ = variable[id_index].value.ival;
+            } else if(variable[id_index].var_type == 2) {
+                $$ = variable[id_index].value.fval;
+            }
+        }
+    }
+    | NUM  {$$ = $1;}
+    ;
+
 bool_expression: 
     bool_expression AND bool_expression {
         $$ = ($1 && $3) ? 1 : 0;
@@ -561,7 +630,7 @@ bool_expression:
     }
     ;
 
-	// CFG for variable declaration
+// CFG for variable declaration
 declaration: TYPE ID1 ';' {
     set_var_type($1);
     // Initialize variables based on type
@@ -689,72 +758,26 @@ assignment: ID '=' expression ';' {
 }
 ;
 
-expression: e {$$ = $1;}
-	;
-e: e PLUS f {$$ = $1 + $3; }
-	| e MINUS f {$$ = $1 - $3;}
-	| f      {$$ = $1;}
-	;
-f: f MUL t {$$ = $1 * $3;}
-	| f DIV t {
-		if($3 != 0) {
-			$$ = $1 / $3;
-		} else {
-			yyerror("Division by zero");
-			$$ = 0;
-		}
-	}
-	| f MOD t {
-		if($3 != 0) {
-			$$ = fmod($1, $3);
-		} else {
-			yyerror("Modulo by zero");
-			$$ = 0;
-		}
-	}
-	| t POW f {
-		$$ = pow($1, $3);
-	}
-	| t      {$$ = $1;}
-	;
-t: '(' e ')' {$$ = $2;}
-	| SQRT '(' e ')' {
-		if($3 >= 0) {
-			$$ = sqrt($3);
-		} else {
-			yyerror("Square root of negative number");
-			$$ = 0;
-		}
-	}
-	| ABS '(' e ')'  { $$ = fabs($3); }
-	| LOG '(' e ')'  {
-		if($3 > 0) {
-			$$ = log($3);
-		} else {
-			yyerror("Logarithm of non-positive number");
-			$$ = 0;
-		}
-	}
-	| SIN '(' e ')'  { $$ = sin($3); }
-	| COS '(' e ')'  { $$ = cos($3); }
-	| TAN '(' e ')'  { $$ = tan($3); }
-	| ID    {
-		int id_index = get_var_index($1);
-		if(id_index == -1) {
-		//	yyerror("VARIABLE DOESN'T EXIST");
-			$$ = 0;
-		} else {
-			if(variable[id_index].var_type == 0) {
-				$$ = (double)variable[id_index].value.cval;
-			} else if(variable[id_index].var_type == 1) {
-				$$ = variable[id_index].value.ival;
-			} else if(variable[id_index].var_type == 2) {
-				$$ = variable[id_index].value.fval;
-			}
-		}
-	}
-	| NUM  {$$ = $1;}
-	;
+// Finally the while_code rule that uses bool_expression
+while_code: WHILE '(' ID LOE NUM ')' '{' code '}' {
+    printf("\nWhile loop detected");
+    int i = get_var_index($3);  // Get variable index
+    int limit = $5;             // Get limit value
+    
+    if(i != -1) {
+        for(int j = variable[i].value.ival; j <= limit; j++) {
+            // Update the variable's value
+            variable[i].value.ival = j;
+            printf("\nwhile Looping with %s = %d", variable[i].var_name, j);
+            
+            // Execute code block
+            code_result = $8;
+        }
+    }
+    printf("\nWhile loop finished\n");
+    $$ = code_result;
+}
+;
 
 %%
 

@@ -226,6 +226,13 @@ start() {
     } 
     print(i);       # Should print final value (5)
 
+    print("---------------------Enhanced For Loop Test------------------");
+    int counter;
+    counter = 1;
+    from counter to 5 inc 1 {
+        print(counter);    # Should print values from 1 to 5
+    }
+
     print("---------------------Switch Case Test------------------");
     char ff;
     #ff = |abcd|;
@@ -323,5 +330,13 @@ start() {
     }
     if(x1 <= x2 && (x3 > x1 || f1 < f2) && !(x1 > x3)) {
         print("Nested condition works");
+    }
+
+    print("---------------------While Loop Test------------------");
+    int w;
+    w = 1;
+    while(w <= 5) {
+        print(w);
+        w++;
     }
 }
