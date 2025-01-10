@@ -389,6 +389,80 @@ Single line comment detected.
 Function add called and returned: 30.000000
 Single line comment detected. 
 
+---------------------Dictionary Test------------------
+Single line comment detected. 
+
+Variable type--> Dictionary
+Declared variable: d1
+Variable(s) declared and initialized
+Variable type--> Dictionary
+Declared variable: d2
+Variable(s) declared and initialized
+Single line comment detected. 
+
+Set value 10.000000 at index 0 in dictionary d1
+Set value 20.000000 at index 1 in dictionary d1
+Set value 30.000000 at index 2 in dictionary d1
+Single line comment detected. 
+
+Value at index 0 in dictionary d1: 10.000000
+Single line comment detected. 
+
+Value at index 1 in dictionary d1: 20.000000
+Single line comment detected. 
+
+Value at index 2 in dictionary d1: 30.000000
+Single line comment detected. 
+
+Single line comment detected. 
+
+Set value 40.000000 at index 0 in dictionary d2
+Set value 50.000000 at index 1 in dictionary d2
+Single line comment detected. 
+
+Size of dictionary d1: 3
+Single line comment detected. 
+
+Size of dictionary d2: 2
+Single line comment detected. 
+
+Single line comment detected. 
+
+Dictionaries are different (different sizes)
+Single line comment detected. 
+
+Single line comment detected. 
+
+Copied dictionary d1 to d2
+Dictionaries are same
+Single line comment detected. 
+
+Single line comment detected. 
+
+Concatenated dictionary d2 to d1
+Size of dictionary d1: 6
+Single line comment detected. 
+
+Single line comment detected. 
+
+Value at index 0 in dictionary d1: 10.000000
+Single line comment detected. 
+
+Value at index 1 in dictionary d1: 20.000000
+Single line comment detected. 
+
+Value at index 2 in dictionary d1: 30.000000
+Single line comment detected. 
+
+Value at index 3 in dictionary d1: 10.000000
+Single line comment detected. 
+
+Value at index 4 in dictionary d1: 20.000000
+Single line comment detected. 
+
+Value at index 5 in dictionary d1: 30.000000
+Single line comment detected. 
+
 Valid program
 
-No of variables--> 29
+No of variables--> 31

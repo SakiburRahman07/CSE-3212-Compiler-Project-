@@ -357,4 +357,46 @@ start() {
     multiply();    # Should print: Function multiply called and returned: 20.000000
     square();      # Should print: Function square called and returned: 30.250000
     add();         # Should print: Function add called and returned: 30.000000
+
+    print("---------------------Dictionary Test------------------");
+    # Dictionary declaration
+    dict d1;
+    dict d2;
+
+    # Set values in d1
+    set(d1, 0, 10);
+    set(d1, 1, 20);
+    set(d1, 2, 30);
+
+    # Print values from d1
+    get(d1, 0);    # Should print 10
+    get(d1, 1);    # Should print 20
+    get(d1, 2);    # Should print 30
+
+    # Set values in d2
+    set(d2, 0, 40);
+    set(d2, 1, 50);
+
+    # Get size
+    size(d1);    # Should print 3
+    size(d2);    # Should print 2
+
+    # Compare dictionaries
+    compare(d1, d2);    # Should print "different"
+
+    # Copy d1 to d2
+    copy(d1, d2);
+    compare(d1, d2);    # Should print "same"
+
+    # Concatenate d2 to d1
+    concat(d1, d2);
+    size(d1);    # Should print 6
+
+    # Print all values in d1
+    get(d1, 0);    # Should print 10
+    get(d1, 1);    # Should print 20
+    get(d1, 2);    # Should print 30
+    get(d1, 3);    # Should print 10
+    get(d1, 4);    # Should print 20
+    get(d1, 5);    # Should print 30
 }

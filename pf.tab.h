@@ -93,7 +93,14 @@
      STRICT_EQUAL = 309,
      STRICT_NEQ = 310,
      WHILE = 311,
-     UMINUS = 312
+     UMINUS = 312,
+     DICT = 313,
+     GET = 314,
+     SET = 315,
+     CONCAT = 316,
+     COPY = 317,
+     SIZE = 318,
+     COMPARE = 319
    };
 #endif
 
@@ -104,7 +111,7 @@ typedef union YYSTYPE
 {
 
 /* Line 1676 of yacc.c  */
-#line 106 "pf.y"
+#line 110 "pf.y"
 
 	double val;
 	char* stringValue;
@@ -112,7 +119,7 @@ typedef union YYSTYPE
 
 
 /* Line 1676 of yacc.c  */
-#line 116 "pf.tab.h"
+#line 123 "pf.tab.h"
 } YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */

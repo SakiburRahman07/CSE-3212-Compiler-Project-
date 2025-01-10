@@ -44,6 +44,14 @@ STR \"[^\"]*\"
 "min"	{return(MIN);}
 "while"  {return(WHILE);}
 
+"dict"    {return(DICT);}
+"get"     {return(GET);}
+"set"     {return(SET);}
+"concat"  {return(CONCAT);}
+"copy"    {return(COPY);}
+"size"    {return(SIZE);}
+"compare" {return(COMPARE);}
+
 "sqrt"  {return(SQRT);}
 "abs"   {return(ABS);}
 "log"   {return(LOG);}

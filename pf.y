@@ -22,6 +22,10 @@
 			float fval;
 			char cval;
 			char* sval;  // Add string value
+			struct {
+				double values[100];  // Array to store values
+				int size;           // Current size of array
+			} dict;
 		} value;
 	}variable[100];
 	
@@ -122,11 +126,13 @@
 %right POW
 %right UMINUS
 %right INCREMENT DECREMENT
+%token DICT GET SET CONCAT COPY SIZE COMPARE
 
 	// Defining token type
 
 %type<val>prime_code factorial_code casenum_code default_code case_code switch_code e f t expression elsee bool_expression power_code min_code max_code declaration assignment condition for_code print_code read_code program code TYPE MAIN INT CHAR FLOAT POWER FACTO PRIME READ PRINT SWITCH CASE DEFAULT IF ELIF ELSE FROM TO INC DEC MAX MIN NUM PLUS MINUS MUL DIV EQUAL NOTEQUAL GT GOE LT LOE STRING return_statement function_call function_list function main
 %type<val>while_code
+%type<val>dict_operation
 
 %type<stringValue> ID1 ID STRING_LITERAL
 
@@ -194,6 +200,7 @@ return_statement: RETURN expression ';' {
 
 code: declaration code    { $$ = $1; }
     | assignment code     { $$ = $1; }
+    | dict_operation code { $$ = $1; }
     | condition code      { $$ = $1; }
     | for_code code       { $$ = $1; }
     | while_code code     { $$ = $1; }
@@ -668,6 +675,11 @@ declaration: TYPE ID1 ';' {
                 variable[i].value.cval = '\0';
             } else if($1 == 3) { // STRING
                 variable[i].value.sval = strdup("");
+            } else if($1 == 4) { // DICTIONARY
+                variable[i].value.dict.size = 0;
+                for(int j = 0; j < 100; j++) {
+                    variable[i].value.dict.values[j] = 0;
+                }
             }
         }
     }
@@ -679,6 +691,10 @@ TYPE: INT	{$$ = 1; printf("\nVariable type--> Integer");}
 	| FLOAT	{$$ = 2; printf("\nVariable type--> Float");}
 	| CHAR	{$$ = 0; printf("\nVariable type--> Character");}
 	| STRING {$$ = 3; printf("\nVariable type--> String");}
+	| DICT {
+		$$ = 4;  // 4 for dictionary type
+		printf("\nVariable type--> Dictionary");
+	}
 	;
 ID1: ID1 ',' ID {
     if(search_var($3)==0){
@@ -801,6 +817,107 @@ while_code: WHILE '(' ID LOE NUM ')' '{' code '}' {
     $$ = code_result;
 }
 ;
+
+// Add dictionary operations
+dict_operation: 
+    // Set value at index
+    SET '(' ID ',' NUM ',' expression ')' ';' {
+        int i = get_var_index($3);
+        if(i != -1 && variable[i].var_type == 4) {
+            int index = (int)$5;
+            if(index >= 0 && index < 100) {
+                variable[i].value.dict.values[index] = $7;
+                if(index >= variable[i].value.dict.size) {
+                    variable[i].value.dict.size = index + 1;
+                }
+                printf("\nSet value %f at index %d in dictionary %s", $7, index, variable[i].var_name);
+            } else {
+                printf("\nError: Index out of bounds");
+            }
+        }
+        $$ = 0;
+    }
+    // Get value at index
+    | GET '(' ID ',' NUM ')' ';' {
+        int i = get_var_index($3);
+        if(i != -1 && variable[i].var_type == 4) {
+            int index = (int)$5;
+            if(index >= 0 && index < variable[i].value.dict.size) {
+                printf("\nValue at index %d in dictionary %s: %f", 
+                       index, variable[i].var_name, 
+                       variable[i].value.dict.values[index]);
+            } else {
+                printf("\nError: Index out of bounds");
+            }
+        }
+        $$ = 0;
+    }
+    // Concatenate two dictionaries
+    | CONCAT '(' ID ',' ID ')' ';' {
+        int i1 = get_var_index($3);
+        int i2 = get_var_index($5);
+        if(i1 != -1 && i2 != -1 && 
+           variable[i1].var_type == 4 && variable[i2].var_type == 4) {
+            int new_size = variable[i1].value.dict.size + variable[i2].value.dict.size;
+            if(new_size <= 100) {
+                for(int j = 0; j < variable[i2].value.dict.size; j++) {
+                    variable[i1].value.dict.values[variable[i1].value.dict.size + j] = 
+                        variable[i2].value.dict.values[j];
+                }
+                variable[i1].value.dict.size = new_size;
+                printf("\nConcatenated dictionary %s to %s", 
+                       variable[i2].var_name, variable[i1].var_name);
+            }
+        }
+        $$ = 0;
+    }
+    // Copy dictionary
+    | COPY '(' ID ',' ID ')' ';' {
+        int i1 = get_var_index($3);
+        int i2 = get_var_index($5);
+        if(i1 != -1 && i2 != -1 && 
+           variable[i1].var_type == 4 && variable[i2].var_type == 4) {
+            variable[i2].value.dict.size = variable[i1].value.dict.size;
+            for(int j = 0; j < variable[i1].value.dict.size; j++) {
+                variable[i2].value.dict.values[j] = variable[i1].value.dict.values[j];
+            }
+            printf("\nCopied dictionary %s to %s", 
+                   variable[i1].var_name, variable[i2].var_name);
+        }
+        $$ = 0;
+    }
+    // Get size of dictionary
+    | SIZE '(' ID ')' ';' {
+        int i = get_var_index($3);
+        if(i != -1 && variable[i].var_type == 4) {
+            printf("\nSize of dictionary %s: %d", 
+                   variable[i].var_name, variable[i].value.dict.size);
+        }
+        $$ = 0;
+    }
+    // Compare dictionaries
+    | COMPARE '(' ID ',' ID ')' ';' {
+        int i1 = get_var_index($3);
+        int i2 = get_var_index($5);
+        if(i1 != -1 && i2 != -1 && 
+           variable[i1].var_type == 4 && variable[i2].var_type == 4) {
+            if(variable[i1].value.dict.size != variable[i2].value.dict.size) {
+                printf("\nDictionaries are different (different sizes)");
+            } else {
+                int same = 1;
+                for(int j = 0; j < variable[i1].value.dict.size; j++) {
+                    if(variable[i1].value.dict.values[j] != 
+                       variable[i2].value.dict.values[j]) {
+                        same = 0;
+                        break;
+                    }
+                }
+                printf("\nDictionaries are %s", same ? "same" : "different");
+            }
+        }
+        $$ = 0;
+    }
+    ;
 
 %%
 
