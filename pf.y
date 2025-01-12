@@ -26,6 +26,16 @@
 				double values[100];  // Array to store values
 				int size;           // Current size of array
 			} dict;
+			struct {
+				double values[100];  // Array to store stack values
+				int top;            // Top of stack
+			} stack;
+			struct {
+				double values[100];  // Array to store queue values
+				int front;          // Front of queue
+				int rear;           // Rear of queue
+				int size;           // Current size of queue
+			} queue;
 		} value;
 	}variable[100];
 	
@@ -94,6 +104,8 @@
 	}
 	
 	int if_executed = 0;  // Global flag to track if any if/elif block was executed
+	int first_true_printed = 0;  // Flag to track if we've printed a true block message
+	int nesting_level = 0;  // Track nesting level of if blocks
 
 	int code_result = 0;  // To store code block execution results
 
@@ -104,6 +116,112 @@
 	} function_results[100];
 
 	int result_count = 0;
+
+	int conditionMatched = 0;  // Flag to track if any condition has been matched
+
+	void init_stack(int idx) {
+	    variable[idx].value.stack.top = -1;  // Initialize empty stack
+	}
+
+	int push(int stack_idx, double value) {
+	    if(variable[stack_idx].value.stack.top >= 99) {
+	        printf("\nStack overflow! Cannot push %f", value);
+	        return 0;
+	    }
+	    variable[stack_idx].value.stack.top++;
+	    variable[stack_idx].value.stack.values[variable[stack_idx].value.stack.top] = value;
+	    printf("\nPushed %f to stack (position: %d)", value, variable[stack_idx].value.stack.top);
+	    return 1;
+	}
+
+	double pop(int stack_idx) {
+	    if(variable[stack_idx].value.stack.top < 0) {
+	        printf("\nStack underflow! Cannot pop from empty stack");
+	        return 0;
+	    }
+	    double value = variable[stack_idx].value.stack.values[variable[stack_idx].value.stack.top];
+	    variable[stack_idx].value.stack.top--;
+	    printf("\nPopped %f from stack (new top: %d)", value, variable[stack_idx].value.stack.top);
+	    return value;
+	}
+
+	double top(int stack_idx) {
+	    if(variable[stack_idx].value.stack.top < 0) {
+	        printf("\nStack is empty! No top element");
+	        return 0;
+	    }
+	    return variable[stack_idx].value.stack.values[variable[stack_idx].value.stack.top];
+	}
+
+	int is_empty(int stack_idx) {
+	    if (stack_idx < 0 || stack_idx >= no_var) {
+	        return 1;  // Invalid stack index, consider it empty
+	    }
+	    return (variable[stack_idx].value.stack.top == -1);
+	}
+
+	int stack_size(int stack_idx) {
+	    if(stack_idx < 0 || stack_idx >= no_var) {
+	        printf("\nError: Invalid stack index");
+	        return 0;
+	    }
+	    return variable[stack_idx].value.stack.top;  // Size is top + 1
+	}
+
+	void init_queue(int idx) {
+	    variable[idx].value.queue.front = 0;
+	    variable[idx].value.queue.rear = -1;
+	    variable[idx].value.queue.size = 0;
+        
+	}
+
+	int enqueue(int queue_idx, double value) {
+	    if(variable[queue_idx].value.queue.size >= 100) {
+	        printf("\nQueue overflow! Cannot enqueue %f", value);
+	        return 0;
+	    }
+	    variable[queue_idx].value.queue.rear = (variable[queue_idx].value.queue.rear + 1) % 100;
+	    variable[queue_idx].value.queue.values[variable[queue_idx].value.queue.rear] = value;
+	    variable[queue_idx].value.queue.size++;
+	    printf("\nEnqueued %f to queue (rear: %d)", value, variable[queue_idx].value.queue.rear);
+	    return 1;
+	}
+
+	double dequeue(int queue_idx) {
+	    if(variable[queue_idx].value.queue.size <= 0) {
+	        printf("\nQueue underflow! Cannot dequeue from empty queue");
+	        return 0;
+	    }
+	    double value = variable[queue_idx].value.queue.values[variable[queue_idx].value.queue.front];
+	    variable[queue_idx].value.queue.front = (variable[queue_idx].value.queue.front + 1) % 100;
+	    variable[queue_idx].value.queue.size--;
+	    printf("\nDequeued %f from queue (new front: %d)", value, variable[queue_idx].value.queue.front);
+	    return value;
+	}
+
+	double get_front(int queue_idx) {
+	    if(variable[queue_idx].value.queue.size <= 0) {
+	        printf("\nQueue is empty! No front element");
+	        return 0;
+	    }
+	    return variable[queue_idx+1].value.queue.values[variable[queue_idx+1].value.queue.front];
+	}
+
+	double get_rear(int queue_idx) {
+	    if(variable[queue_idx].value.queue.size <= 0) {
+	        printf("\nQueue is empty! No rear element");
+	        return 0;
+	    }
+	    return variable[queue_idx].value.queue.values[variable[queue_idx].value.queue.rear];
+	}
+
+	int is_queue_empty(int queue_idx) {
+	    return (variable[queue_idx].value.queue.size == 0);
+	}
+
+	int queue_size(int queue_idx) {
+	    return variable[queue_idx].value.queue.size;
+	}
 
 %}
 
@@ -127,14 +245,17 @@
 %right UMINUS
 %right INCREMENT DECREMENT
 %token DICT GET SET CONCAT COPY SIZE COMPARE
-
+%token STACK PUSH POP TOP ISEMPTY
+%token STACKSIZE  // Add new token for stack size
+%token QUEUE ENQUEUE DEQUEUE FRONT REAR QSIZE QEMPTY
 	// Defining token type
 
-%type<val>prime_code factorial_code casenum_code default_code case_code switch_code e f t expression elsee bool_expression power_code min_code max_code declaration assignment condition for_code print_code read_code program code TYPE MAIN INT CHAR FLOAT POWER FACTO PRIME READ PRINT SWITCH CASE DEFAULT IF ELIF ELSE FROM TO INC DEC MAX MIN NUM PLUS MINUS MUL DIV EQUAL NOTEQUAL GT GOE LT LOE STRING return_statement function_call function_list function main
+%type<val> prime_code factorial_code casenum_code default_code case_code switch_code e f t expression bool_expression power_code min_code max_code declaration assignment condition for_code print_code read_code program code TYPE MAIN INT CHAR FLOAT POWER FACTO PRIME READ PRINT SWITCH CASE DEFAULT IF ELIF ELSE FROM TO INC DEC MAX MIN NUM PLUS MINUS MUL DIV EQUAL NOTEQUAL GT GOE LT LOE STRING return_statement function_call function_list function main if_statement elif_list
 %type<val>while_code
 %type<val>dict_operation
-
-%type<stringValue> ID1 ID STRING_LITERAL
+%type<val>stack_operation
+%type<val>queue_operation
+%type<stringValue> ID STRING_LITERAL
 
 %%
 
@@ -213,6 +334,8 @@ code: declaration code    { $$ = $1; }
     | min_code code       { $$ = $1; }
     | max_code code       { $$ = $1; }
     | function_call code  { $$ = $1; }
+    | stack_operation code { $$ = $1; }
+    | queue_operation code { $$ = $1; }
     | /* empty */         { $$ = 0; }
     ;
 
@@ -232,9 +355,9 @@ function_call: ID '(' ')' ';' {
 	// CFG for power() funtion
 	
 power_code: POWER '(' NUM ',' NUM ')'';'	{		
-	int i;
-	i = pow($3, $5);
-	printf("\nPower function value--> %d ", i);
+	double result = pow($3, $5);
+	printf("\nPower function value--> %f", result);
+	$$ = result;
 }
 	;
 
@@ -490,26 +613,88 @@ while_code: WHILE'(' bool_expression ')''{' code '}'{
 	*/
 	//CFG for if-elif-else structure
 	
-condition: IF '(' bool_expression ')' '{' code '}' elsee {
+condition: if_statement {
+        conditionMatched = 0;  // Reset for next if chain
+        $$ = $1;
+    }
+    ;
+
+if_statement: 
+    IF '(' bool_expression ')' '{' code '}' {
         if($3 == 1) {
-            $$ = $6;  // Execute if block
+            printf("\n-->IF block is true");
+            $$ = $6;
+            conditionMatched = 1;
         } else {
-            $$ = $8;  // Execute else block
+            $$ = 0;
+        }
+    }
+    | IF '(' bool_expression ')' '{' code '}' ELSE '{' code '}' {
+        if($3 == 1) {
+            printf("\n-->IF block is true");
+            $$ = $6;
+            conditionMatched = 1;
+        } else if(!conditionMatched) {
+            printf("\n-->OTHERWISE block is true");
+            $$ = $10;
+            conditionMatched = 1;
+        } else {
+            printf("\nCondition already fulfilled. Ignoring otherwise block.");
+            $$ = 0;
+        }
+    }
+    | IF '(' bool_expression ')' '{' code '}' elif_list ELSE '{' code '}' {
+        if($3 == 1) {
+            printf("\n-->IF block is true");
+            $$ = $6;
+            conditionMatched = 1;
+        } else {
+            $$ = $8;  // Value from elif_list
+            if(!conditionMatched) {
+                printf("\n-->OTHERWISE block is true");
+                $$ = $11;
+                conditionMatched = 1;
+            } else {
+                printf("\nCondition already fulfilled. Ignoring otherwise block.");
+            }
+        }
+    }
+    | IF '(' bool_expression ')' '{' code '}' elif_list {
+        if($3 == 1) {
+            printf("\n-->IF block is true");
+            $$ = $6;
+            conditionMatched = 1;
+        } else {
+            $$ = $8;  // Value from elif_list
         }
     }
     ;
-elsee: ELSE '{' code '}' {
-        $$ = $3;  // Simply return the else block's value
-    }
-    | ELIF '(' bool_expression ')' '{' code '}' elsee {
-        if($3 == 1) {
-            $$ = $6;  // Execute elif block
+
+elif_list: 
+    elif_list ELIF '(' bool_expression ')' '{' code '}' {
+        if(!conditionMatched && $4 == 1) {
+            printf("\n-->ELIF block is true");
+            $$ = $7;
+            conditionMatched = 1;
+        } else if(conditionMatched) {
+            printf("\nCondition already fulfilled. Ignoring elif block.");
+            $$ = $1;  // Keep previous value
         } else {
-            $$ = $8;  // Try next elif/else
+            $$ = 0;
         }
+
     }
-    | /* empty */ {
-        $$ = 0;
+    | ELIF '(' bool_expression ')' '{' code '}' {
+        if(!conditionMatched && $3 == 1) {
+            printf("\n-->ELIF block is true");
+            $$ = $6;
+            conditionMatched = 1;
+        } else if(conditionMatched) {
+            printf("\nCondition already fulfilled. Ignoring elif block.");
+            $$ = 0;
+        } else {
+            $$ = 0;
+        }
     }
     ;
 	
@@ -517,69 +702,110 @@ elsee: ELSE '{' code '}' {
 
 expression: e {$$ = $1;}
     ;
-e: e PLUS f {$$ = $1 + $3; }
-    | e MINUS f {$$ = $1 - $3;}
-    | f      {$$ = $1;}
+
+e: e PLUS f {
+        $$ = $1 + $3;
+    }
+    | e MINUS f {
+        $$ = $1 - $3;
+    }
+    | f {
+        $$ = $1;
+    }
     ;
-f: f MUL t {$$ = $1 * $3;}
+
+f: f MUL t {
+        $$ = $1 * $3;
+    }
     | f DIV t {
         if($3 != 0) {
             $$ = $1 / $3;
         } else {
-            yyerror("Division by zero");
+            printf("\nError: Division by zero");
             $$ = 0;
         }
     }
     | f MOD t {
         if($3 != 0) {
-            $$ = fmod($1, $3);
+            $$ = (int)$1 % (int)$3;  // Cast to int for modulo
+            printf("\nModulo operation: %d", (int)$$);
         } else {
-            yyerror("Modulo by zero");
+            printf("\nError: Modulo by zero");
             $$ = 0;
         }
     }
     | t POW f {
         $$ = pow($1, $3);
+        printf("\nPower operation: %f ^ %f = %f", $1, $3, $$);
     }
-    | t      {$$ = $1;}
+    | t {
+        $$ = $1;
+    }
     ;
-t: '(' e ')' {$$ = $2;}
+
+t: '(' e ')' {
+        $$ = $2;
+    }
+    | NUM {
+        $$ = $1;
+    }
+    | ID {
+        int i = get_var_index($1);
+        if(i != -1) {
+            switch(variable[i].var_type) {
+                case 1: // INT
+                    $$ = (double)variable[i].value.ival;
+                    break;
+                case 2: // FLOAT
+                    $$ = variable[i].value.fval;
+                    break;
+                case 0: // CHAR
+                    $$ = (double)variable[i].value.cval;
+                    break;
+                default:
+                    printf("\nError: Invalid type for mathematical operation");
+                    $$ = 0;
+                    break;
+            }
+        } else {
+            printf("\nError: Variable '%s' not declared", $1);
+            $$ = 0;
+        }
+    }
     | SQRT '(' e ')' {
         if($3 >= 0) {
             $$ = sqrt($3);
+            printf("\nSquare root operation: sqrt(%f) = %f", $3, $$);
         } else {
-            yyerror("Square root of negative number");
+            printf("\nError: Square root of negative number");
             $$ = 0;
         }
     }
-    | ABS '(' e ')'  { $$ = fabs($3); }
-    | LOG '(' e ')'  {
+    | ABS '(' e ')' {
+        $$ = fabs($3);
+        printf("\nAbsolute value operation: |%f| = %f", $3, $$);
+    }
+    | LOG '(' e ')' {
         if($3 > 0) {
             $$ = log($3);
+            printf("\nLogarithm operation: log(%f) = %f", $3, $$);
         } else {
-            yyerror("Logarithm of non-positive number");
+            printf("\nError: Logarithm of non-positive number");
             $$ = 0;
         }
     }
-    | SIN '(' e ')'  { $$ = sin($3); }
-    | COS '(' e ')'  { $$ = cos($3); }
-    | TAN '(' e ')'  { $$ = tan($3); }
-    | ID    {
-        int id_index = get_var_index($1);
-        if(id_index == -1) {
-        //	yyerror("VARIABLE DOESN'T EXIST");
-            $$ = 0;
-        } else {
-            if(variable[id_index].var_type == 0) {
-                $$ = (double)variable[id_index].value.cval;
-            } else if(variable[id_index].var_type == 1) {
-                $$ = variable[id_index].value.ival;
-            } else if(variable[id_index].var_type == 2) {
-                $$ = variable[id_index].value.fval;
-            }
-        }
+    | SIN '(' e ')' {
+        $$ = sin($3);
+        printf("\nSine operation: sin(%f) = %f", $3, $$);
     }
-    | NUM  {$$ = $1;}
+    | COS '(' e ')' {
+        $$ = cos($3);
+        printf("\nCosine operation: cos(%f) = %f", $3, $$);
+    }
+    | TAN '(' e ')' {
+        $$ = tan($3);
+        printf("\nTangent operation: tan(%f) = %f", $3, $$);
+    }
     ;
 
 bool_expression: 
@@ -661,84 +887,117 @@ bool_expression:
     ;
 
 // CFG for variable declaration
-declaration: TYPE ID1 ';' {
+declaration: TYPE init_list ';' {
+    $<val>$ = $1;  // Store the type for init_list to use
     set_var_type($1);
-    // Initialize variables based on type
-    for(int i = 0; i < no_var; i++) {
-        if(variable[i].var_type == -1) {  // Only initialize newly declared variables
-            variable[i].var_type = $1;
-            if($1 == 1) { // INT
-                variable[i].value.ival = 0;
-            } else if($1 == 2) { // FLOAT
-                variable[i].value.fval = 0.0;
-            } else if($1 == 0) { // CHAR
-                variable[i].value.cval = '\0';
-            } else if($1 == 3) { // STRING
-                variable[i].value.sval = strdup("");
-            } else if($1 == 4) { // DICTIONARY
-                variable[i].value.dict.size = 0;
-                for(int j = 0; j < 100; j++) {
-                    variable[i].value.dict.values[j] = 0;
-                }
-            }
-        }
-    }
     printf("\nVariable(s) declared and initialized");
     $$ = 0;
 }
 ;
-TYPE: INT	{$$ = 1; printf("\nVariable type--> Integer");}
-	| FLOAT	{$$ = 2; printf("\nVariable type--> Float");}
-	| CHAR	{$$ = 0; printf("\nVariable type--> Character");}
-	| STRING {$$ = 3; printf("\nVariable type--> String");}
-	| DICT {
-		$$ = 4;  // 4 for dictionary type
-		printf("\nVariable type--> Dictionary");
-	}
-	;
-ID1: ID1 ',' ID {
-    if(search_var($3)==0){
-        strcpy(variable[no_var].var_name, $3);
-        variable[no_var].var_type = -1;  // Mark as uninitialized
-        printf("\nDeclared variable: %s", $3);
-        no_var++;
-    }
-    else{
-        printf("\nWarning: Variable '%s' already declared", $3);
-    }
-} 
-| ID {
+
+// Add new rules for initialization
+init_list: init_list ',' init_item {
+    $<val>$ = $<val>0;  // Pass the type down
+}
+| init_item {
+    $<val>$ = $<val>0;  // Pass the type down
+}
+;
+
+init_item: ID {
     if(search_var($1)==0){
         strcpy(variable[no_var].var_name, $1);
-        variable[no_var].var_type = -1;  // Mark as uninitialized
+        variable[no_var].var_type = $<val>0;  // Get type from parent
         printf("\nDeclared variable: %s", $1);
+        
+        // Initialize with default value based on type
+        switch(variable[no_var].var_type) {
+            case 1: // INT
+                variable[no_var].value.ival = 0;
+                break;
+            case 2: // FLOAT
+                variable[no_var].value.fval = 0.0;
+                break;
+            case 0: // CHAR
+                variable[no_var].value.cval = '\0';
+                break;
+            case 3: // STRING
+                variable[no_var].value.sval = strdup("");
+                break;
+        }
         no_var++;
     }
     else{
         printf("\nWarning: Variable '%s' already declared", $1);
     }
-    $$ = strdup($1);  // Use strdup to properly allocate memory
+}
+| ID '=' expression {
+    if(search_var($1)==0){
+        strcpy(variable[no_var].var_name, $1);
+        variable[no_var].var_type = $<val>0;  // Get type from parent
+        printf("\nDeclared variable: %s with initialization", $1);
+        
+        // Initialize based on type
+        switch(variable[no_var].var_type) {
+            case 1: // INT
+                variable[no_var].value.ival = (int)$3;
+                printf("\nInitialized to integer: %d", variable[no_var].value.ival);
+                break;
+            case 2: // FLOAT
+                variable[no_var].value.fval = (float)$3;
+                printf("\nInitialized to float: %f", variable[no_var].value.fval);
+                break;
+            case 0: // CHAR
+                variable[no_var].value.cval = (char)$3;
+                printf("\nInitialized to char: %c", variable[no_var].value.cval);
+                break;
+        }
+        no_var++;
+    }
+    else{
+        printf("\nWarning: Variable '%s' already declared", $1);
+    }
+}
+| ID '=' STRING_LITERAL {
+    if(search_var($1)==0){
+        strcpy(variable[no_var].var_name, $1);
+        variable[no_var].var_type = $<val>0;  // Get type from parent
+        
+        if(variable[no_var].var_type == 3) { // STRING
+            variable[no_var].value.sval = strdup($3);
+            printf("\nDeclared string variable: %s with initialization", $1);
+            printf("\nInitialized to string: %s", $3);
+        } else {
+            printf("\nError: Type mismatch - cannot assign string to non-string variable");
+        }
+        no_var++;
+    }
+    else{
+        printf("\nWarning: Variable '%s' already declared", $1);
+    }
 }
 ;
-	
-	// CFG for assigning value
+
+// CFG for assigning value
 assignment: ID '=' expression ';' {
     int i = get_var_index($1);
     if(i == -1) {
         printf("\nError: Variable '%s' not declared", $1);
         $$ = 0;
     } else {
-        if(variable[i].var_type==0){
-            variable[i].value.cval = (char)$3;
-            printf("\nAssigning character value: %c", variable[i].value.cval);
-        }
-        else if(variable[i].var_type==1){
-            variable[i].value.ival = (int)$3;
-            printf("\nAssigning value %d to %s", variable[i].value.ival, variable[i].var_name);
-        }
-        else if(variable[i].var_type==2){
-            variable[i].value.fval = (float)$3;
-            printf("\nAssigning value %f to %s", variable[i].value.fval, variable[i].var_name);
+        switch(variable[i].var_type) {
+            case 1: // INT
+                variable[i].value.ival = (int)$3;
+                printf("\nAssigning value %d to %s", variable[i].value.ival, variable[i].var_name);
+                break;
+            case 2: // FLOAT
+                variable[i].value.fval = (float)$3;
+                printf("\nAssigning value %f to %s", variable[i].value.fval, variable[i].var_name);
+                break;
+            case 0: // CHAR
+                variable[i].value.cval = (char)$3;
+                //printf("\nAssigning character value: %c", variable[i].value.cval);
+                break;
         }
         $$ = $3;
     }
@@ -796,6 +1055,45 @@ assignment: ID '=' expression ';' {
     }
 }
 ;
+
+TYPE: INT	{$$ = 1; printf("\nVariable type--> Integer");}
+	| FLOAT	{$$ = 2; printf("\nVariable type--> Float");}
+	| CHAR	{$$ = 0; printf("\nVariable type--> Character");}
+	| STRING {$$ = 3; printf("\nVariable type--> String");}
+	| DICT {
+		$$ = 4;  // 4 for dictionary type
+		printf("\nVariable type--> Dictionary");
+	}
+	| STACK {
+		$$ = 5;  // 5 for stack type
+		printf("\nVariable type--> Stack");
+		// Initialize stack for all newly declared variables
+		for(int i=0; i<no_var; i++){
+			if(variable[i].var_type == -1){
+				variable[i].var_type = 5;  // Set type first
+				variable[i].value.stack.top = -1;  // Initialize stack as empty
+				// Clear all values in stack array
+				for(int j = 0; j < 100; j++) {
+					variable[i].value.stack.values[j] = 0;
+				}
+				printf("\nInitialized empty stack %s (top: %d)", 
+					   variable[i].var_name, 
+					   variable[i].value.stack.top);
+			}
+		}
+	}
+	| QUEUE {
+		$$ = 6; 
+		printf("\nVariable type--> Queue");
+		for(int i=0; i<no_var; i++){
+			if(variable[i].var_type == -1){
+				variable[i].var_type = 6;
+				init_queue(i);
+				printf("\nInitialized empty queue %s", variable[i].var_name);
+			}
+		}
+	}
+	;
 
 // Finally the while_code rule that uses bool_expression
 while_code: WHILE '(' ID LOE NUM ')' '{' code '}' {
@@ -916,6 +1214,156 @@ dict_operation:
             }
         }
         $$ = 0;
+    }
+    ;
+
+stack_operation:
+    PUSH '(' ID ',' expression ')' ';' {
+        int idx = get_var_index($3);
+        if(idx != -1 && variable[idx].var_type == 5) {
+            if(push(idx, $5)) {
+                printf("\nSuccessfully pushed %f to stack %s", $5, variable[idx].var_name);
+            }
+        } else {
+            printf("\nError: Invalid stack operation - %s is not a stack", $3);
+        }
+        $$ = $5;
+    }
+    | POP '(' ID ')' ';' {
+        int idx = get_var_index($3);
+        if(idx != -1 && variable[idx].var_type == 5) {
+            if(variable[idx].value.stack.top >= 0) {
+                double value = pop(idx);
+                printf("\nSuccessfully popped %f from stack %s", value, variable[idx].var_name);
+                $$ = value;
+            } else {
+                printf("\nError: Cannot pop from empty stack %s", variable[idx].var_name);
+                $$ = 0;
+            }
+        } else {
+            printf("\nError: Invalid stack operation - %s is not a stack", $3);
+            $$ = 0;
+        }
+    }
+    | TOP '(' ID ')' ';' {
+        int idx = get_var_index($3);
+        if(idx != -1 && variable[idx].var_type == 5) {
+            if(variable[idx].value.stack.top >= 0) {
+                double value = top(idx);
+                printf("\nTop of stack %s: %f (position: %d)", 
+                       variable[idx].var_name, value, variable[idx].value.stack.top);
+                $$ = value;
+            } else {
+                printf("\nError: Stack %s is empty", variable[idx].var_name);
+                $$ = 0;
+            }
+        } else {
+            printf("\nError: Invalid stack operation - %s is not a stack", $3);
+            $$ = 0;
+        }
+    }
+    | ISEMPTY '(' ID ')' ';' {
+        int idx = get_var_index($3);
+        if(idx != -1 && variable[idx].var_type == 5) {
+            int empty = is_empty(idx);
+            printf("\nStack %s is %s (top: %d)", 
+                   variable[idx].var_name, 
+                   empty ? "empty" : "not empty",
+                   variable[idx].value.stack.top);
+            $$ = empty;
+        } else {
+            if(idx == -1) {
+                printf("\nError: Stack %s not declared", $3);
+            } else {
+                printf("\nError: Variable %s is not a stack", $3);
+            }
+            $$ = 1;  // Consider non-existent or invalid stacks as empty
+        }
+    }
+    | STACKSIZE '(' ID ')' ';' {
+        int idx = get_var_index($3);
+        if(idx != -1 && variable[idx].var_type == 5) {
+            int size = stack_size(idx);
+            printf("\nStack %s size: %d", variable[idx].var_name, size);
+            $$ = size;
+        } else {
+            if(idx == -1) {
+                printf("\nError: Stack %s not declared", $3);
+            } else {
+                printf("\nError: Variable %s is not a stack", $3);
+            }
+            $$ = 0;
+        }
+    }
+    ;
+
+queue_operation:
+    ENQUEUE '(' ID ',' expression ')' ';' {
+        int idx = get_var_index($3);
+        if(idx != -1 && variable[idx].var_type == 6) {
+            if(enqueue(idx, $5)) {
+                printf("\nSuccessfully enqueued %f to queue %s", $5, variable[idx].var_name);
+            }
+        } else {
+            printf("\nError: Invalid queue operation - %s is not a queue", $3);
+        }
+        $$ = $5;
+    }
+    | DEQUEUE '(' ID ')' ';' {
+        int idx = get_var_index($3);
+        if(idx != -1 && variable[idx].var_type == 6) {
+            double value = dequeue(idx);
+            printf("\nSuccessfully dequeued %f from queue %s", value, variable[idx].var_name);
+            $$ = value;
+        } else {
+            printf("\nError: Invalid queue operation - %s is not a queue", $3);
+            $$ = 0;
+        }
+    }
+    | FRONT '(' ID ')' ';' {
+        int idx = get_var_index($3);
+        if(idx != -1 && variable[idx].var_type == 6) {
+            double value = get_front(idx);
+            printf("\nFront of queue %s: %f", variable[idx].var_name, value);
+            $$ = value;
+        } else {
+            printf("\nError: Invalid queue operation - %s is not a queue", $3);
+            $$ = 0;
+        }
+    }
+    | REAR '(' ID ')' ';' {
+        int idx = get_var_index($3);
+        if(idx != -1 && variable[idx].var_type == 6) {
+            double value = get_rear(idx);
+            printf("\nRear of queue %s: %f", variable[idx].var_name, value);
+            $$ = value;
+        } else {
+            printf("\nError: Invalid queue operation - %s is not a queue", $3);
+            $$ = 0;
+        }
+    }
+    | QEMPTY '(' ID ')' ';' {
+        int idx = get_var_index($3);
+        if(idx != -1 && variable[idx].var_type == 6) {
+            int empty = is_queue_empty(idx);
+            printf("\nQueue %s is %s", variable[idx].var_name, 
+                   empty ? "empty" : "not empty");
+            $$ = empty;
+        } else {
+            printf("\nError: Invalid queue operation - %s is not a queue", $3);
+            $$ = 1;
+        }
+    }
+    | QSIZE '(' ID ')' ';' {
+        int idx = get_var_index($3);
+        if(idx != -1 && variable[idx].var_type == 6) {
+            int size = queue_size(idx);
+            printf("\nQueue %s size: %d", variable[idx].var_name, size);
+            $$ = size;
+        } else {
+            printf("\nError: Invalid queue operation - %s is not a queue", $3);
+            $$ = 0;
+        }
     }
     ;
 
