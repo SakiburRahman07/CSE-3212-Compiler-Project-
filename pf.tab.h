@@ -100,7 +100,20 @@
      CONCAT = 316,
      COPY = 317,
      SIZE = 318,
-     COMPARE = 319
+     COMPARE = 319,
+     STACK = 320,
+     PUSH = 321,
+     POP = 322,
+     TOP = 323,
+     ISEMPTY = 324,
+     STACKSIZE = 325,
+     QUEUE = 326,
+     ENQUEUE = 327,
+     DEQUEUE = 328,
+     FRONT = 329,
+     REAR = 330,
+     QSIZE = 331,
+     QEMPTY = 332
    };
 #endif
 
@@ -111,7 +124,7 @@ typedef union YYSTYPE
 {
 
 /* Line 1676 of yacc.c  */
-#line 110 "pf.y"
+#line 228 "pf.y"
 
 	double val;
 	char* stringValue;
@@ -119,7 +132,7 @@ typedef union YYSTYPE
 
 
 /* Line 1676 of yacc.c  */
-#line 123 "pf.tab.h"
+#line 136 "pf.tab.h"
 } YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */

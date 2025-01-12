@@ -34,16 +34,14 @@ start() {
 
     int y11=20, z11=30;
     print(y11);
-    print(z11);
 
     # Float initialization
     float f11=10.5, f21=20.5;
     print(f11);
-    print(f21);
 
     # Mixed declaration and initialization
     int a11=10, b11=20, c11=30;
-    print(b11);
+    print(a11);
     
     print("---------------------Mathematical Operations Test------------------");
     float x, y, z;
