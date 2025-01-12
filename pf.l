@@ -88,6 +88,21 @@ STR \"[^\"]*\"
 ","     {return(',');}
 ";"     {return(';');}
 
+"stack"   {return(STACK);}
+"push"    {return(PUSH);}
+"pop"     {return(POP);}
+"top"     {return(TOP);}
+"isempty" {return(ISEMPTY);}
+"stacksize" {return(STACKSIZE);}
+
+"queue"    {return(QUEUE);}
+"enqueue"  {return(ENQUEUE);}
+"dequeue"  {return(DEQUEUE);}
+"front"    {return(FRONT);}
+"rear"     {return(REAR);}
+"qsize"    {return(QSIZE);}
+"qempty"   {return(QEMPTY);}
+
 {HEADER}	printf("Header file detected.\n");
 
 {ID}	{yylval.stringValue = strdup(yytext); return(ID);}
