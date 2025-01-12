@@ -1,23 +1,11 @@
 using std.h
 
 func add() {
-    int a, b;
-    a = 10;
-    b = 20;
-    return a + b;    # Should return 30
+    int aone;
+    aone = 10;
+    return aone+10;
 }
 
-func multiply() {
-    int x;
-    x = 5 * 4;    # Should return 20
-    return x;
-}
-
-func square() {
-    float y;
-    y = 5.5 * 5.5;    # Should return 30.25
-    return y;
-}
 
 start() {
     print("---------------------Function Test------------------");
@@ -32,6 +20,30 @@ start() {
     string str;
     str = "Hello World";
     print(str);
+
+    print("---------------------Float Variable Test------------------");
+    float f;
+    f = 10.5;
+    print(f);
+
+    print("---------------------Variable Initialization Test------------------");
+
+    # Integer initialization
+    int x11=10;
+    print(x11);
+
+    int y11=20, z11=30;
+    print(y11);
+    print(z11);
+
+    # Float initialization
+    float f11=10.5, f21=20.5;
+    print(f11);
+    print(f21);
+
+    # Mixed declaration and initialization
+    int a11=10, b11=20, c11=30;
+    print(b11);
     
     print("---------------------Mathematical Operations Test------------------");
     float x, y, z;
@@ -39,125 +51,193 @@ start() {
     
     print("---------------------Power Operator Test------------------");
     y = x ^ 2;    # Should be 256
-    print(y);
     
     print("---------------------Modulo Operator Test------------------");
     y = x % 3;    # Should be 1
-    print(y);
     
     print("---------------------Square Root Function Test------------------");
     y = sqrt(x);  # Should be 4
-    print(y);
     
     print("---------------------Absolute Value Function Test------------------");
     x = -10;
     y = abs(x);   # Should be 10
-    print(y);
     
     print("---------------------Logarithm Function Test------------------");
     x = 2.718;    # e (Euler's number)
     y = log(x);   # Should be close to 1
-    print(y);
     
     print("---------------------Trigonometric Functions Test------------------");
     x = 1.5708;   # Close to π/2
     y = sin(x);   # Should be close to 1
-    print(y);
     y = cos(x);   # Should be close to 0
-    print(y);
     y = tan(x);   # Should be a large number
-    print(y);
     
     print("---------------------Complex Expression Test------------------");
     x = 3;
     y = 4;
     z = sqrt(x^2 + y^2);  # Pythagorean theorem, should be 5
-    print(z);
 
     print("---------------------Integer Variable Test------------------");
     int var;
     var = 4;
     var = 4*var+2;
-    print(var);
     var = 10;
 
     print("---------------------Float Variable Test------------------");
     float ab, da;
     da = 4.5;
-    print(da);
     ab = 6;
     
     print("---------------------Increment/Decrement Test------------------");
     ab++;         # Should be 7
-    print(ab);
     ab--;         # Should be 6
-    print(ab);
     
-    print("---------------------Enhanced If-Else Test------------------");
-    int test_var;
-    test_var = 5;
+   
+
+    print("---------------------Read Function Test------------------");
+    int aa;
+    read(aa);
+    aa = 100;
+
+    print("---------------------If-Elif-Else Test------------------");
+    
+    # Test case 1: Simple if
+    int a1;
+    a1 = 15;
+    if(a1 > 10) {
+        print("a1 is greater than 10");
+    }
+
+    # Test case 2: if-else
+    int b1;
+    b1 = 5;
+    if(b1 > 10) {
+        print("b1 is greater than 10");
+    } otherwise {
+        print("b1 is less than or equal to 10");
+    }
+
+    # Test case 3: if-elif-else
+    int score1;
+    score1 = 75;
+    if(score1 >= 90) {
+        print("Grade A");
+    } elif(score1 >= 80) {
+        print("Grade B");
+    } elif(score1 >= 70) {
+        print("Grade C");
+    } otherwise {
+        print("Grade D");
+    }
+
+    # Test case 4: Multiple elif
+    int num1;
+    num1 = 0;
+    if(num1 > 0) {
+        print("Number is positive");
+    } elif(num1 < 0) {
+        print("Number is negative");
+    } elif(num1 == 0) {
+        print("Number is zero");
+    }
+
+    # Test case 5: Nested if-elif-else
+    int x1, y1;
+    x1 = 10;
+    y1 = 20;
+    if(x1 > 0) {
+        if(y1 > 0) {
+            print("Both x and y are positive");
+        } elif(y1 < 0) {
+            print("x is positive, y is negative");
+        } otherwise {
+            print("x is positive, y is zero");
+        }
+    } otherwise {
+        if(y1 > 0) {
+            print("x is non-positive, y is positive");
+        } otherwise {
+            print("Both x and y are non-positive");
+        }
+    }
+
+    # Test case 6: Complex conditions
+    int age1;
+    float height1;
+    age1 = 25;
+    height1 = 5.8;
+    if(age1 >= 18 && height1 > 5.5) {
+        print("Eligible for basketball team");
+    } elif(age1 >= 18 && height1 <= 5.5) {
+        print("Eligible for other sports");
+    } otherwise {
+        print("Not eligible for sports team");
+    }
+
+     print("---------------------Enhanced If-Else Test------------------");
+    int test_var1;
+    test_var1 = 5;
     
     # Test arithmetic operations in if block
-    if(test_var > 4) {
-        test_var = test_var + 10;  # Basic addition
-        print(test_var);           # Should print 15
+    if(test_var1 > 4) {
+        test_var1 = test_var1 + 10;  # Basic addition
+        print(test_var1);           # Should print 15
     }
     
     # Test multiple operations in if-else
     if(test_var >= 15) {
         test_var = test_var * 2;   # Multiplication
-        test_var = test_var + 5;   # Addition
-        print(test_var);           # Should print 35
+        test_var1 = test_var1 + 5;   # Addition
+        print(test_var1);           # Should print 35
     } otherwise {
-        print("er vitore duklo keno");
-        test_var = test_var / 2;   # Division
-        print(test_var);
+        test_var1 = test_var1 / 2;   # Division
+        print(test_var1);
     }
     
     # Test nested arithmetic and conditions
     if(test_var > 30 && test_var < 40) {
         test_var = test_var ^ 2;   # Power operation
-        print(test_var);           # Should print 1225
+        print(test_var1);           # Should print 1225
     }
     
     # Test complex arithmetic expressions
-    float calc_var;
-    calc_var = 10.5;
+    float calc_var1;
+    calc_var1 = 10.5;
     
-    if(calc_var < 20.0) {
-        calc_var = sqrt(calc_var) + abs(test_var - 50);
-        print(calc_var);
+    if(calc_var1 < 20.0) {
+        calc_var1 = sqrt(calc_var1) + abs(test_var1 - 50);
+        print(calc_var1);
     }
     
     # Test increment/decrement in conditions
-    int counter;
-    counter = 1;
+    int counter1;
+    counter1 = 1;
     
-    if(counter < 5) {
-        counter++;
-        print(counter);
-        if(counter < 3) {
-            counter = counter * 2;
-            print(counter);
+    if(counter1 < 5) {
+        counter1++;
+        print(counter1);
+        if(counter1 < 3) {
+            counter1 = counter1 * 2;
+            print(counter1);
         }
     }
     
     # Test mathematical functions in conditions
-    float angle;
-    angle = 1.5708;  # π/2
+    float angle1;
+    angle1 = 1.5708;  # π/2
     
-    if(sin(angle) > 0.9) {
-        angle = cos(angle) + tan(0.5);
-        print(angle);
+    if(sin(angle1) > 0.9) {
+        angle1 = cos(angle1) + tan(0.5);
+        print(angle1);
     }
     
     # Test modulo and complex expressions
-    int mod_var;
-    mod_var = 17;
+    int mod_var1;
+    mod_var1 = 17;
     
-    if(mod_var % 2 == 1) {
-        mod_var = (mod_var * 3 + 1) % 10;
-        print(mod_var);
+    if(mod_var1 % 2 == 1) {
+        mod_var1 = (mod_var1 * 3 + 1) % 10;
+        print(mod_var1);
     }
     
     # Test string comparisons and operations
@@ -170,53 +250,33 @@ start() {
     }
     
     # Test combined arithmetic and logical operations
-    int a, b, c;
-    a = 5;
-    b = 10;
-    c = 15;
+    int aa1, bb1, cc1;
+    aa1 = 5;
+    bb1 = 10;
+    cc1 = 15;
     
-    if((a + b) > c || (b * 2) == c) {
-        c = (a + b) * 2;
-        print(c);
-        if(c % a == 0) {
-            c = c / a;
-            print(c);
+    if((aa1 + bb1) > cc1 || (bb1 * 2) == cc1) {
+        cc1 = (aa1 + bb1) * 2;
+        if(cc1 % aa1 == 0) {
+            cc1 = cc1 / aa1;
         }
     }
     
     # Test loop-like behavior using if
-    int iterator;
-    iterator = 0;
+    int iterator1;
+    iterator1 = 0;
     
-    if(iterator < 3) {
-        iterator++;
-        print(iterator);
-        if(iterator < 3) {
-            iterator++;
-            print(iterator);
-            if(iterator < 3) {
-                iterator++;
-                print(iterator);
+    if(iterator1 < 3) {
+        iterator1++;
+        print(iterator1);
+        if(iterator1 < 3) {
+            iterator1++;
+            print(iterator1);
+            if(iterator1 < 3) {
+                iterator1++;
+                print(iterator1);
             }
         }
-    }
-
-    print("---------------------Read Function Test------------------");
-    int aa;
-    read(aa);
-    aa = 100;
-
-    print("---------------------If-Elif-Else Test------------------");
-    if(aa<=10){
-        print(aa);
-    }
-    elif(aa==20){
-        aa = 2*aa;
-        print(aa);
-    }
-    otherwise{
-        aa = 3*aa;
-        print(aa);
     }
     
     print("---------------------Built-in Functions Test------------------");
@@ -399,4 +459,151 @@ start() {
     get(d1, 3);    # Should print 10
     get(d1, 4);    # Should print 20
     get(d1, 5);    # Should print 30
+
+    print("---------------------Nested If-Elif-Else Test------------------");
+    
+    # Test case 1: Simple nested if-else
+    int aaa, bbb, ccc;
+    aaa = 10;
+    bbb = 20;
+    ccc = 30;
+
+    if(aaa > bbb) {
+        if(bbb > ccc) {
+            # Both conditions are true
+        } otherwise {
+            # Only outer condition is true
+        }
+    } otherwise {
+        # Outer condition is false
+    }
+
+    # Test case 2: Nested if-elif-else
+    int xx, yy, zz;
+    xx = 5;
+    yy = 10;
+    zz = 15;
+
+    if(xx > 10) {
+        # x is greater than 10
+    } elif(xx > 0) {
+        if(yy > 5) {
+            if(zz > 10) {
+                # z is greater than 10
+            } elif(zz > 5) {
+                # z is greater than 5
+            } otherwise {
+                # z is less than or equal to 5
+            }
+        } otherwise {
+            # y is less than or equal to 5
+        }
+    } otherwise {
+        # x is less than or equal to 0
+    }
+
+    # Test case 3: Complex nested conditions
+    int pp, qq;
+    pp = 100;
+    qq = 200;
+
+    if(p >= 100) {
+        if(qq >= 200) {
+            # Both p and q meet minimum
+        } elif(qq >= 150) {
+            # p meets minimum, q meets medium
+        } otherwise {
+            # Only p meets minimum
+        }
+    } elif(pp >= 50) {
+            if(qq >= 200) {
+            # p meets medium, q meets high
+        } otherwise {
+            # p meets medium only
+        }
+    } otherwise {
+        if(qq >= 200) {
+            # Only q meets high
+        } elif(qq >= 100) {
+            # Only q meets medium
+        } otherwise {
+            # Neither meets minimum
+        }
+    }
+
+    print("---------------------Stack Test------------------");
+    # Declare a stack
+    stack s1;
+    
+    # Check initial state
+    stacksize(s1);   # Should print size: 0
+    
+    # Push some values
+    push(s1, 10);    # Push 10
+    stacksize(s1);   # Should print size: 1
+    isempty(s1);     # Should print "not empty" (top: 0)
+    
+    push(s1, 20);    # Push 20
+    stacksize(s1);   # Should print size: 2
+    isempty(s1);     # Should print "not empty" (top: 1)
+    
+    push(s1, 30);    # Push 30
+    stacksize(s1);   # Should print size: 3
+    isempty(s1);     # Should print "not empty" (top: 2)
+    
+    # Pop all elements and check size after each pop
+    pop(s1);         # Pop 30
+    stacksize(s1);   # Should print size: 2
+    isempty(s1);     # Should print "not empty" (top: 1)
+    
+    pop(s1);         # Pop 20
+    stacksize(s1);   # Should print size: 1
+    isempty(s1);     # Should print "not empty" (top: 0)
+    
+    pop(s1);         # Pop 10
+    stacksize(s1);   # Should print size: 0
+    pop(s1);
+    isempty(s1);     # Should print "empty" (top: -1)
+
+    
+    
+    # Test invalid stack operations
+    isempty(s4);    # Should print "Stack s4 not declared"
+
+    print("---------------------Queue Test------------------");
+    # Declare a queue
+    queue q1;
+
+    # Check initial state
+    qsize(q1);    # Should print size: 0
+    qempty(q1);   # Should print "empty"
+
+    # Enqueue some values
+    enqueue(q1, 10);    # Enqueue 10
+    qsize(q1);         # Should print size: 1
+    rear(q1);          # Should print rear: 10
+    qempty(q1);        # Should print "not empty"
+
+    enqueue(q1, 20);    # Enqueue 20
+    qsize(q1);         # Should print size: 2
+    rear(q1);          # Should print rear: 20
+
+    enqueue(q1, 30);    # Enqueue 30
+    qsize(q1);         # Should print size: 3
+    rear(q1);          # Should print rear: 30
+
+    # Dequeue elements and check state after each dequeue
+    dequeue(q1);       # Dequeue 10
+    qsize(q1);         # Should print size: 2
+
+    dequeue(q1);       # Dequeue 20
+    qsize(q1);         # Should print size: 1
+
+    dequeue(q1);       # Dequeue 30
+    qsize(q1);         # Should print size: 0
+    qempty(q1);        # Should print "empty"
+
+    # Test error handling
+    qempty(q2);        # Should print "Error: Invalid queue operation - q2 is not a queue"
+
 }
