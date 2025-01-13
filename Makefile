@@ -4,17 +4,17 @@ FLEX = flex
 
 all: parser run
 
-parser: lex.yy.c pf.tab.c
-	$(CC) lex.yy.c pf.tab.c -o parser.exe
+parser: lex.yy.c 2007007.tab.c
+	$(CC) lex.yy.c 2007007.tab.c -o parser.exe
 
-lex.yy.c: pf.l pf.tab.h
-	$(FLEX) pf.l
+lex.yy.c: 2007007.l 2007007.tab.h
+	$(FLEX) 2007007.l
 
-pf.tab.c pf.tab.h: pf.y
-	$(BISON) -d pf.y
+2007007.tab.c 2007007.tab.h: 2007007.y
+	$(BISON) -d 2007007.y
 
 run:
 	parser.exe
 
 clean:
-	del /Q parser.exe lex.yy.c pf.tab.c pf.tab.h output.txt 2>nul
+	del /Q parser.exe lex.yy.c 2007007.tab.c 2007007.tab.h testout.txt 2>nul

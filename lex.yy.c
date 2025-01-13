@@ -525,13 +525,13 @@ static char *yy_last_accepting_cpos;
 #define YY_MORE_ADJ 0
 #define YY_RESTORE_YY_MORE_OFFSET
 char *yytext;
-#line 1 "pf.l"
+#line 1 "2007007.l"
 #define INITIAL 0
-#line 2 "pf.l"
+#line 2 "2007007.l"
 	#include<stdio.h>
 	#include<string.h>
 	#include<stdlib.h>
-	#include "pf.tab.h"
+	#include "2007007.tab.h"
 	extern char* strdup(const char*);
 	void yyerror(char *s);
 	extern FILE *yyin;
@@ -726,7 +726,7 @@ YY_DECL
 	register char *yy_cp, *yy_bp;
 	register int yy_act;
 
-#line 57 "pf.l"
+#line 57 "2007007.l"
 
 
 #line 733 "lex.yy.c"
@@ -814,412 +814,412 @@ do_action:	/* This label is used only to access EOF actions. */
 
 case 1:
 YY_RULE_SETUP
-#line 59 "pf.l"
+#line 59 "2007007.l"
 
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 60 "pf.l"
+#line 60 "2007007.l"
 {return(MAIN);}
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 61 "pf.l"
+#line 61 "2007007.l"
 {return(MAIN);}
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 62 "pf.l"
+#line 62 "2007007.l"
 {return(FUNCTION);}
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 63 "pf.l"
+#line 63 "2007007.l"
 {return(RETURN);}
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 64 "pf.l"
+#line 64 "2007007.l"
 {return(STRING);}
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 65 "pf.l"
+#line 65 "2007007.l"
 {return(INT);}
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 66 "pf.l"
+#line 66 "2007007.l"
 {return(CHAR);}
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 67 "pf.l"
+#line 67 "2007007.l"
 {return(FLOAT);}
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 68 "pf.l"
+#line 68 "2007007.l"
 {return(POWER);}
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 69 "pf.l"
+#line 69 "2007007.l"
 {return(FACTO);}
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 70 "pf.l"
+#line 70 "2007007.l"
 {return(PRIME);}
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
-#line 71 "pf.l"
+#line 71 "2007007.l"
 {return(READ);}
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 72 "pf.l"
+#line 72 "2007007.l"
 {return(PRINT);}
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
-#line 73 "pf.l"
+#line 73 "2007007.l"
 {return(SWITCH);}
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
-#line 74 "pf.l"
+#line 74 "2007007.l"
 {return(CASE);}
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
-#line 75 "pf.l"
+#line 75 "2007007.l"
 {return(DEFAULT);}
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
-#line 76 "pf.l"
+#line 76 "2007007.l"
 {return(IF);}
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
-#line 77 "pf.l"
+#line 77 "2007007.l"
 {return(ELIF);}
 	YY_BREAK
 case 20:
 YY_RULE_SETUP
-#line 78 "pf.l"
+#line 78 "2007007.l"
 {return(ELSE);}
 	YY_BREAK
 case 21:
 YY_RULE_SETUP
-#line 79 "pf.l"
+#line 79 "2007007.l"
 {return(FROM);}
 	YY_BREAK
 case 22:
 YY_RULE_SETUP
-#line 80 "pf.l"
+#line 80 "2007007.l"
 {return(TO);}
 	YY_BREAK
 case 23:
 YY_RULE_SETUP
-#line 81 "pf.l"
+#line 81 "2007007.l"
 {return(INC);}
 	YY_BREAK
 case 24:
 YY_RULE_SETUP
-#line 82 "pf.l"
+#line 82 "2007007.l"
 {return(DEC);}
 	YY_BREAK
 case 25:
 YY_RULE_SETUP
-#line 83 "pf.l"
+#line 83 "2007007.l"
 {return(MAX);}
 	YY_BREAK
 case 26:
 YY_RULE_SETUP
-#line 84 "pf.l"
+#line 84 "2007007.l"
 {return(MIN);}
 	YY_BREAK
 case 27:
 YY_RULE_SETUP
-#line 85 "pf.l"
+#line 85 "2007007.l"
 {return(WHILE);}
 	YY_BREAK
 case 28:
 YY_RULE_SETUP
-#line 87 "pf.l"
+#line 87 "2007007.l"
 {return(DICT);}
 	YY_BREAK
 case 29:
 YY_RULE_SETUP
-#line 88 "pf.l"
+#line 88 "2007007.l"
 {return(GET);}
 	YY_BREAK
 case 30:
 YY_RULE_SETUP
-#line 89 "pf.l"
+#line 89 "2007007.l"
 {return(SET);}
 	YY_BREAK
 case 31:
 YY_RULE_SETUP
-#line 90 "pf.l"
+#line 90 "2007007.l"
 {return(CONCAT);}
 	YY_BREAK
 case 32:
 YY_RULE_SETUP
-#line 91 "pf.l"
+#line 91 "2007007.l"
 {return(COPY);}
 	YY_BREAK
 case 33:
 YY_RULE_SETUP
-#line 92 "pf.l"
+#line 92 "2007007.l"
 {return(SIZE);}
 	YY_BREAK
 case 34:
 YY_RULE_SETUP
-#line 93 "pf.l"
+#line 93 "2007007.l"
 {return(COMPARE);}
 	YY_BREAK
 case 35:
 YY_RULE_SETUP
-#line 95 "pf.l"
+#line 95 "2007007.l"
 {return(SQRT);}
 	YY_BREAK
 case 36:
 YY_RULE_SETUP
-#line 96 "pf.l"
+#line 96 "2007007.l"
 {return(ABS);}
 	YY_BREAK
 case 37:
 YY_RULE_SETUP
-#line 97 "pf.l"
+#line 97 "2007007.l"
 {return(LOG);}
 	YY_BREAK
 case 38:
 YY_RULE_SETUP
-#line 98 "pf.l"
+#line 98 "2007007.l"
 {return(SIN);}
 	YY_BREAK
 case 39:
 YY_RULE_SETUP
-#line 99 "pf.l"
+#line 99 "2007007.l"
 {return(COS);}
 	YY_BREAK
 case 40:
 YY_RULE_SETUP
-#line 100 "pf.l"
+#line 100 "2007007.l"
 {return(TAN);}
 	YY_BREAK
 case 41:
 YY_RULE_SETUP
-#line 102 "pf.l"
+#line 102 "2007007.l"
 {return(STRICT_EQUAL);}
 	YY_BREAK
 case 42:
 YY_RULE_SETUP
-#line 103 "pf.l"
+#line 103 "2007007.l"
 {return(STRICT_NEQ);}
 	YY_BREAK
 case 43:
 YY_RULE_SETUP
-#line 104 "pf.l"
+#line 104 "2007007.l"
 {return(AND);}
 	YY_BREAK
 case 44:
 YY_RULE_SETUP
-#line 105 "pf.l"
+#line 105 "2007007.l"
 {return(OR);}
 	YY_BREAK
 case 45:
 YY_RULE_SETUP
-#line 106 "pf.l"
+#line 106 "2007007.l"
 {return(NEQ);}
 	YY_BREAK
 case 46:
 YY_RULE_SETUP
-#line 107 "pf.l"
+#line 107 "2007007.l"
 {return(INCREMENT);}
 	YY_BREAK
 case 47:
 YY_RULE_SETUP
-#line 108 "pf.l"
+#line 108 "2007007.l"
 {return(DECREMENT);}
 	YY_BREAK
 case 48:
 YY_RULE_SETUP
-#line 109 "pf.l"
+#line 109 "2007007.l"
 {return(GOE);}
 	YY_BREAK
 case 49:
 YY_RULE_SETUP
-#line 110 "pf.l"
+#line 110 "2007007.l"
 {return(LOE);}
 	YY_BREAK
 case 50:
 YY_RULE_SETUP
-#line 111 "pf.l"
+#line 111 "2007007.l"
 {return(EQUAL);}
 	YY_BREAK
 case 51:
 YY_RULE_SETUP
-#line 112 "pf.l"
+#line 112 "2007007.l"
 {return(NOTEQUAL);}
 	YY_BREAK
 case 52:
 YY_RULE_SETUP
-#line 113 "pf.l"
+#line 113 "2007007.l"
 {return(NOT);}
 	YY_BREAK
 case 53:
 YY_RULE_SETUP
-#line 114 "pf.l"
+#line 114 "2007007.l"
 {return(GT);}
 	YY_BREAK
 case 54:
 YY_RULE_SETUP
-#line 115 "pf.l"
+#line 115 "2007007.l"
 {return(LT);}
 	YY_BREAK
 case 55:
 YY_RULE_SETUP
-#line 116 "pf.l"
+#line 116 "2007007.l"
 {return(PLUS);}
 	YY_BREAK
 case 56:
 YY_RULE_SETUP
-#line 117 "pf.l"
+#line 117 "2007007.l"
 {return(MINUS);}
 	YY_BREAK
 case 57:
 YY_RULE_SETUP
-#line 118 "pf.l"
+#line 118 "2007007.l"
 {return(MUL);}
 	YY_BREAK
 case 58:
 YY_RULE_SETUP
-#line 119 "pf.l"
+#line 119 "2007007.l"
 {return(DIV);}
 	YY_BREAK
 case 59:
 YY_RULE_SETUP
-#line 120 "pf.l"
+#line 120 "2007007.l"
 {return(MOD);}
 	YY_BREAK
 case 60:
 YY_RULE_SETUP
-#line 121 "pf.l"
+#line 121 "2007007.l"
 {return(POW);}
 	YY_BREAK
 case 61:
 YY_RULE_SETUP
-#line 122 "pf.l"
+#line 122 "2007007.l"
 {return('=');}
 	YY_BREAK
 case 62:
 YY_RULE_SETUP
-#line 124 "pf.l"
+#line 124 "2007007.l"
 {return('(');}
 	YY_BREAK
 case 63:
 YY_RULE_SETUP
-#line 125 "pf.l"
+#line 125 "2007007.l"
 {return(')');}
 	YY_BREAK
 case 64:
 YY_RULE_SETUP
-#line 126 "pf.l"
+#line 126 "2007007.l"
 {return('{');}
 	YY_BREAK
 case 65:
 YY_RULE_SETUP
-#line 127 "pf.l"
+#line 127 "2007007.l"
 {return('}');}
 	YY_BREAK
 case 66:
 YY_RULE_SETUP
-#line 128 "pf.l"
+#line 128 "2007007.l"
 {return(',');}
 	YY_BREAK
 case 67:
 YY_RULE_SETUP
-#line 129 "pf.l"
+#line 129 "2007007.l"
 {return(';');}
 	YY_BREAK
 case 68:
 YY_RULE_SETUP
-#line 131 "pf.l"
+#line 131 "2007007.l"
 {return(STACK);}
 	YY_BREAK
 case 69:
 YY_RULE_SETUP
-#line 132 "pf.l"
+#line 132 "2007007.l"
 {return(PUSH);}
 	YY_BREAK
 case 70:
 YY_RULE_SETUP
-#line 133 "pf.l"
+#line 133 "2007007.l"
 {return(POP);}
 	YY_BREAK
 case 71:
 YY_RULE_SETUP
-#line 134 "pf.l"
+#line 134 "2007007.l"
 {return(TOP);}
 	YY_BREAK
 case 72:
 YY_RULE_SETUP
-#line 135 "pf.l"
+#line 135 "2007007.l"
 {return(ISEMPTY);}
 	YY_BREAK
 case 73:
 YY_RULE_SETUP
-#line 136 "pf.l"
+#line 136 "2007007.l"
 {return(STACKSIZE);}
 	YY_BREAK
 case 74:
 YY_RULE_SETUP
-#line 138 "pf.l"
+#line 138 "2007007.l"
 {return(QUEUE);}
 	YY_BREAK
 case 75:
 YY_RULE_SETUP
-#line 139 "pf.l"
+#line 139 "2007007.l"
 {return(ENQUEUE);}
 	YY_BREAK
 case 76:
 YY_RULE_SETUP
-#line 140 "pf.l"
+#line 140 "2007007.l"
 {return(DEQUEUE);}
 	YY_BREAK
 case 77:
 YY_RULE_SETUP
-#line 141 "pf.l"
+#line 141 "2007007.l"
 {return(FRONT);}
 	YY_BREAK
 case 78:
 YY_RULE_SETUP
-#line 142 "pf.l"
+#line 142 "2007007.l"
 {return(REAR);}
 	YY_BREAK
 case 79:
 YY_RULE_SETUP
-#line 143 "pf.l"
+#line 143 "2007007.l"
 {return(QSIZE);}
 	YY_BREAK
 case 80:
 YY_RULE_SETUP
-#line 144 "pf.l"
+#line 144 "2007007.l"
 {return(QEMPTY);}
 	YY_BREAK
 case 81:
 YY_RULE_SETUP
-#line 146 "pf.l"
+#line 146 "2007007.l"
 printf("Header file detected.\n");
 	YY_BREAK
 case 82:
 YY_RULE_SETUP
-#line 148 "pf.l"
+#line 148 "2007007.l"
 {
 	yylval.stringValue = strdup(yytext);
 	char* type = getSymbolType(yytext);
@@ -1233,7 +1233,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 83:
 YY_RULE_SETUP
-#line 158 "pf.l"
+#line 158 "2007007.l"
 {	
     int length = strlen(yytext);
     int i = 0;
@@ -1250,12 +1250,12 @@ YY_RULE_SETUP
 	YY_BREAK
 case 84:
 YY_RULE_SETUP
-#line 171 "pf.l"
+#line 171 "2007007.l"
 {yylval.val = (double)yytext[1]; return NUM;}
 	YY_BREAK
 case 85:
 YY_RULE_SETUP
-#line 172 "pf.l"
+#line 172 "2007007.l"
 {
     yylval.stringValue = strdup(yytext + 1);
     yylval.stringValue[strlen(yylval.stringValue) - 1] = '\0';
@@ -1264,22 +1264,22 @@ YY_RULE_SETUP
 	YY_BREAK
 case 86:
 YY_RULE_SETUP
-#line 178 "pf.l"
+#line 178 "2007007.l"
 {printf("\nSingle line comment detected. \n");}
 	YY_BREAK
 case 87:
 YY_RULE_SETUP
-#line 179 "pf.l"
+#line 179 "2007007.l"
 { /* ignore newlines */ }
 	YY_BREAK
 case 88:
 YY_RULE_SETUP
-#line 180 "pf.l"
+#line 180 "2007007.l"
 {yyerror("Invalid Character for this edition.");}
 	YY_BREAK
 case 89:
 YY_RULE_SETUP
-#line 182 "pf.l"
+#line 182 "2007007.l"
 ECHO;
 	YY_BREAK
 #line 1286 "lex.yy.c"
@@ -2168,7 +2168,7 @@ int main()
 	return 0;
 	}
 #endif
-#line 182 "pf.l"
+#line 182 "2007007.l"
 
 
 int yywrap(void){

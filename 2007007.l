@@ -2,7 +2,7 @@
 	#include<stdio.h>
 	#include<string.h>
 	#include<stdlib.h>
-	#include "pf.tab.h"
+	#include "2007007.tab.h"
 	extern char* strdup(const char*);
 	void yyerror(char *s);
 	extern FILE *yyin;
