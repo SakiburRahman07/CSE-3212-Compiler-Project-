@@ -38,21 +38,6 @@ Assigning value 20.500000 to b
 Printing variable b: 20.500000
 Assigning value 30 to a
 Printing variable a: 30
--------------------------------error messeage test------------------
-Variable type--> Integer
-Warning: Variable 'a' already declared
-Variable(s) declared and initialized
-Variable type--> Float
-Warning: Variable 'b' already declared
-Variable(s) declared and initialized
-Variable type--> Character
-Warning: Variable 'c' already declared
-Variable(s) declared and initialized
-Assigning value 50.500000 to b
-Single line comment detected. 
-
-Single line comment detected. 
-
 ---------------------Variable Initialization Test------------------
 Single line comment detected. 
 

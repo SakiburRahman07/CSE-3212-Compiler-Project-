@@ -1,0 +1,34 @@
+github link - https://github.com/SakiburRahman07/CSE-3212-Compiler-Project-
+
+
+
+
+Compiler Design Project (CSE 3212)
+Project Information
+Name: Md. Sakibur Rahman
+Roll: 2007007
+
+Files in the Repository
+2007007.l: Source code or related data.
+2007007.y: Additional source code or configuration file.
+Makefile: Makefile for compiling or running the project.
+test.txt: Contains the script for testing various functionalities.
+testout.txt: Output log of the tests run on the script.
+
+Instructions: 
+
+Use the Makefile to build the project by running:
+
+make
+
+To remove executed file : 
+
+make clean
+
+
+Review the test.txt file for sample scripts and functionalities implemented.
+Check the testout.txt file for the output and validations of the test cases.
+Notes
+Ensure you have all the required dependencies installed before running the project.
+Modify and experiment with the test.txt script to add new functionalities.
+

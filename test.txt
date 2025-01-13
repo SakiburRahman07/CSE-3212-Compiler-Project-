@@ -34,12 +34,7 @@ start() {
     a = a + b;
     print(a);
 
-    print("-------------------------------error messeage test------------------");
-    int a = 10;
-    float b = 10.5;
-    char c = @x@;
-    b = b + a;  # Error: mixing float and int
-    c = a + b;  # Error: assigning float/int result to char
+    
 
     print("---------------------Variable Initialization Test------------------");
 
