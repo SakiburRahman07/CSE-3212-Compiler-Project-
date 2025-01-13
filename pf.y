@@ -1,5 +1,4 @@
 %{
-	// Adding all the header files and function definations
 	
 	#include<stdio.h>
 	#include<stdlib.h>
@@ -7,12 +6,10 @@
 	#include<string.h>
 	int yylex(void);
 	void yyerror(char *s);
-	extern FILE *yyin; // Add this line
+	extern FILE *yyin; 
 	extern FILE *yyout;
 	
-	int no_var = 0;		// This variable will keep track of the total variables used.
-	
-	// Defining a structure to handle the properties of variables.
+	int no_var = 0;		
 	
 	struct variable_structure{
 		char var_name[20];
@@ -21,20 +18,20 @@
 			int ival;
 			float fval;
 			char cval;
-			char* sval;  // Add string value
+			char* sval;  
 			struct {
-				double values[100];  // Array to store values
-				int size;           // Current size of array
+				double values[100];  
+				int size;           
 			} dict;
 			struct {
-				double values[100];  // Array to store stack values
-				int top;            // Top of stack
+				double values[100];  
+				int top;            
 			} stack;
 			struct {
-				double values[100];  // Array to store queue values
-				int front;          // Front of queue
-				int rear;           // Rear of queue
-				int size;           // Current size of queue
+				double values[100];  
+				int front;          
+				int rear;           
+				int size;           
 			} queue;
 		} value;
 	}variable[100];
@@ -96,7 +93,6 @@
 	
 	// Helper function to determine expression type
 	int get_expression_type(double value) {
-		// Check if value is an integer
 		if(value == (int)value) {
 			return 1;  // Integer type
 		}
@@ -155,7 +151,7 @@
 
 	int is_empty(int stack_idx) {
 	    if (stack_idx < 0 || stack_idx >= no_var) {
-	        return 1;  // Invalid stack index, consider it empty
+	        return 1;  
 	    }
 	    return (variable[stack_idx].value.stack.top == -1);
 	}
@@ -165,7 +161,7 @@
 	        printf("\nError: Invalid stack index");
 	        return 0;
 	    }
-	    return variable[stack_idx].value.stack.top;  // Size is top + 1
+	    return variable[stack_idx].value.stack.top;  
 	}
 
 	void init_queue(int idx) {
@@ -225,9 +221,10 @@
 
 %}
 
-%union{
+%union {
 	double val;
 	char* stringValue;
+	char* type;
 }
 
 	// Defining all the used tokens and precendences of the required ones.
@@ -246,7 +243,7 @@
 %right INCREMENT DECREMENT
 %token DICT GET SET CONCAT COPY SIZE COMPARE
 %token STACK PUSH POP TOP ISEMPTY
-%token STACKSIZE  // Add new token for stack size
+%token STACKSIZE  
 %token QUEUE ENQUEUE DEQUEUE FRONT REAR QSIZE QEMPTY
 	// Defining token type
 
@@ -273,9 +270,8 @@ program: function_list main {
         }
         ;
 
-// Update the main rule to handle both syntaxes
 main: MAIN '{' code '}' {
-    $$ = $3;  // Pass up the value from code
+    $$ = $3;  
 }
     | MAIN '(' ')' '{' code '}' {  // Add this rule to handle ()
     $$ = $5;
@@ -292,18 +288,15 @@ function_list: function_list function {
 
 function: FUNCTION ID '(' ')' '{' code return_statement '}' {
     if (func_count < 100) {
-        // Check if function already exists
         if (get_function_index($2) != -1) {
             printf("\nError: Function %s already defined", $2);
         } else {
             strcpy(functions[func_count].func_name, $2);
             functions[func_count].return_value = $7;
             
-            // Store the function result
             strcpy(function_results[result_count].name, $2);
             function_results[result_count].value = $7;
             
-            // Increment both counters
             func_count++;
             result_count++;
             
@@ -525,7 +518,7 @@ for_code: FROM ID TO NUM INC NUM '{' code '}' {
     if(ii == -1) {
         printf("\nWarning: Loop variable '%s' not declared", $2);
         $$ = 0;
-    } else if(variable[ii].var_type != 1) {  // Check if it's an integer
+    } else if(variable[ii].var_type != 1) {  
         printf("\nWarning: Loop variable must be an integer");
         $$ = 0;
     } else {
@@ -536,22 +529,17 @@ for_code: FROM ID TO NUM INC NUM '{' code '}' {
         printf("\nStarting loop with %s = %d to %d increment %d", 
                variable[ii].var_name, i, j, inc);
         
-        // Store original value
         int original_value = variable[ii].value.ival;
         
-        // Execute the loop body for each iteration
         for(int k=i; k<j; k=k+inc){
-            // Update the loop variable
             variable[ii].value.ival = k;
             
-            // Execute the code block
             code_result = $8;
             
             printf("\nLoop iteration %d: %s = %d", 
                    k, variable[ii].var_name, variable[ii].value.ival);
         }
         
-        // Set final value
         variable[ii].value.ival = j;
         printf("\nLoop completed. Final value of %s = %d", 
                variable[ii].var_name, variable[ii].value.ival);
@@ -575,15 +563,11 @@ for_code: FROM ID TO NUM INC NUM '{' code '}' {
         printf("\nStarting loop with %s = %d to %d decrement %d", 
                variable[ii].var_name, i, j, dec);
         
-        // Store original value
         int original_value = variable[ii].value.ival;
         
-        // Execute the loop body for each iteration
         for(int k=i; k>j; k=k-dec){
-            // Update the loop variable
             variable[ii].value.ival = k;
             
-            // Execute the code block
             code_result = $8;
             
             printf("\nLoop iteration %d: %s = %d", 
@@ -727,7 +711,7 @@ f: f MUL t {
     }
     | f MOD t {
         if($3 != 0) {
-            $$ = (int)$1 % (int)$3;  // Cast to int for modulo
+            $$ = (int)$1 % (int)$3; 
             printf("\nModulo operation: %d", (int)$$);
         } else {
             printf("\nError: Modulo by zero");
@@ -910,7 +894,6 @@ init_item: ID {
         variable[no_var].var_type = $<val>0;  // Get type from parent
         printf("\nDeclared variable: %s", $1);
         
-        // Initialize with default value based on type
         switch(variable[no_var].var_type) {
             case 1: // INT
                 variable[no_var].value.ival = 0;
@@ -934,7 +917,7 @@ init_item: ID {
 | ID '=' expression {
     if(search_var($1)==0){
         strcpy(variable[no_var].var_name, $1);
-        variable[no_var].var_type = $<val>0;  // Get type from parent
+        variable[no_var].var_type = $<val>0;  
         printf("\nDeclared variable: %s with initialization", $1);
         
         // Initialize based on type
@@ -1071,8 +1054,7 @@ TYPE: INT	{$$ = 1; printf("\nVariable type--> Integer");}
 		for(int i=0; i<no_var; i++){
 			if(variable[i].var_type == -1){
 				variable[i].var_type = 5;  // Set type first
-				variable[i].value.stack.top = -1;  // Initialize stack as empty
-				// Clear all values in stack array
+				variable[i].value.stack.top = -1;  
 				for(int j = 0; j < 100; j++) {
 					variable[i].value.stack.values[j] = 0;
 				}
@@ -1098,16 +1080,14 @@ TYPE: INT	{$$ = 1; printf("\nVariable type--> Integer");}
 // Finally the while_code rule that uses bool_expression
 while_code: WHILE '(' ID LOE NUM ')' '{' code '}' {
     printf("\nWhile loop detected");
-    int i = get_var_index($3);  // Get variable index
-    int limit = $5;             // Get limit value
+    int i = get_var_index($3);  
+    int limit = $5;             
     
     if(i != -1) {
         for(int j = variable[i].value.ival; j <= limit; j++) {
-            // Update the variable's value
             variable[i].value.ival = j;
             printf("\nwhile Looping with %s = %d", variable[i].var_name, j);
             
-            // Execute code block
             code_result = $8;
         }
     }
@@ -1118,7 +1098,6 @@ while_code: WHILE '(' ID LOE NUM ')' '{' code '}' {
 
 // Add dictionary operations
 dict_operation: 
-    // Set value at index
     SET '(' ID ',' NUM ',' expression ')' ';' {
         int i = get_var_index($3);
         if(i != -1 && variable[i].var_type == 4) {

@@ -26,7 +26,24 @@ start() {
     f = 10.5;
     print(f);
 
+    print("-------------------------------type cast test------------------");
+    int a = 10;
+    float b = 10.5;
+    b = b + a;
+    print(b);
+    a = a + b;
+    print(a);
+
+    print("-------------------------------error messeage test------------------");
+    int a = 10;
+    float b = 10.5;
+    char c = @x@;
+    b = b + a;  # Error: mixing float and int
+    c = a + b;  # Error: assigning float/int result to char
+
     print("---------------------Variable Initialization Test------------------");
+
+
 
     # Integer initialization
     int x11=10;
@@ -34,14 +51,16 @@ start() {
 
     int y11=20, z11=30;
     print(y11);
+    print(z11);
 
     # Float initialization
     float f11=10.5, f21=20.5;
     print(f11);
+    print(f21);
 
     # Mixed declaration and initialization
     int a11=10, b11=20, c11=30;
-    print(a11);
+    print(b11);
     
     print("---------------------Mathematical Operations Test------------------");
     float x, y, z;
@@ -603,5 +622,57 @@ start() {
 
     # Test error handling
     qempty(q2);        # Should print "Error: Invalid queue operation - q2 is not a queue"
+
+    print("---------------------Error Message Tests------------------");
+    
+    # Type mismatch errors
+    int num1 = 10;
+    float num2 = 20.5;
+    char ch1 = @a@;
+    string str1 = "hello";
+    
+    # Error 1: Type mismatch in operations
+    num1 = num2;        # Error: Cannot assign float to int
+    ch1 = num1;         # Error: Cannot assign int to char
+    str1 = num1;        # Error: Cannot assign int to string
+    
+    # Error 2: Undefined variables
+    num1 = undefined_var + 5;    # Error: undefined_var not declared
+    
+    # Error 3: Division by zero
+    num1 = num1 / 0;    # Error: Division by zero
+    
+    # Error 4: Invalid operations
+    str1 = str1 + num1;  # Error: Cannot add string and int
+    
+    # Error 5: Stack/Queue errors
+    int not_a_stack = 10;
+    push(not_a_stack, 5);  # Error: not a stack variable
+    
+    float not_a_queue = 15.5;
+    enqueue(not_a_queue, 10);  # Error: not a queue variable
+    
+    # Error 6: Array index out of bounds
+    dict d1;
+    set(d1, 1000, 10);  # Error: Index out of bounds
+    
+    # Error 7: Invalid function calls
+    nonexistent_function();  # Error: Function not defined
+    
+    # Error 8: Type comparison errors
+    if(num1 === num2) {  # Error: Comparing different types
+        print("This shouldn't execute");
+    }
+    
+    # Error 9: Invalid mathematical operations
+    num1 = sqrt(-1);    # Error: Square root of negative number
+    num2 = log(-5);     # Error: Log of negative number
+    
+    # Error 10: Stack/Queue overflow/underflow
+    stack s1;
+    pop(s1);           # Error: Stack underflow (pop from empty stack)
+    
+    queue q1;
+    dequeue(q1);       # Error: Queue underflow (dequeue from empty queue)
 
 }

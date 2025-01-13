@@ -124,15 +124,16 @@ typedef union YYSTYPE
 {
 
 /* Line 1676 of yacc.c  */
-#line 228 "pf.y"
+#line 224 "pf.y"
 
 	double val;
 	char* stringValue;
+	char* type;
 
 
 
 /* Line 1676 of yacc.c  */
-#line 136 "pf.tab.h"
+#line 137 "pf.tab.h"
 } YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */

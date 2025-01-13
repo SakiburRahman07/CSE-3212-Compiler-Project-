@@ -25,6 +25,34 @@ Declared variable: f
 Variable(s) declared and initialized
 Assigning value 10.500000 to f
 Printing variable f: 10.500000
+-------------------------------type cast test------------------
+Variable type--> Integer
+Declared variable: a with initialization
+Initialized to integer: 10
+Variable(s) declared and initialized
+Variable type--> Float
+Declared variable: b with initialization
+Initialized to float: 10.500000
+Variable(s) declared and initialized
+Assigning value 20.500000 to b
+Printing variable b: 20.500000
+Assigning value 30 to a
+Printing variable a: 30
+-------------------------------error messeage test------------------
+Variable type--> Integer
+Warning: Variable 'a' already declared
+Variable(s) declared and initialized
+Variable type--> Float
+Warning: Variable 'b' already declared
+Variable(s) declared and initialized
+Variable type--> Character
+Warning: Variable 'c' already declared
+Variable(s) declared and initialized
+Assigning value 50.500000 to b
+Single line comment detected. 
+
+Single line comment detected. 
+
 ---------------------Variable Initialization Test------------------
 Single line comment detected. 
 
@@ -39,6 +67,7 @@ Initialized to integer: 20
 Declared variable: z11 with initialization
 Variable(s) declared and initialized
 Printing variable y11: 20
+Printing variable z11: 
 Single line comment detected. 
 
 Variable type--> Float
@@ -47,6 +76,7 @@ Initialized to float: 10.500000
 Declared variable: f21 with initialization
 Variable(s) declared and initialized
 Printing variable f11: 10.500000
+Printing variable f21: 
 Single line comment detected. 
 
 Variable type--> Integer
@@ -55,7 +85,7 @@ Initialized to integer: 10
 Declared variable: b11 with initialization
 Declared variable: c11 with initialization
 Variable(s) declared and initialized
-Printing variable a11: 10
+Printing variable b11: 
 ---------------------Mathematical Operations Test------------------
 Variable type--> Float
 Declared variable: x
@@ -794,6 +824,108 @@ Single line comment detected.
 Error: Invalid queue operation - q2 is not a queue
 Single line comment detected. 
 
+---------------------Error Message Tests------------------
+Single line comment detected. 
+
+Variable type--> Integer
+Warning: Variable 'num1' already declared
+Variable(s) declared and initialized
+Variable type--> Float
+Declared variable: num2 with initialization
+Initialized to float: 20.500000
+Variable(s) declared and initialized
+Variable type--> Character
+Declared variable: ch1 with initialization
+Initialized to char: a
+Variable(s) declared and initialized
+Variable type--> String
+Warning: Variable 'str1' already declared
+Variable(s) declared and initialized
+Single line comment detected. 
+
+Assigning value 20 to num1
+Single line comment detected. 
+
+Single line comment detected. 
+
+Single line comment detected. 
+
+Single line comment detected. 
+
+Error: Variable 'undefined_var' not declared
+Assigning value 5 to num1
+Single line comment detected. 
+
+Single line comment detected. 
+
+Error: Division by zero
+Assigning value 0 to num1
+Single line comment detected. 
+
+Single line comment detected. 
+
+Error: Invalid type for mathematical operation
+Single line comment detected. 
+
+Single line comment detected. 
+
+Variable type--> Integer
+Declared variable: not_a_stack with initialization
+Initialized to integer: 10
+Variable(s) declared and initialized
+Error: Invalid stack operation - not_a_stack is not a stack
+Single line comment detected. 
+
+Variable type--> Float
+Declared variable: not_a_queue with initialization
+Initialized to float: 15.500000
+Variable(s) declared and initialized
+Error: Invalid queue operation - not_a_queue is not a queue
+Single line comment detected. 
+
+Single line comment detected. 
+
+Variable type--> Dictionary
+Warning: Variable 'd1' already declared
+Variable(s) declared and initialized
+Error: Index out of bounds
+Single line comment detected. 
+
+Single line comment detected. 
+
+Error: Function nonexistent_function not defined
+Single line comment detected. 
+
+Single line comment detected. 
+
+Single line comment detected. 
+
+This shouldn't execute
+Single line comment detected. 
+
+Error: Square root of negative number
+Assigning value 0 to num1
+Single line comment detected. 
+
+Error: Logarithm of non-positive number
+Assigning value 0.000000 to num2
+Single line comment detected. 
+
+Single line comment detected. 
+
+Variable type--> Stack
+Warning: Variable 's1' already declared
+Variable(s) declared and initialized
+Error: Cannot pop from empty stack s1
+Single line comment detected. 
+
+Variable type--> Queue
+Warning: Variable 'q1' already declared
+Variable(s) declared and initialized
+Queue underflow! Cannot dequeue from empty queue
+Successfully dequeued 0.000000 from queue q1
+Single line comment detected. 
+
 Valid program
 
-No of variables--> 60
+No of variables--> 66
