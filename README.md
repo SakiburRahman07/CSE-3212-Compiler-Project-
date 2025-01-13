@@ -1,20 +1,29 @@
-# Simple-Compiler-using-FLex-Bison
 
-This is a simple compiler that can parse C-like code with a little modification in code format. It was part of my **3rd year 2nd-semester** compiler project. I have used **Flex and Bison** to build this compiler using a C programming language. This compiler can not ensure proper handling of *if-else, loop, or switch case* conditions due to Bison limitations. However, It is good enough for a small demonstration of how a compiler works.
+# Compiler Design Project (CSE 3212)
 
-Flex and bison are pre-requisite for this project to run into any PC. So install them first and add path variabale properly. 
+## Project Information
 
-To run this code do the following steps:
-1. Download this repository as zip to your desired folder.
-2. Open the folder and unzip it.
-3. Go to unzip folder.
-4. Open Command promt from there.
-5. Run the following commands:
-    1. ```bison -d pf.y```
-    2. ```flex pf.l```
-    3. ```gcc lex.yy.c pf.tab.c -o desired_file_name```
-    4. ```desired_file_name```
+**Name**: Md. Sakibur Rahman  
+**Roll**: 2007007  
 
-The output should be printed on the screen.
-By changing the input in the ```test.txt``` file according to the documentation from the ```report.pdf``` file anyone can test it with their own inputs.
+## Files in the Repository
 
+1. **2007007.l**: Source code or related data.
+2. **2007007.y**: Additional source code or configuration file.
+3. **Makefile**: Makefile for compiling or running the project.
+4. **test.txt**: Contains the script for testing various functionalities.
+5. **testout.txt**: Output log of the tests run on the script.
+
+## Instructions
+
+1. Use the `Makefile` to build the project by running:
+   ```bash
+   make
+   ```
+2. Review the `test.txt` file for sample scripts and functionalities implemented.
+3. Check the `testout.txt` file for the output and validations of the test cases.
+
+## Notes
+
+- Ensure you have all the required dependencies installed before running the project.
+- Modify and experiment with the `test.txt` script to add new functionalities.
